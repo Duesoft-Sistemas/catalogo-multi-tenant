@@ -10,11 +10,16 @@ import { Tenant, TenantService } from './shared/tenant/tenant.service';
 })
 export class AppComponent {
   autenticado = false;
+  client3Theme: boolean;
+  client4Theme: boolean;
+  client5Theme: boolean;
+  client6Theme: boolean;
+  client7Theme: boolean;
 
   constructor(
     private router: Router,
     private authStorageService: AuthStorageService,
-    private serviceTenent : TenantService
+    private serviceTenant : TenantService
   ) {
     this.verificaToken();
   }
@@ -27,9 +32,13 @@ export class AppComponent {
   @HostBinding("class.canguru") public client2Theme: boolean;
 
   private habilitaTema() {
-    this.client1Theme = this.serviceTenent.getTenant() === Tenant.catalogomendes;
-    debugger
-    this.client2Theme = this.serviceTenent.getTenant() === Tenant.catalogomaster;
+    this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;
+    this.client2Theme = this.serviceTenant.getTenant() === Tenant.catalogomaster;
+    this.client3Theme = this.serviceTenant.getTenant() === Tenant.catalogoautocar;
+    this.client4Theme = this.serviceTenant.getTenant() === Tenant.catalogomicrotec;
+    this.client5Theme = this.serviceTenant.getTenant() === Tenant.catalogomm;
+    this.client6Theme = this.serviceTenant.getTenant() === Tenant.catalogoprudenseg;
+    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogodiskagua;
   }
 
   private verificaToken(): void {

@@ -37,8 +37,9 @@ export class TenantService {
 export enum Tenant {
   catalogomaster = "catalogocanguru",
   catalogomendes = "catalogomendes",
-  Autocar = "catalogoautocar",
-  MMDistribuidorta = "catalogomm",
-  Microtec = "catalogomicrotec",
-  Prudenseg = "catalogoprudenseg"
+  catalogoautocar = "catalogoautocar",
+  catalogomm = "catalogomm",
+  catalogomicrotec = "catalogomicrotec",
+  catalogoprudenseg = "catalogoprudenseg",
+  catalogodiskagua = "catalogodiskagua"
 }

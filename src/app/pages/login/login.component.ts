@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IDataStorage } from 'src/app/shared/interface/IDataStorage';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { Tenant, TenantService } from 'src/app/shared/tenant/tenant.service';
 import { environment } from 'src/environments/environment';
 import { UsuarioLogin } from '../login/login.model';
 import { PrimeiroAcessoComponent } from '../primeiro-acesso/primeiro-acesso.component';
@@ -18,7 +19,7 @@ import { CadastrarSeComponent } from '../sem-autenticacao/cadastrar-se/cadastrar
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css','./login.skins.less'],
 })
 export class LoginComponent implements OnInit {
   listEmpresas = [];
@@ -31,9 +32,18 @@ export class LoginComponent implements OnInit {
   autenticado = false;
   modeloRecuperarSenha: UsuarioLogin = new UsuarioLogin();
   cnpjRecuperarSenhaValido = false;
+  caminhoLogo: string;
+  client1Theme: boolean;
+  client2Theme: boolean;
+  client3Theme: boolean;
+  client4Theme: boolean;
+  client5Theme: boolean;
+  client6Theme: boolean;
+  client7Theme: boolean;
   constructor(
     private authStorageService: AuthStorageService,
     private service: GlobalService,
+    private serviceTenant: TenantService,
     private router: Router,
     private appComponent: AppComponent,
     public dialog: MatDialog
@@ -52,7 +62,40 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
+   this.habilitaIcone()
     this.formulario = Formularios.geraFormulario(this.modelo);
+  }
+
+  private habilitaIcone() {
+    this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;
+    this.client2Theme = this.serviceTenant.getTenant() === Tenant.catalogomaster;
+    this.client3Theme = this.serviceTenant.getTenant() === Tenant.catalogoautocar;
+    this.client4Theme = this.serviceTenant.getTenant() === Tenant.catalogomicrotec;
+    this.client5Theme = this.serviceTenant.getTenant() === Tenant.catalogomm;
+    this.client6Theme = this.serviceTenant.getTenant() === Tenant.catalogoprudenseg;
+    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogodiskagua;
+    if(this.client1Theme){
+      this.caminhoLogo = "Fundo_Mendes.jpeg"
+    }
+    if(this.client2Theme){
+      this.caminhoLogo = "logo_canguru.png"
+    }
+    if(this.client3Theme){
+      this.caminhoLogo = "autocar.jpg"
+    }
+    if(this.client4Theme){
+      this.caminhoLogo = "microtec_logo.png"
+    }
+    if(this.client5Theme){
+      this.caminhoLogo = "mmdistirbuidora.png"
+    }
+    if(this.client6Theme){
+      this.caminhoLogo = "logo_prudenseg.png"
+    }
+    if(this.client7Theme){
+      this.caminhoLogo = "esguicho-dagua.jpeg"
+    }
   }
 
   validarCnpj(recuperarSenha?): void {

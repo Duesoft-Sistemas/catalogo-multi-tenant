@@ -55,7 +55,6 @@
               "src/assets/css/table.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "src/styles.css",
-              "src/styles.skins.less",
               "node_modules/admin-lte/plugins/fontawesome-free/css/all.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.css",
