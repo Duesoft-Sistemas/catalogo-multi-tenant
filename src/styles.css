@@ -1,0 +1,198 @@
+:host(.mendes) {
+  --color-primary: #00d986 ;
+  --color-primary-light: #08c04f;
+  --color-primary-light-shadow: #1a442b3a;
+  --color-link-active: rgb(194, 81, 81);
+  --font-color: 343a40;
+  --font-color-light: #fff;
+}
+
+body {
+  height: 100vh !important;
+  background: #eee !important;
+}
+
+.mat-card-title{
+  font-size: 1.5rem !important;
+}
+
+/* header */
+.navbar-pattern {
+  background-color: var(--color-primary);
+}
+
+.button-primary {
+  background: var(--color-primary);
+  color: var(--font-color-light);
+}
+
+a.nav-link {
+  color: var(--font-color-light);
+}
+
+a.nav-link:hover {
+  transition-delay: 200ms;
+  color: var(--font-color-light);
+  background-color: var(--color-primary-light) !important;
+  opacity: 0.7;
+  border-radius: 100%;
+}
+a.nav-link.recuperar-senha:hover {
+  transition-delay: 200ms;
+  color: var(--color-link-active) !important;
+  background-color: #fff !important;
+  opacity: 0.7;
+  border-radius: 100%;
+}
+
+a.nav-link.cadastrar-se:hover {
+  transition-delay: 200ms;
+  color: var(--color-link-active) !important;
+  background-color: #fff !important;
+  opacity: 0.7;
+  border-radius: 100%;
+}
+
+/* sidebar */
+.nav-link.active {
+  background-color: var(--color-link-active) !important;
+}
+
+/* Confis Globais */
+.text-pattern {
+  color: var(--color-primary);
+}
+
+.btn-pattern {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.btn-pattern:hover {
+  background-color: var(--color-primary-light) !important;
+  border-color: var(--color-primary-light) !important;
+}
+
+.cursor-hand {
+  cursor: pointer;
+}
+
+/* PAGINACAO */
+.page-link {
+  font-size: 1.3rem;
+  color: var(--font-color) !important;
+  font-weight: 500;
+  background-color: var(--color-primary) !important;
+}
+
+.page-link,
+.page-item.active .page-link {
+  background-color: var(--color-primary) !important;
+}
+
+.page-item.active .page-link {
+  background-color: var(--color-primary) !important;
+  border-color: var(--font-color-light) !important;
+  color: var(--font-color-light) !important;
+}
+
+.page-link:hover {
+  color: var(--font-color-light) !important;
+  background-color: var(--color-link-active) !important;
+}
+
+label {
+  font-weight: 500 !important;
+  margin-bottom: 0 !important;
+  margin-top: 0;
+  color: var(--font-color);
+}
+
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  font-size: 0.8rem;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.form-control:focus{
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 0.2rem var(--color-primary-light-shadow) !important;
+}
+
+.btn-absolute {
+  position: fixed;
+  bottom: 4rem;
+  right: 3rem;
+}
+
+.vs__dropdown-toggle {
+  background: var(--color-primary-light) !important;
+}
+
+.vs__search {
+  color: var(--font-color-light);
+}
+
+.vs__selected {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 25ch;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--font-color-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 10px;
+}
+
+/* .cdk-overlay-container,
+.swal2-container, ::ng-deep .bs-datepicker-container{
+  z-index: 10000 !important;
+} */
+
+
+.cdk-overlay-pane {
+  max-height: calc(100vh - 70px);
+}
+
+.cdk-overlay-container,
+.swal2-container{
+  z-index: 1070 !important;
+}
+
+.layout-navbar-fixed {
+  max-height: calc(100vh - 57px);
+}
+
+.layout-navbar-fixed .wrapper .content-wrapper {
+  min-height: calc(100vh - 57px);
+}
+
+.mat-tab-body-content{
+  overflow: inherit !important;
+}
+
+@media (max-width: 575px) {
+  .btn-absolute {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+  }
+}

@@ -1,0 +1,57 @@
+<div class="container-detalhes">
+  <h3 class="w-100"> <span class="text-bold">Código:</span> {{produto?.code}}</h3>
+  <div class="fecharModal">
+    <button type="button" class="close" mat-dialog-close>
+      <span aria-hidden="true" style="font-size: 2rem;">&times;</span>
+    </button>
+  </div>
+  <div class="marcaProduto">
+    <img [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : produto.marcaPecaProduto">
+  </div>
+  <mat-tab-group>
+    <mat-tab label="Geral">
+      <div class="row mt-2" style="max-width: 640px;">
+        <div class="bt-1 col-12 mb-2"> <span class="text-bold">Descrição:</span> {{produto?.description??'Não informado'}}</div>
+        <div class="col-12"> <span class="text-bold">Descrição Completa: </span></div>
+        <div class="bt-1 col-12 mb-2" style="max-height: 100px; overflow: auto;"> <span [innerHtml]="produto?.completeDescription ?? 'Não informado'"></span></div>
+        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Grupo:</span> {{produto?.productGroup??'-'}}</div>
+        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Subgrupo:</span> {{produto?.productSubgroup??'-'}}</div>
+        <div class="bt-1 col-md-4 mb-2"> <span class="text-bold">Estoque:</span> {{produto?.stock??'-'}}</div>
+        <div class="bt-1 col-md-4 mb-2"> <span class="text-bold">Unidade:</span> {{produto?.unity??'-'}}</div>
+        <div class="bt-1 col-md-4 mb-2"> <span class="text-bold">Preço:</span> {{(getPrice(produto?.price) | currency)??'-'}}</div>
+        <div class="bt-1 col-12 mb-2">
+          <div class="text-bold">Códigos Originais:</div>
+          <div *ngFor="let item of produto?.originalCodes;">{{item.originalCode ? ' - ' + item.originalCode : ''}} </div>
+        </div>
+        <div class="col-12 mb-2"> <span class="text-bold">Observações:</span><span [innerHtml]="produto?.observations ?? ' Não informado'"></span> </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Aplicações" [disabled]="!produto?.applications || produto?.applications?.length <= 0">
+      <div class="row mt-2" style="max-width: 640px;">
+        <div class="bt-1 col-12 mb-2" *ngFor="let item of produto?.applications">
+          <span class="text-bold"> - </span> {{item.description??'-'}}
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Similares" [disabled]="!produto?.similar || produto?.similar?.length <= 0">
+      <div class="row mt-2 p-3" style="max-width: 640px; max-height: calc(100vh - 300px) !important;">
+        <div class="col-12 mb-2">
+          <app-lista-produtos [listProdutos]="this.produto?.similar" [detalhes]="true"></app-lista-produtos>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Imagens" [disabled]="!produto?.images || produto?.images?.length <= 0">
+      <div class="row mt-2 p-3" style="max-width: 640px; max-height: calc(100vh - 300px) !important;">
+        <div class="col-12 mb-2">
+          <carousel>
+            <slide *ngFor="let item of this.produto?.images">
+              <img [src]="item.caminho" alt="Imagem ilustrativa" class="img-carousel">
+            </slide>
+          </carousel>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <div mat-dialog-actions class="d-flex justify-content-end">
+  </div>
+</div>

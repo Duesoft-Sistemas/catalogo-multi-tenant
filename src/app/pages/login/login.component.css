@@ -1,0 +1,64 @@
+* {
+  margin: 0 auto;
+}
+
+.logo {
+  max-width: 200px;
+  max-height: 124px;
+  margin: 0px 10px 10px;
+}
+
+.login-box {
+  height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.duesoft {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -25px;
+  font-size: 0.9rem;
+  width: 100%;
+  text-align: center;
+}
+
+a {
+  color: #969090;
+}
+
+a:hover {
+  color: var(--color-link-active);
+}
+
+.ng-select {
+  max-width: 270px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ng-select:hover {
+  overflow: visible;
+}
+
+.ng-dropdown-panel:hover {
+  overflow: visible;
+}
+
+.card {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.card-body {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+@media (max-width: 325px) {
+  .login-box {
+    height: calc(110vh);
+  }
+}

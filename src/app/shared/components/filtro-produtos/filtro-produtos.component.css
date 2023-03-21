@@ -1,0 +1,33 @@
+.container-filtros {
+  max-width: 350px !important;
+}
+
+.character{
+  color: white;
+}
+
+.fecharModal {
+  position: absolute;
+  font-size: 2rem;
+  right: 0;
+}
+
+.buttonMax {
+  width: 40%;
+  border-radius: 10px;
+  box-shadow: 3px 2px 5px #696969;
+}
+.espacamento {
+  margin-bottom: 1rem !important;
+}
+
+.inputShadow {
+  border-radius: 15px;
+  box-shadow: 3px 2px 5px #696969;
+}
+
+@media (max-width: 767px) {
+  ::ng-deep .cdk-overlay-pane {
+    max-width: 95vw !important;
+  }
+}

@@ -1,0 +1,11 @@
+<form [formGroup]="form" *ngIf="form">
+  <div [class]="formularios.getRequired(form, controlName)">
+    <label *ngIf="label" [for]="'txt'+label"> {{label}} </label>
+    <ng-select [items]="list"  [bindLabel]="bindLabel??'nome'" [bindValue]="bindValue??'codigo'" [formControlName]="controlName"
+      [ngClass]="{'is-invalid': formularios.validTouched(form.get(controlName))}" (change)="change.emit($event)"
+      [addTag]="addTagPromise??false" [loading]="loading??false" [multiple]="multiple??false" [closeOnSelect]="multiple?false : true"
+      [matTooltip]="formularios.validTouched(form.get(controlName)) ? formularios.msgErroCustom(form.get(controlName)) : ''"
+      #tooltip="matTooltip" (focus)="tooltip.show()" matTooltipClass="tooltip-red" [matTooltipPosition]="'below'">
+    </ng-select>
+  </div>
+</form>

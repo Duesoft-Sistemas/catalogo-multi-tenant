@@ -1,0 +1,70 @@
+::ng-deep .mat-card-header-text {
+  margin: 0 !important;
+}
+
+::ng-deep .mat-card-image {
+  width: auto !important;
+  min-height: 215px;
+  max-width: 100%;
+  max-height: 215px;
+}
+
+.prods-card {
+  max-width: 400px;
+}
+
+.font-strong {
+  font-size: 1.05rem;
+}
+
+.marcaPecaProdutoHolder > img {
+  /* width: 160px !important; */
+  padding-right: 1rem;
+  max-height: 40px !important;
+}
+
+.limitar-linhas1 {
+  max-height: 40px;
+  min-height: 40px;
+  overflow: hidden;
+}
+
+.limitar-linhas2 {
+  max-height: 40px;
+  min-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon-btn {
+  font-size: 1.3rem;
+}
+
+.icon-btn:hover {
+  transition-delay: 200ms;
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+::ng-deep .page-item.disabled > .page-link {
+  background-color: var(--color-primary-light) !important;
+  color: #ccc !important;
+}
+
+@media (min-width: 1800px) {
+  .col-gg-2 {
+    -ms-flex: 0 0 16.666667%;
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+}
+
+@media (max-width: 575px) {
+  /* ::ng-deep .pagination-first, ::ng-deep .pagination-last{
+    display: none !important;
+  } */
+
+  /* ::ng-deep .pagination-page{
+    display: none;
+  } */
+}

@@ -1,0 +1,15 @@
+.container-detalhes {
+  position: relative;
+  max-height: calc(100vh - 125px);
+}
+
+.bt-1 {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+@media (max-width: 767px) {
+  ::ng-deep .cdk-overlay-pane {
+    max-width: 95vw !important;
+  }
+}

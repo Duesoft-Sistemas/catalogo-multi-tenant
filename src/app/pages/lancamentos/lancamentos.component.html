@@ -1,0 +1,11 @@
+<app-body-page [spinner]="spinner">
+  <div body *ngIf="listProdutos.length > 0">
+    <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="totalPaginas" (pageChanged)="goTo($event)"></app-lista-produtos>
+  </div>
+</app-body-page>
+
+<div class="btn-absolute">
+  <button mat-fab color="primary" class="btn btn-pattern" (click)="openModalFiltro()" matTooltip="Buscar" aria-label="Buscar">
+    <i class="fas fa-search"></i>
+  </button>
+</div>

@@ -1,0 +1,120 @@
+.divPading {
+  bottom: 10rem;
+}
+.boxButton {
+  border-radius: 14px !important;
+  width: 4rem !important;
+  z-index: 9 !important;
+}
+
+input::placeholder {
+  color: hsl(0, 0%, 27%);
+  font-size: larger;
+}
+
+.box {
+  box-shadow: 10px 5px 5px #696969;
+  border-radius: 15px;
+  display: flex !important;
+  justify-content: center !important;
+  background-color: var(--color-primary) !important;
+}
+
+.input {
+  border-radius: 15px !important;
+  height: auto;
+}
+
+.botaoNoInput {
+  background-color: var(--color-primary);
+}
+
+.card-search {
+  background-color: var(--color-link-active);
+}
+
+::ng-deep .card-header {
+  border-radius: 0.25rem !important;
+}
+
+.radio-item {
+  display: inline-block;
+  position: relative;
+  padding: 0 6px;
+}
+
+.radio-item input[type="radio"] {
+  display: none;
+}
+
+.radio-item label {
+  color: #666;
+  font-weight: normal;
+}
+
+.radio-item label:before {
+  content: " ";
+  display: inline-block;
+  position: relative;
+  top: 5px;
+  margin: 0 5px 0 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 11px;
+  border: 2px solid var(--color-link-active);
+  background-color: transparent;
+}
+
+.radio-item input[type="radio"]:checked + label:after {
+  border-radius: 11px;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  content: " ";
+  display: block;
+  background: var(--color-link-active);
+}
+
+@media (max-width: 424px) {
+  .img-custom {
+    max-width: 297px;
+    max-height: 10vh;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    bottom: -4rem;
+  }
+  .divPading {
+    padding-left: 1rem;
+    bottom: -1rem;
+  }
+}
+
+@media (max-width: 574px) {
+  .img-custom {
+    max-width: 392px;
+    max-height: 30vh;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    bottom: -4rem;
+  }
+  .divPading {
+    padding-left: 1rem;
+    bottom: -1rem;
+  }
+}
+
+@media (max-width: 766px) {
+  .img-custom {
+    max-width: 536px;
+    max-height: 30vh;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    bottom: 2rem;
+  }
+  .divPading {
+    padding-left: 1rem;
+    bottom: -1rem;
+  }
+}

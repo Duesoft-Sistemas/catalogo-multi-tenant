@@ -1,0 +1,18 @@
+<app-spinner [show]="spinner"></app-spinner>
+<div class="row" *ngIf="listProdutos.length <= 0">
+  <div class="mb-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let fornecedores of listFornecedores">
+    <mat-card class="prods-card elevation-4 position-relative p-3 cardConteudo " style="margin: 0 auto;"
+      (click)="getListaProdutos(fornecedores.id)">
+      <img class="d-flex cardImage" style="margin: 0 auto;"
+        [src]="fornecedores.caminho == null || fornecedores.caminho == '' ? imgPadraoMarca : fornecedores.caminho" [alt]="fornecedores.id">
+      <mat-card-header class="justify-content-center"
+        Click="getListaProdutos(fornecedores.description,fornecedores.id)">
+        <mat-card-title class="cardTitle overflow">{{fornecedores.description}}</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+<div body *ngIf="listProdutos.length > 0">
+  <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="formEsteira.get('totalPages').value"
+    (pageChanged)="goTo($event)"></app-lista-produtos>
+</div>

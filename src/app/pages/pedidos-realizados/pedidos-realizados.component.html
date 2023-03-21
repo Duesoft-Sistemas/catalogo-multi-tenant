@@ -1,0 +1,10 @@
+<app-body-page [spinner]="spinner">
+  <app-table-model body [dataSource]="dataSource" [columns]="columns" (clickedRow)="openModalDetalhes($event)"></app-table-model>
+</app-body-page>
+
+<div class="btn-absolute">
+  <button mat-fab color="primary" class="btn btn-pattern"  matTooltip="Filtrar"
+    aria-label="Filtrar" (click)="openModalFiltro()">
+    <i class="fas fa-search"></i>
+  </button>
+</div>

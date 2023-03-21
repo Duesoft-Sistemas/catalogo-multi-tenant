@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>
+  {{ title }}
+  <small *ngIf="subTitle" class="text-secondary ml-2 text-sm">
+    <span class="d-none d-md-inline"> ( {{ subTitle}} ) </span>
+  </small>
+  <small class="text-secondary ml-2 text-sm" *ngIf="update != null">
+    (
+    <span class="d-none d-md-inline"> {{update ? 'Alterar':'Cadastrar'}} </span>
+    <i *ngIf="update" class="fas fa-pencil-alt"></i>
+    <i *ngIf="!update" class="fas fa-plus"></i>
+    )
+  </small>
+</h2>
+<mat-dialog-content class="mat-modal">
+  <ng-content select="[card-body]"></ng-content>
+</mat-dialog-content>
+<mat-dialog-actions class="modal-buttons">
+  <ng-content select="[card-buttons]"></ng-content>
+</mat-dialog-actions>

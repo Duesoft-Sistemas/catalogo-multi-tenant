@@ -1,0 +1,27 @@
+<form [formGroup]="form" *ngIf="form">
+  <div [class]="formularios.getRequired(form, controlName)">
+    <label [for]="'txt' + label"> {{ label }} </label>
+    <input
+      [type]="type ? type : 'text'"
+      [name]="'txt' + label"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': formularios.validTouched(form.get(controlName))
+      }"
+      [formControlName]="controlName"
+      [minlength]="minLength ? minLength : ''"
+      [maxlength]="maxLength ? maxLength : ''"
+      (blur)="blur.emit(form.get(controlName).value)"
+      [matTooltip]="
+        formularios.validTouched(form.get(controlName))
+          ? formularios.msgErroCustom(form.get(controlName))
+          : ''
+      "
+      matTooltipClass="tooltip-red"
+      [matTooltipPosition]="'below'"
+      #tooltip="matTooltip"
+      (focus)="tooltip.show()"
+      [mask]="mask ?? ''"
+    />
+  </div>
+</form>

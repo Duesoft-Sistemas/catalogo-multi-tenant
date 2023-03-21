@@ -1,0 +1,22 @@
+.cardConteudo{
+  border-radius: 15px;
+}
+.cardTitle {
+  font-size: 1.2rem !important;
+}
+.col-custom {
+  max-width: 200px !important;
+}
+
+.cardImage {
+  max-width: 100%;
+  height: 160px !important;
+  padding: 0 24px;
+}
+
+.overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}

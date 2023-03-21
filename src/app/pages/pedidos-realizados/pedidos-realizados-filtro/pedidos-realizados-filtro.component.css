@@ -1,0 +1,9 @@
+.container-filtros {
+  max-width: 350px !important;
+}
+
+@media (max-width: 767px) {
+  ::ng-deep .cdk-overlay-pane {
+    max-width: 95vw !important;
+  }
+}

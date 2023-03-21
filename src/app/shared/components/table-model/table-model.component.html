@@ -1,0 +1,33 @@
+<table mat-table [dataSource]="dataSource" *ngIf="dataSource">
+  <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+    <th mat-header-cell *matHeaderCellDef [ngStyle]="column.style">{{column.header}}</th>
+    <td mat-cell *matCellDef="let row">
+      <div *ngIf="column.cell">
+        <span class="mobile-label">{{column.header}}:</span>
+        <span>{{column?.currency ? (getPrice(column.cell(row)??0) | currency) : column.cell(row)}}</span>
+      </div>
+      <div *ngIf="!column.cell && column?.actions && column.columnDef === 'actions'" class="mobile-buttons">
+        <button *ngIf="column.actions.includes(tableActions.Update)" type="button"
+          (click)="action.emit({row: row, action: tableActions.Update })"
+          class="btn btn-outline-secondary btn-sm text-center mr-1" style="width:33px;" matTooltip="Editar"><i
+            class="fas fa-pen"></i></button>
+        <button *ngIf="column.actions.includes(tableActions.Delete)" type="button"
+          (click)="action.emit({row: row, action: tableActions.Delete })"
+          class="btn btn-outline-danger btn-sm text-center mr-1" style="width:33px;" matTooltip="Excluir"><i
+            class="fas fa-trash-alt"></i></button>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell border" colspan="9999">
+      <h5 class="mb-0 text-center table-empty">Nenhum registro encontrado</h5>
+    </td>
+  </tr>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="clickRow(row)"></tr>
+
+</table>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons aria-label="Selecione as páginas">
+</mat-paginator>

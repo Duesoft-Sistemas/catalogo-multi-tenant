@@ -1,0 +1,65 @@
+.container-detalhes {
+  margin-top: 2rem;
+  position: relative;
+  max-height: calc(100vh - 125px);
+}
+
+.marcaProduto {
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
+
+.fecharModal {
+  position: absolute;
+  right: 0;
+  top: -2.5rem;
+  right: 0.1rem;
+}
+
+.marcaProduto > img {
+  max-height: 40px !important;
+}
+
+.bt-1 {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+::ng-deep .carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{var(--color-primary)}' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+::ng-deep .carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{var(--color-primary)}' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+::ng-deep .carousel-indicators > li {
+  background-color: var(--color-link-active) !important;
+}
+
+.img-carousel {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-height: calc(100vh - 350px) !important;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 767px) {
+  ::ng-deep .cdk-overlay-pane {
+    max-width: 95vw !important;
+  }
+  .img-carousel {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .marcaProduto {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

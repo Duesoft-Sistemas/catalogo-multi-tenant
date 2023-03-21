@@ -1,0 +1,48 @@
+<app-spinner [show]="spinner"></app-spinner>
+<div class="row d-flex justify-content-center" *ngIf="listProdutos.length > 0">
+  <div class="mb-3" [ngClass]="{'col-sm-6 col-lg-4 col-xl-3 col-gg-2': !detalhes, 'col-md-6': detalhes}"
+    *ngFor="let produto of listProdutos">
+    <mat-card class="prods-card elevation-4 position-relative p-3"  style="margin: 0 auto;" (click)="getDetalhes(produto, 'D')">
+      <div class="ribbon-wrapper ribbon-lg" *ngIf="produto.emPromocao" >
+        <div class="ribbon bg-danger text-sm">
+            Promoção
+        </div>
+      </div>
+      <img mat-card-image class="d-flex" style="margin: 0 auto;"
+        [src]="produto.image.includes('imagem_nao_encontrada.jpg') ? imgPadraoProduto : produto.image"
+        [alt]="produto.code">
+      <mat-card-header>
+        <mat-card-title>{{produto.code}}</mat-card-title>
+        <mat-card-subtitle class="limitar-linhas1">{{produto.productGroup}} / {{produto.productSubgroup}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="limitar-linhas2">
+          <strong>Descrição: </strong> {{produto.description}}
+        </p>
+        <p class="limitar-linhas2">
+          <strong>Estoque: </strong>
+          {{produto.stockStatus}} / {{getPrice(produto?.price) | currency}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="row d-flex flex-wrap">
+          <div class="col-6 marcaPecaProdutoHolder">
+            <img
+              [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : produto.marcaPecaProduto">
+          </div>
+          <div class="col-6">
+            <button class="btn float-right" (click)="getDetalhes(produto, 'C')"><i class="fas fa-cart-plus icon-btn"></i></button>
+            <button class="btn float-right" (click)="getDetalhes(produto, 'D')"><i
+                class="fas fa-exclamation-circle icon-btn"></i></button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<div class="d-flex justify-content-center mt-3" *ngIf="totalPaginas">
+  <pagination [boundaryLinks]="true" [totalItems]="totalPaginas*10" previousText="&lsaquo;" nextText="&rsaquo;"
+    firstText="&laquo;" lastText="&raquo;" [maxSize]="maxSizePaginator" (pageChanged)="pageChanged.emit($event)">
+  </pagination>
+</div>

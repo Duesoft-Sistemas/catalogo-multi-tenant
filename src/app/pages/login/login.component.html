@@ -1,0 +1,72 @@
+<div class="login-box" *ngIf="!autenticado">
+  <app-spinner [show]="spinner"></app-spinner>
+  <div class="card">
+    <div class="card-header">
+      <div class="login-logo">
+        <img class="logo" src="../../../assets/images/Fundo_Mendes.jpeg" alt="Logo">
+        <b>Catálogo</b>Online
+      </div>
+    </div>
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Faça login para iniciar sua sessão</p>
+      <form [formGroup]="formulario" role="form">
+        <div class="card-body">
+          <div class="form-group row">
+            <div class="p-0 col-12">
+              <label for="">CPF/CNPJ</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="CPF/CNPJ" formControlName="user"
+                  mask="000.000.000-00 || 00.000.000/0000-00"  >
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <i class="fas fa-id-card-alt"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="cnpjValido">
+            <div class="p-0 col-12">
+              <label for="">Empresa</label>
+              <ng-select [items]="listEmpresas" bindLabel="companyName" bindValue="companyCnpj"
+                placeholder="Selecione..." formControlName="company"></ng-select>
+            </div>
+          </div>
+          <div class="form-group row" *ngIf="cnpjValido">
+            <div class="p-0 col-12">
+              <label for="">Senha</label>
+              <div class="input-group">
+                <input type="password" formControlName="password" class="form-control" placeholder="Senha"
+                  autocomplete="on" (keyup.enter)="efetuarLogin()">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="p-0 col-md-12 text-right">
+              <button (click)="validarCnpj()" type="button" class="btn btn-primary btn-pattern">Buscar
+                &nbsp; <i class="fas fa-search"></i>
+              </button>
+              <button (click)="efetuarLogin()" type="button" class="btn btn-primary btn-pattern ml-2"
+                *ngIf="cnpjValido">Entrar
+                &nbsp;<i class="fas fa-sign-in-alt"></i></button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <a class="nav-link cadastrar-se cursor-hand" (click)="openModalCadastrarse()">Cadastrar-se</a>
+            <a class="nav-link recuperar-senha cursor-hand" (click)="validarCnpj(true)">Recuperar senha</a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="duesoft">
+      <a href="https://www.duesoft.com.br/">
+        <p>Desenvolvido por <span class="text-bold">Duesoft Sistemas </span> </p>
+      </a>
+    </div>
+  </div>
+</div>

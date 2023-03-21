@@ -1,0 +1,33 @@
+<div class="container-carrinho">
+  <mat-card-header>
+    <mat-card-title>Adicionar Produto</mat-card-title>
+  </mat-card-header>
+  <!-- <mat-divider></mat-divider> -->
+  <mat-card-content>
+    <div class="row mt-2 border">
+      <div class="col-sm-3 border car-img text-center">
+        <img [src]="!produto.image || produto.image?.includes('./static/') ? imgPadraoProduto : produto.image"
+          [alt]="produto.description">
+      </div>
+      <div class="col-sm-6 border">
+        <p class="car-code">Código: {{produto.code}}</p>
+        <p class="car-descricao"><span class="car-code">Descrição: </span>{{produto.description}}</p>
+      </div>
+      <div class="col-sm-3 border d-flex align-items-center flex-wrap pt-1 pb-1">
+        <form [formGroup]="formulario" *ngIf="formulario">
+          <app-add-remove-carrinho [form]="formulario" [controlName]="'quantidade'" [item]="formulario.value">
+          </app-add-remove-carrinho>
+        </form>
+      </div>
+      <div class="col-12 border pt-2 pb-2 text-bold h4 mb-0">
+        <span class="float-left">Total</span>
+        <span class="float-right">{{(convertToNumber(produto.price) * formulario.get('quantidade').value) |
+          currency}}</span>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="d-flex justify-content-end mb-0">
+    <button mat-raised-button class="btn btn-pattern mr-2" (click)="addCarrinho()">Confirmar</button>
+    <button mat-raised-button mat-dialog-close>Cancelar</button>
+  </mat-card-actions>
+</div>

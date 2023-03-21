@@ -1,0 +1,42 @@
+<form role="form" [formGroup]="form" *ngIf="form">
+  <h2 class="text-info">Dados</h2>
+  <hr>
+  <div class="form-group row">
+    <app-checkbox-model [label]="'Documento'" class="col-md-12" [form]="form" [controlName]="'tipoDocumento'"
+      [labelTrue]="'CNPJ'" [labelFalse]="'CPF'"></app-checkbox-model>
+    <app-input-model [label]="'Nome'" class="col-md-6" [form]="form" [controlName]="'nome'" [maxLength]="100">
+    </app-input-model>
+    <app-input-model [label]="'Razão Social'" class="col-md-6" [form]="form" [controlName]="'razao'" [maxLength]="100">
+    </app-input-model>
+    <app-input-model *ngIf="!this.form.get('tipoDocumento')?.value" (blur)="verificaCpf()" [label]="'CPF'" class="col-md-6" [form]="form"
+      [controlName]="'cpfCnpj'" [maxLength]="14" [mask]="'000.000.000-00'"></app-input-model>
+    <app-input-model *ngIf="this.form.get('tipoDocumento')?.value" (blur)="verificaCnpj()" [label]="'CNPJ'" class="col-md-6" [form]="form"
+      [controlName]="'cpfCnpj'" [maxLength]="18" [mask]="'00.000.000/0000-00'"></app-input-model>
+    <div class="col-md-6">
+      <label for="">Empresa</label>
+      <ng-select [loading]="loadListEmpresas" [items]="listEmpresas" bindLabel="companyName" bindValue="companyId"
+        placeholder="Selecione..." formControlName="codEmpresa"></ng-select>
+    </div>
+    <!-- <app-input-model [label]="'RG'" class="col-md-2" [form]="form" [controlName]="'rg'" [mask]="'000000000000000'">
+    </app-input-model> -->
+    <!-- <app-select-model [label]="'País'" class="col-md-2" [form]="form" [controlName]="'codPais'" [list]="listPaises">
+    </app-select-model> -->
+    <!-- <app-input-model [label]="'CEP'" class="col-md-2" [form]="form" [controlName]="'cep'" [mask]="'00000-000'">
+    </app-input-model> -->
+    <!-- <app-select-model [label]="'Estado'" class="col-md-2" [form]="form" [controlName]="'codEstado'" [list]="listEstados"
+      (change)="carregaMunicipiosPorUf($event?.sigla)"></app-select-model> -->
+    <!-- <app-select-model [label]="'Município'" class="col-md-3" [form]="form" [controlName]="'codMunicipio'" [list]="listMunicipios"></app-select-model> -->
+    <!-- <app-input-model [label]="'Rua'" class="col-md-4" [form]="form" [controlName]="'rua'" [maxLength]="50"></app-input-model> -->
+    <!-- <app-input-model [label]="'Número'" class="col-md-2" [form]="form" [controlName]="'numero'" [maxLength]="10"></app-input-model> -->
+    <!-- <app-input-model [label]="'Bairro'" class="col-md-3" [form]="form" [controlName]="'bairro'" [maxLength]="50"></app-input-model> -->
+    <app-input-model [label]="'Email'" class="col-md-6" [form]="form" [controlName]="'email'" [maxLength]="75"></app-input-model>
+    <app-input-model [label]="'DDD'" class="col-md-2" [form]="form" [controlName]="'numeroDddContato'"
+    [mask]="'00'"></app-input-model>
+    <app-input-model [label]="'Telefone'" class="col-md-4" [form]="form" [controlName]="'numeroFoneContato'"
+    [mask]="'0000-0000||0 0000-0000'"></app-input-model>
+    <!-- <app-input-model [label]="'Email alternativo'" class="col-md-3" [form]="form" [controlName]="'emailAlternativo'" [maxLength]="75"></app-input-model> -->
+    <!-- <app-input-model [label]="'Senha'" class="col-md-3" [type]="'password'" [form]="form" [controlName]="'senha'" [minLength]="6" [maxLength]="12" (blur)="verificaSenhasIguais()"></app-input-model> -->
+    <!-- <app-input-model [label]="'Confirmar Senha'" class="col-md-3" [type]="'password'" [form]="form" [controlName]="'confirmarSenha'" [minLength]="6" [maxLength]="12" (blur)="verificaSenhasIguais()"></app-input-model> -->
+  </div>
+  <!-- <app-form-debug [form]="form"></app-form-debug> -->
+</form>

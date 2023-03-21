@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="card col-md-12">
+    <div style="margin-top: 20px;" *ngIf="form">
+      <div>detalhes do Form</div>
+      <pre>Form válido: {{ form.valid }} </pre>
+      <pre>Valores: <br /> {{ form.value | json }} </pre>
+    </div>
+  </div>
+</div>

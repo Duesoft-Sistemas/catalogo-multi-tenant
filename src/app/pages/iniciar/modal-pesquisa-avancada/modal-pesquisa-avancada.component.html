@@ -1,0 +1,51 @@
+<app-spinner [show]="spinner"></app-spinner>
+<app-body-modal [title]="'Pesquisa Avançada'">
+  <form card-body role="form" [formGroup]="formulario" *ngIf="formulario">
+    <div class="form-group col">
+      <app-select-model
+        class="mx-4"
+        [label]="'Marca'"
+        [form]="formulario"
+        [controlName]="'marca'"
+        [list]="listaMarcas"
+        [loading]="loadListaMarcas"
+        [bindValue]="'description'"
+        [bindLabel]="'description'"
+      >
+      </app-select-model>
+      <app-select-model
+        class="mx-4"
+        [label]="'Grupo'"
+        [form]="formulario"
+        [controlName]="'idGrupo'"
+        [list]="listaGrupos"
+        [loading]="loadListaGrupos"
+        [bindValue]="'id'"
+        [bindLabel]="'description'"
+      >
+      </app-select-model>
+      <app-select-model
+        class="mx-4"
+        [label]="'Subgrupo'"
+        [form]="formulario"
+        [controlName]="'idSubgrupo'"
+        [list]="listaSubgrupos"
+        [loading]="loadListaSubgrupos"
+        [bindValue]="'id'"
+        [bindLabel]="'description'"
+      >
+      </app-select-model>
+    </div>
+  </form>
+  <div card-buttons class="d-flex justify-content-center">
+    <button (click)="cancelar()" mat-raised-button class="button-primary ml-4">
+      Cancelar <i class="fa fa-times-circle"></i>
+    </button>
+    <button (click)="limpar()" mat-raised-button class="button-primary ml-4">
+      Limpar <i class="fa fa-minus-circle"></i>
+    </button>
+    <button (click)="buscarProdutosFiltro()" mat-raised-button class="button-primary ml-4">
+      Buscar <i class="fa fa-search"></i>
+    </button>
+  </div>
+</app-body-modal>

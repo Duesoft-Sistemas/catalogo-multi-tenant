@@ -1,0 +1,18 @@
+.ngx-timepicker {
+  border-bottom: none !important;
+}
+
+.bs-datepicker-container {
+  padding: 0px !important;
+}
+
+.bs-datepicker-head {
+  background-color: var(--color-primary) !important;
+}
+
+.bs-datepicker-body table td span.selected,
+.theme-blue .bs-datepicker-body table td.selected span,
+.theme-blue .bs-datepicker-body table td span[class*="select-"]:after,
+.theme-blue .bs-datepicker-body table td[class*="select-"] span:after {
+  background-color: var(--color-primary) !important;
+}

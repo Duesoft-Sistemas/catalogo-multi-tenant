@@ -1,0 +1,29 @@
+<app-spinner [show]="spinner"></app-spinner>
+<div class="container-detalhes">
+  <h3 class="w-100" class="text-bold"> Detalhes </h3>
+  <mat-tab-group>
+    <mat-tab label="Resumo">
+      <div class="row mt-2" style="max-width: 640px;">
+        <div class="bt-1 col-12 mb-2"> <span class="text-bold">Empresa:</span> {{dados?.company}}</div>
+        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Solicitação Nº:</span> {{dados?.solicitationNumber}}</div>
+        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Pedido Nº:</span> {{dados?.orderNumber}}</div>
+        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Situação:</span> {{dados?.status}}</div>
+        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Data do Pedido:</span> {{dados?.orderDate? (getDate(dados?.orderDate) | date: 'dd/MM/yyyy'): '-'}}</div>
+        <div class="col-12 mt-2">
+          <p style="text-align: right;"> <strong> Valor do Pedido Solicitado: {{getPrice(dados?.appTotalPrice) | currency}} </strong></p>
+            <p style="text-align: right;"> <strong> Valor do Pedido Aprovado: {{getPrice(dados?.totalPrice) | currency}} </strong></p>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Itens do Pedido">
+      <div class="row mt-2 pl-3 pr-3" style="max-width: 640px;">
+        <app-table-model [dataSource]="dataSource" [columns]="columns"></app-table-model>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+  <div mat-dialog-actions class="d-flex justify-content-end">
+    <button mat-raised-button *ngIf="dados?.status === 'PENDENTE'" (click)="openModalConfirmarCancelarpedido()" class="btn btn-primary btn-pattern">Cancelar</button>
+    <button mat-raised-button mat-dialog-close>Fechar</button>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<app-spinner [show]="spinner"></app-spinner>
+<app-body-modal [title]="'Cadastrar-se'">
+  <app-pessoas-crud-form card-body [form]="form" *ngIf="form"></app-pessoas-crud-form>
+  <div card-buttons>
+    <app-btn-cancelar (click)="cancelar()"></app-btn-cancelar>
+    <app-btn-salvar (click)="salvar()"></app-btn-salvar>
+  </div>
+</app-body-modal>

@@ -1,0 +1,44 @@
+import { Injectable } from '@angular/core';
+import { HttpHeaders } from "@angular/common/http";
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class TenantService {
+  constructor() {}
+
+  getTenantForHostname(hostname: string): Tenant {
+    return this.getTenantForHost(hostname.split(".")[0]);
+  }
+
+  getTenantForString(s: string):any {
+    for (const e in Tenant) {
+      if (e.toLowerCase() === s.toLowerCase()) {
+        return Tenant[e as keyof typeof Tenant] ;
+      }
+    }
+    return null;
+  }
+
+  getTenantForHost(host: string): Tenant {
+    return this.getTenantForString(host);
+  }
+
+  getTenant(): Tenant {
+    return this.getTenantForHostname(location.hostname);
+  }
+
+  addTenantToHeaders(headers: HttpHeaders): HttpHeaders {
+    return headers.append("X-Tenant-ID", this.getTenant());
+  }
+}
+
+export enum Tenant {
+  catalogomaster = "catalogocanguru",
+  catalogomendes = "catalogomendes",
+  Autocar = "catalogoautocar",
+  MMDistribuidorta = "catalogomm",
+  Microtec = "catalogomicrotec",
+  Prudenseg = "catalogoprudenseg"
+}

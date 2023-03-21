@@ -1,0 +1,16 @@
+.item {
+  border-radius: 0.5rem;
+  transition: all 0.5s ease-in-out;
+  min-height: 40vh;
+  max-width: 100vh;
+  height: 220px;
+  width: 580px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-top: 1.30rem;
+}
+
+.content-center{
+  display: flex;
+  justify-content: center;
+}

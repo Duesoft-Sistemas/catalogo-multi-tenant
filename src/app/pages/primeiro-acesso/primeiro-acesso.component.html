@@ -1,0 +1,31 @@
+<app-spinner [show]="spinner"></app-spinner>
+<div class="container-senha">
+  <mat-card-header>
+    <mat-card-title>Primeiro acesso:
+      <button type="button" class="close" aria-label="Close" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <form [formGroup]="formulario" *ngIf="formulario">
+      <div class="row">
+        <app-input-model [label]="'Senha'" [type]="'password'" [form]="formulario" [controlName]="'password'" class="col-12">
+        </app-input-model>
+        <app-input-model [label]="'Confirmar Senha'" [type]="'password'" [form]="formulario" [controlName]="'confirmPassword'" class="col-12">
+        </app-input-model>
+
+        <mat-card-actions class="d-flex justify-content-end mb-0 mt-4">
+
+          <button mat-raised-button class="btn btn-pattern mr-2 character" (click)="enviarSenha()"
+          [disabled]="(this.formulario.value.password == null ||
+          this.formulario.value.confirmPassword == null) ||
+           this.formulario.value.password != this.formulario.value.confirmPassword">Enviar senha</button>
+        </mat-card-actions>
+      </div>
+    </form>
+  </mat-card-content>
+</div>

@@ -1,0 +1,8 @@
+@media (max-width: 767px) {
+  ::ng-deep .cdk-overlay-pane {
+    max-width: 95vw !important;
+  }
+}
+.character{
+  color: white;
+}

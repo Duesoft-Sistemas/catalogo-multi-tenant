@@ -1,0 +1,7 @@
+.mat-paginator-container {
+  justify-content: center !important;
+}
+
+.mat-paginator-range-label{
+  display: none !important;
+}

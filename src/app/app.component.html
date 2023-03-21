@@ -1,0 +1,5 @@
+<div class="client1" [ngClass]="{'wrapper': autenticado}">
+  <app-sidebar [hidden]="!autenticado"></app-sidebar>
+  <app-header [hidden]="!autenticado"></app-header>
+  <router-outlet></router-outlet>
+</div>

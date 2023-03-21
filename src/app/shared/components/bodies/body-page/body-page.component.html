@@ -1,0 +1,21 @@
+<div class="content-wrapper">
+  <app-spinner [show]="spinner"></app-spinner>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="content-header">
+        <ng-content select="[header]"></ng-content>
+      </div>
+      <div class="content-body">
+        <div class="card">
+          <ng-content select="[filter]"></ng-content>
+          <div class="card-body" *ngIf="showBody">
+            <ng-content select="[body]"></ng-content>
+          </div>
+          <div class="card-footer" *ngIf="showFooter">
+            <ng-content select="[footer]"></ng-content>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

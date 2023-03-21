@@ -1,0 +1,10 @@
+<h2 class="text-center">
+  {{title}}
+</h2>
+<h3 *ngIf="subTitle" class="text-center">
+  <small class="text-secondary">{{subTitle}}</small>
+</h3>
+<mat-dialog-actions class="modal-buttons w-100 d-flex justify-content-between">
+  <button type="button" class="btn btn-danger pl-4 pr-4" [mat-dialog-close]="false">Não</button>
+  <button type="button" class="btn btn-outline-secondary pl-4 pr-4" [mat-dialog-close]="true">Sim</button>
+</mat-dialog-actions>

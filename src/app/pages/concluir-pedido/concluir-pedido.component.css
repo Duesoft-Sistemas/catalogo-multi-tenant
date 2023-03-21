@@ -1,0 +1,158 @@
+.img-produto {
+  width: 90px;
+  height: 90px;
+  background-color: #ccc;
+  border-radius: 100%;
+}
+.observacao-concluir{
+  margin-top: 1rem;
+
+}
+.observacao-text-box{
+  width: 100% !important;
+  height: 100px;
+
+}
+
+.button-carrinho {
+  max-width: 140px;
+  min-width: 140px;
+  margin: 0 auto;
+}
+
+.footer-style {
+  font-weight: bold;
+  background-color: var(--color-primary);
+}
+
+td.mat-footer-cell{
+  font-size: 1.1rem;
+}
+
+::ng-deep .car-quantidade {
+  font-size: 1rem !important;
+}
+
+@media (max-width: 880px) {
+  .mat-paginator-container {
+    display: flex;
+    justify-content: center !important;
+  }
+
+  .btn-remover {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+  }
+
+  .mat-table tbody {
+    border-left: 2px solid var(--color-primary);
+  }
+
+  .table-empty {
+    font-size: 1rem !important;
+  }
+
+  .mobile-label {
+    /* width: 50%; */
+    padding-right: 14px;
+    display: inline-block;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 1;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-buttons {
+    position: relative;
+    margin-top: 10px;
+    text-align: right;
+    margin-right: 20px;
+  }
+
+  .mobile-multi-label {
+    display: block;
+  }
+
+  .mobile-show {
+    display: block;
+  }
+
+  .mobile-hidden {
+    display: none;
+  }
+
+  .mobile-img {
+    position: absolute;
+  }
+
+  .mobile-td {
+    margin-left: 70px;
+  }
+
+  td.mobile-img {
+    margin-left: 60px;
+  }
+
+  .mat-header-row {
+    display: none;
+  }
+
+  .mobile-checkbox {
+    text-align: right;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+
+  .mat-checkbox-inner-container {
+    height: 20px !important;
+    width: 20px !important;
+  }
+
+  td.mat-cell {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    border: none !important;
+    position: relative;
+  }
+
+  ::ng-deep td.mat-footer-cell {
+    border: none !important;
+    display: flex !important;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  tr.mat-row > td:first-child {
+    margin-top: 0.5rem;
+  }
+
+  tr.mat-row > td:last-child {
+    margin-bottom: 0.5rem;
+    width: 100% !important;
+  }
+
+  .mat-row {
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+    border: 1px solid #ccc;
+  }
+
+  .mat-row h6,
+  .mat-row p {
+    display: inline;
+  }
+
+  .mat-cell,
+  .mat-footer-cell {
+    display: block;
+  }
+
+  .div-img-produto {
+    display: flex !important;
+    justify-content: center !important;
+  }
+}

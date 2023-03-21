@@ -1,0 +1,17 @@
+<form [formGroup]="form" *ngIf="form" class="d-flex align-items-center">
+  <div *ngIf="switch">
+    <label [for]="'cb'+controlName+index"> {{label}} </label>
+    <div class="custom-control custom-switch">
+      <input type="checkbox" [formControlName]="controlName" [id]="'cb'+controlName+index" class="custom-control-input">
+      <label class="custom-control-label m-0" [for]="'cb'+controlName+index">
+        {{form.get(controlName).value ? labelTrue : labelFalse}}
+      </label>
+    </div>
+  </div>
+  <div *ngIf="!switch" class="checkbox-default">
+    <div class="custom-control custom-checkbox">
+      <input class="custom-control-input" type="checkbox" [id]="'cb'+controlName+index" [formControlName]="controlName">
+      <label [for]="'cb'+controlName+index" class="custom-control-label">{{label}}</label>
+    </div>
+  </div>
+</form>

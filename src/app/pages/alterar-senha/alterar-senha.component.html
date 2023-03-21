@@ -1,0 +1,23 @@
+<app-spinner [show]="spinner"></app-spinner>
+<div class="container-senha">
+  <mat-card-header>
+    <mat-card-title>Alteração de Senha</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form [formGroup]="formulario" *ngIf="formulario">
+      <div class="row">
+        <app-input-model [label]="'Senha Atual'" [type]="'password'" [form]="formulario" [controlName]="'oldPassword'"
+          class="col-12"></app-input-model>
+        <app-input-model [label]="'Nova Senha'" [type]="'password'" [form]="formulario" [controlName]="'newPassword'"
+          class="col-12" (blur)="verificaSenhasIguais()"></app-input-model>
+        <app-input-model [label]="'Confirmar Nova Senha'" [type]="'password'" [form]="formulario"
+          [controlName]="'confirmNewPassword'" class="col-12" (blur)="verificaSenhasIguais()"></app-input-model>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions class="d-flex justify-content-end mb-0 mt-4">
+    <button mat-raised-button class="btn btn-pattern mr-2 character" (click)="alterar()">Alterar</button>
+    <button mat-raised-button mat-dialog-close class="btn">Fechar</button>
+  </mat-card-actions>
+</div>

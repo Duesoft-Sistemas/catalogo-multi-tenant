@@ -1,0 +1,34 @@
+<form [formGroup]="form" *ngIf="form; else elseTemplate">
+  <div>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <button class="btn btn-pattern" type="button" [disabled]="form.get(controlName).value  <= item.produto.unitiesOnPackage"
+          (click)="diminuiQuantidade()"><i class="fas fa-minus"></i></button>
+      </div>
+      <input type="text" class="form-control car-quantidade" (blur)="verificaQuantidade()" [formControlName]="controlName">
+      <div class="input-group-append">
+        <button class="btn btn-pattern" type="button" [disabled]="form.get(controlName).value === this.item.produto.stock"
+          (click)="aumentaQuantidade()"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <label for="">Disponível {{this.item.produto.stock}}</label>
+    </div>
+  </div>
+</form>
+<ng-template #elseTemplate>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <button class="btn btn-pattern" type="button" [disabled]="item.quantidade <= item.produto.unitiesOnPackage"
+        (click)="diminuiQuantidade()"><i class="fas fa-minus"></i></button>
+    </div>
+    <input type="text" class="form-control car-quantidade" (blur)="verificaQuantidade()" [(ngModel)]="item.quantidade">
+    <div class="input-group-append">
+      <button class="btn btn-pattern" type="button" [disabled]="item.quantidade === this.item.produto.stock"
+        (click)="aumentaQuantidade()"><i class="fas fa-plus"></i></button>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <label for="">Disponível {{this.item.produto.stock}}</label>
+  </div>
+</ng-template>
