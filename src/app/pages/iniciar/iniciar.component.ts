@@ -32,7 +32,6 @@ export class IniciarComponent implements OnInit {
       ) {
         if (event.target.id === 'inputSearchDescricao')
           this.buscaProdutosPorDescricao();
-        // else this.pesquisarProdutos();
       }
     }
   }
@@ -53,13 +52,14 @@ export class IniciarComponent implements OnInit {
   listProdutos: IProdutos[] = [];
   caminhoLogo: string;
   seletorImagemLogo : SeletorImagemCatalogo = new SeletorImagemCatalogo(this.serviceTenant);
-
+  pesquisaAvancada = true;
   constructor(
     private service: GlobalService,
     private serviceTenant: TenantService,
     private storage: AuthStorageService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private elementRef: ElementRef
   ) {
     let data = this.storage.getDataStorage();
     this.bgStyle = data.planoFundo;
@@ -156,6 +156,7 @@ export class IniciarComponent implements OnInit {
       this.caminhoLogo = "Fundo_Mendes.jpeg"
     }
     if(this.seletorImagemLogo.clientes.cliente2){
+      this.pesquisaAvancada = false;
       this.caminhoLogo = "CatalogoMasterFundo.png"
     }this.seletorImagemLogo.clientes.cliente1
     if(this.seletorImagemLogo.clientes.cliente3){

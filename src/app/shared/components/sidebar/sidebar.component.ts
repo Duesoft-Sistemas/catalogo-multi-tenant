@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlterarSenhaComponent } from 'src/app/pages/alterar-senha/alterar-senha.component';
 import { SeletorImagemCatalogo } from '../../classes/seletor-imagem-catalogo';
 import { AuthStorageService } from '../../guards/auth-storage.service';
-import { Tenant, TenantService } from '../../tenant/tenant.service';
+import { TenantService } from '../../tenant/tenant.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,12 +13,13 @@ import { Tenant, TenantService } from '../../tenant/tenant.service';
 export class SidebarComponent implements OnInit {
   seletorImagemLogo : SeletorImagemCatalogo = new SeletorImagemCatalogo(this.serviceTenant);
   caminhoLogo: string;
+
   constructor(
     private authStorageService: AuthStorageService,
     public dialog: MatDialog,
-    private serviceTenant : TenantService
+    private serviceTenant : TenantService,
+    private elementRef: ElementRef
   ) {}
-
 
   ngOnInit() {
     this.habilitaIcone();
@@ -57,6 +58,9 @@ export class SidebarComponent implements OnInit {
       this.caminhoLogo = "Fundo_Mendes.jpeg"
     }else
     if(this.seletorImagemLogo.clientes.cliente2){
+      debugger
+      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
+      centralizarLogoSideBar.classList.add('logoCanguru');
       this.caminhoLogo = "logo_canguru.png"
     }else
     if(this.seletorImagemLogo.clientes.cliente3){
