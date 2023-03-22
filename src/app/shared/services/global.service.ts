@@ -30,15 +30,14 @@ export class GlobalService {
   }
 
   getCompanies(cnpj: string): Observable<any> {
-    debugger
     return this.http.get(
-      `${this.baseUrl}/GetCompanies?id=${cnpj}&schema=${this.serviceTenant.getTenantForHostname(window.location.href)}`
+      `${this.baseUrl}/GetCompanies?id=${cnpj}&schema=${this.serviceTenant.getSchemaTenant()}`
     );
   }
 
   getAllCompanies(): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/GetAllCompanies?schema=${environment.Schema}`
+      `${this.baseUrl}/GetAllCompanies?schema=${this.serviceTenant.getSchemaTenant()}`
     );
   }
 
@@ -48,14 +47,14 @@ export class GlobalService {
 
   getEmail(cnpj: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/GetEmail?id=${cnpj}&schema=${environment.Schema}`,{responseType: 'text'}
+      `${this.baseUrl}/GetEmail?id=${cnpj}&schema=${this.serviceTenant.getSchemaTenant()}`,{responseType: 'text'}
     );
   }
 
   cadastrarUsuario(model: Pessoas): Observable<any>  {
     return this.http.post(`${this.baseUrl}/UserRegister`, model, {
       headers: new HttpHeaders({
-        'Schema': `${environment.Schema}`,
+        'Schema': `${this.serviceTenant.getSchemaTenant()}`,
       })
     })
   }

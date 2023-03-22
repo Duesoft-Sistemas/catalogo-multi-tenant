@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   SchemaDSCOP: 'DSCOP',
-  Schema: 'Mendes',
   UrlBase: 'https://localhost:44331/api',
   //UrlBase: 'https://dswebapi.duesoft.com.br/api',
   idLocalStorage: 'dscop'

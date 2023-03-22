@@ -5,6 +5,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { take } from 'rxjs';
 import { PesquisaEsteiraClass } from 'src/app/shared/classes/pesquisa-esteira-class';
+import { SeletorImagemCatalogo } from 'src/app/shared/classes/seletor-imagem-catalogo';
 import { FiltroProdutosComponent } from 'src/app/shared/components/filtro-produtos/filtro-produtos.component';
 import { KeyboardKey } from 'src/app/shared/enums/keyboard-key.enum';
 import { Formularios } from 'src/app/shared/functions/formularios';
@@ -12,6 +13,7 @@ import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IProdutos } from 'src/app/shared/interface/IProdutos';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { Tenant, TenantService } from 'src/app/shared/tenant/tenant.service';
 import { FiltroPesquisaAvancada } from './modal-pesquisa-avancada/filtro-pesquisa-avancada';
 import { ModalPesquisaAvancadaComponent } from './modal-pesquisa-avancada/modal-pesquisa-avancada.component';
 
@@ -49,9 +51,12 @@ export class IniciarComponent implements OnInit {
   descricao: string;
   bgStyle: any;
   listProdutos: IProdutos[] = [];
+  caminhoLogo: string;
+  seletorImagemLogo : SeletorImagemCatalogo = new SeletorImagemCatalogo(this.serviceTenant);
 
   constructor(
     private service: GlobalService,
+    private serviceTenant: TenantService,
     private storage: AuthStorageService,
     private router: Router,
     public dialog: MatDialog
@@ -66,6 +71,7 @@ export class IniciarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.habilitaPlanoFundo();
     this.innerWidth = window.innerWidth;
     this.storage.setTitlePage('Início');
     this.formEsteira = Formularios.geraFormulario(new PesquisaEsteiraClass());
@@ -143,6 +149,30 @@ export class IniciarComponent implements OnInit {
         this.buscaProdutosPorDescricao();
       }
     });
+  }
+  private habilitaPlanoFundo() {
+    this.seletorImagemLogo.getImagem();
+    if(this.seletorImagemLogo.clientes.cliente1){
+      this.caminhoLogo = "Fundo_Mendes.jpeg"
+    }
+    if(this.seletorImagemLogo.clientes.cliente2){
+      this.caminhoLogo = "CatalogoMasterFundo.png"
+    }this.seletorImagemLogo.clientes.cliente1
+    if(this.seletorImagemLogo.clientes.cliente3){
+      this.caminhoLogo = "autocar.jpg"
+    }
+    if(this.seletorImagemLogo.clientes.cliente4){
+      this.caminhoLogo = "microtec_logo.png"
+    }
+    if(this.seletorImagemLogo.clientes.cliente5){
+      this.caminhoLogo = "mmdistribuidora.png"
+    }
+    if(this.seletorImagemLogo.clientes.cliente6){
+      this.caminhoLogo = "logo_prudenseg.png"
+    }
+    if(this.seletorImagemLogo.clientes.cliente7){
+      this.caminhoLogo = "esguicho-dagua.png"
+    }
   }
 
   goTo(event: PageChangedEvent): void {

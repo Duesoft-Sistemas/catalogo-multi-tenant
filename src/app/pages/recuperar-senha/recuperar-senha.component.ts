@@ -6,6 +6,7 @@ import { RecuperarSenha } from 'src/app/shared/classes/recuperar-senha';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Toaster } from 'src/app/shared/functions/toaster';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,6 +24,7 @@ export class RecuperarSenhaComponent implements OnInit {
 
   constructor(
     private service: GlobalService,
+    private serviceTenant : TenantService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<RecuperarSenhaComponent>
   ) {
@@ -46,7 +48,7 @@ export class RecuperarSenhaComponent implements OnInit {
             this.formulario = Formularios.geraFormulario(
               new RecuperarSenha(data.modelo)
             );
-            this.formulario.get('schema').setValue(environment.Schema);
+            this.formulario.get('schema').setValue(this.serviceTenant.getSchemaTenant());
             this.spinner = false;
           } else {
             this.spinner = false;

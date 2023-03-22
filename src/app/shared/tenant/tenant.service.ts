@@ -32,6 +32,33 @@ export class TenantService {
   addTenantToHeaders(headers: HttpHeaders): HttpHeaders {
     return headers.append("X-Tenant-ID", this.getTenant());
   }
+
+  getSchemaTenant(): string{
+    var tenant = this.getTenant();
+    var schema = '';
+    if(tenant === 'catalogocanguru')
+    schema = 'DSCOP';
+    else
+    if(tenant === 'catalogomendes')
+    schema = 'Mendes';
+    else
+    if(tenant === 'catalogoautocar')
+    schema = 'Autocar';
+    else
+    if(tenant === 'catalogomm')
+    schema = 'MMDistribuidora';
+    else
+    if(tenant === 'catalogomicrotec')
+    schema = 'Microtec';
+    else
+    if(tenant === 'catalogoprudenseg')
+    schema = 'Prudenseg'
+    else
+    if(tenant === 'catalogolm')
+    schema = 'Diskagua'
+    debugger
+    return schema;
+  }
 }
 
 export enum Tenant {
@@ -41,5 +68,5 @@ export enum Tenant {
   catalogomm = "catalogomm",
   catalogomicrotec = "catalogomicrotec",
   catalogoprudenseg = "catalogoprudenseg",
-  catalogodiskagua = "catalogodiskagua"
+  catalogolm = "catalogolm"
 }

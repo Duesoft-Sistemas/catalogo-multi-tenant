@@ -2,6 +2,7 @@ import { Component, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthStorageService } from './shared/guards/auth-storage.service';
 import { Tenant, TenantService } from './shared/tenant/tenant.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -10,26 +11,29 @@ import { Tenant, TenantService } from './shared/tenant/tenant.service';
 })
 export class AppComponent {
   autenticado = false;
-  client3Theme: boolean;
-  client4Theme: boolean;
-  client5Theme: boolean;
-  client6Theme: boolean;
-  client7Theme: boolean;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcone');
 
   constructor(
     private router: Router,
     private authStorageService: AuthStorageService,
-    private serviceTenant : TenantService
-  ) {
+    private serviceTenant : TenantService,
+    private titleService:Title
+    ) {
     this.verificaToken();
   }
 
   ngOnInit() {
     this.habilitaTema();
+    this.alteraFaviconNomeCatalogo();
   }
 
   @HostBinding("class.mendes") public client1Theme: boolean;
   @HostBinding("class.canguru") public client2Theme: boolean;
+  @HostBinding("class.autocar") public client3Theme: boolean;
+  @HostBinding("class.microtec") public client4Theme: boolean;
+  @HostBinding("class.mm") public client5Theme: boolean;
+  @HostBinding("class.prudenseg") public client6Theme: boolean;
+  @HostBinding("class.diskagua") public client7Theme: boolean;
 
   private habilitaTema() {
     this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;
@@ -38,7 +42,38 @@ export class AppComponent {
     this.client4Theme = this.serviceTenant.getTenant() === Tenant.catalogomicrotec;
     this.client5Theme = this.serviceTenant.getTenant() === Tenant.catalogomm;
     this.client6Theme = this.serviceTenant.getTenant() === Tenant.catalogoprudenseg;
-    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogodiskagua;
+    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogolm;
+  }
+
+  private alteraFaviconNomeCatalogo() {
+    if(this.client1Theme){
+      this.titleService.setTitle("Catálogo Mendes");
+      this.favIcon.href = 'duesoft.ico';
+    }else
+    if(this.client2Theme){
+      this.titleService.setTitle("Catálogo Canguru");
+      this.favIcon.href = 'favicon.ico';
+    }else
+    if(this.client3Theme){
+      this.titleService.setTitle("Catálogo Autocar");
+      this.favIcon.href = 'duesoft.ico';
+    }else
+    if(this.client4Theme){
+      this.titleService.setTitle("Catálogo Microtec");
+      this.favIcon.href = 'duesoft.ico';
+    }else
+    if(this.client5Theme){
+      this.titleService.setTitle("Catálogo MM");
+      this.favIcon.href = 'duesoft.ico';
+    }else
+    if(this.client6Theme){
+      this.titleService.setTitle("Catálogo Prudenseg");
+      this.favIcon.href = 'duesoft.ico';
+    }else
+    if(this.client7Theme){
+      this.titleService.setTitle("Catálogo Disk água");
+      this.favIcon.href = 'duesoft.ico';
+    }
   }
 
   private verificaToken(): void {

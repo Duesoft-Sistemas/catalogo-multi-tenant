@@ -3,7 +3,8 @@
     <div class="col-sm-8 mb-1 form-group ">
       <div class="row d-flex justify-content-center">
         <app-carrosel-imagens-iniciar  [imagens]="this.bgStyle" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo != null"></app-carrosel-imagens-iniciar>
-        <div class="col-sm-12 img-custom-background-image" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo == null">
+        <div class="col-sm-12 img-custom" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo == null">
+          <img class="img-custom" [src]='"../../../assets/images/"+caminhoLogo+""' alt="Logo">
         </div>
         <div class="col-sm-12 divPading">
           <div class="input-group-sm">

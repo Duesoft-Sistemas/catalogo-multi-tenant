@@ -31,7 +31,6 @@ export class AuthInterceptorService {
      na tela de login nao quero interceptar nada, então
      dou continuidade no fluxo do request
     */
-   debugger
     if (
       request.url.includes(`/UserLogin`) ||
       request.url.includes(`/GetCompanies`)

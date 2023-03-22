@@ -8,7 +8,6 @@ export class AuthGuardService {
   constructor(private authStorageService: AuthStorageService) {}
 
   canActivate() {
-    debugger
     if (this.authStorageService.isLoggedIn()) {
       return true;
     }

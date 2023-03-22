@@ -4,13 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AppComponent } from 'src/app/app.component';
+import { SeletorImagemCatalogo } from 'src/app/shared/classes/seletor-imagem-catalogo';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IDataStorage } from 'src/app/shared/interface/IDataStorage';
 import { GlobalService } from 'src/app/shared/services/global.service';
-import { Tenant, TenantService } from 'src/app/shared/tenant/tenant.service';
-import { environment } from 'src/environments/environment';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 import { UsuarioLogin } from '../login/login.model';
 import { PrimeiroAcessoComponent } from '../primeiro-acesso/primeiro-acesso.component';
 import { RecuperarSenhaComponent } from '../recuperar-senha/recuperar-senha.component';
@@ -33,13 +33,9 @@ export class LoginComponent implements OnInit {
   modeloRecuperarSenha: UsuarioLogin = new UsuarioLogin();
   cnpjRecuperarSenhaValido = false;
   caminhoLogo: string;
-  client1Theme: boolean;
-  client2Theme: boolean;
-  client3Theme: boolean;
-  client4Theme: boolean;
-  client5Theme: boolean;
-  client6Theme: boolean;
-  client7Theme: boolean;
+  seletorImagemLogo : SeletorImagemCatalogo = new SeletorImagemCatalogo(this.serviceTenant);
+  nomeCatalogo: string;
+
   constructor(
     private authStorageService: AuthStorageService,
     private service: GlobalService,
@@ -62,43 +58,44 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
-   this.habilitaIcone()
+    this.habilitaIcone()
     this.formulario = Formularios.geraFormulario(this.modelo);
   }
 
   private habilitaIcone() {
-    this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;
-    this.client2Theme = this.serviceTenant.getTenant() === Tenant.catalogomaster;
-    this.client3Theme = this.serviceTenant.getTenant() === Tenant.catalogoautocar;
-    this.client4Theme = this.serviceTenant.getTenant() === Tenant.catalogomicrotec;
-    this.client5Theme = this.serviceTenant.getTenant() === Tenant.catalogomm;
-    this.client6Theme = this.serviceTenant.getTenant() === Tenant.catalogoprudenseg;
-    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogodiskagua;
-    if(this.client1Theme){
+    this.seletorImagemLogo.getImagem();
+    if(this.seletorImagemLogo.clientes.cliente1){
+      this.nomeCatalogo = "Mendes";
       this.caminhoLogo = "Fundo_Mendes.jpeg"
-    }
-    if(this.client2Theme){
-      this.caminhoLogo = "logo_canguru.png"
-    }
-    if(this.client3Theme){
+    }else
+    if(this.seletorImagemLogo.clientes.cliente2){
+      this.nomeCatalogo = "Canguru";
+      this.caminhoLogo = "CatalogoMasterFundo.png"
+    }else
+    if(this.seletorImagemLogo.clientes.cliente3){
+      this.nomeCatalogo = "Autocar";
       this.caminhoLogo = "autocar.jpg"
-    }
-    if(this.client4Theme){
+    }else
+    if(this.seletorImagemLogo.clientes.cliente4){
+      this.nomeCatalogo = "Microtec";
       this.caminhoLogo = "microtec_logo.png"
-    }
-    if(this.client5Theme){
-      this.caminhoLogo = "mmdistirbuidora.png"
-    }
-    if(this.client6Theme){
+    }else
+    if(this.seletorImagemLogo.clientes.cliente5){
+      this.nomeCatalogo = "MM Distribuidora";
+      this.caminhoLogo = "mmdistribuidora.png"
+    }else
+    if(this.seletorImagemLogo.clientes.cliente6){
+      this.nomeCatalogo = "Prudenseg";
       this.caminhoLogo = "logo_prudenseg.png"
-    }
-    if(this.client7Theme){
-      this.caminhoLogo = "esguicho-dagua.jpeg"
+    }else
+    if(this.seletorImagemLogo.clientes.cliente7){
+      this.nomeCatalogo = "Disk água";
+      this.caminhoLogo = "esguicho-dagua.png"
     }
   }
 
   validarCnpj(recuperarSenha?): void {
+    debugger
     this.spinner = true;
     this.service
       .getCompanies(this.formulario.get('user')?.value)
@@ -108,7 +105,7 @@ export class LoginComponent implements OnInit {
           if (data && recuperarSenha && !data[0].firstAcess) {
             this.cnpjRecuperarSenhaValido = true;
             this.modeloRecuperarSenha;
-            this.modeloRecuperarSenha.schema = environment.Schema;
+            this.modeloRecuperarSenha.schema = this.serviceTenant.getSchemaTenant();
             this.modeloRecuperarSenha.user = this.formulario.get('user')?.value;
             this.modeloRecuperarSenha.company = data[0].companyCnpj;
             this.openModalRecuperarSenha();
@@ -116,7 +113,7 @@ export class LoginComponent implements OnInit {
             this.listEmpresas = data;
             this.cnpjValido = true;
             this.modelo = new UsuarioLogin();
-            this.modelo.schema = environment.Schema;
+            this.modelo.schema = this.serviceTenant.getSchemaTenant();
             this.modelo.user = this.formulario.get('user')?.value;
             this.modelo.company = this.listEmpresas[0].companyCnpj;
             this.formulario = Formularios.geraFormulario(this.modelo);

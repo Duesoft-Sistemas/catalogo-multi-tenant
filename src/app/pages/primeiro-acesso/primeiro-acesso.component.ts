@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { UsuarioLogin } from '../login/login.model';
 import { AppComponent } from 'src/app/app.component';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-primeiro-acesso',
@@ -27,6 +28,7 @@ export class PrimeiroAcessoComponent implements OnInit {
   constructor(
     private authStorageService: AuthStorageService,
     private router: Router,
+    private serviceTenant : TenantService,
     private service: GlobalService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<PrimeiroAcessoComponent>
@@ -35,7 +37,7 @@ export class PrimeiroAcessoComponent implements OnInit {
       this.router.navigate(['inicio']);
     }
     this.formulario = Formularios.geraFormulario(new PrimeiroAcesso(data));
-    this.formulario.get('schema').setValue(environment.Schema);
+    this.formulario.get('schema').setValue(this.serviceTenant.getSchemaTenant());
   }
 
   ngOnInit() {}
