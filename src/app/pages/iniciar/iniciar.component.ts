@@ -152,28 +152,6 @@ export class IniciarComponent implements OnInit {
   }
   private habilitaPlanoFundo() {
     this.seletorImagemLogo.getImagem();
-    if(this.seletorImagemLogo.clientes.cliente1){
-      this.caminhoLogo = "Fundo_Mendes.jpeg"
-    }
-    if(this.seletorImagemLogo.clientes.cliente2){
-      this.pesquisaAvancada = false;
-      this.caminhoLogo = "CatalogoMasterFundo.png"
-    }this.seletorImagemLogo.clientes.cliente1
-    if(this.seletorImagemLogo.clientes.cliente3){
-      this.caminhoLogo = "autocar.jpg"
-    }
-    if(this.seletorImagemLogo.clientes.cliente4){
-      this.caminhoLogo = "microtec_logo.png"
-    }
-    if(this.seletorImagemLogo.clientes.cliente5){
-      this.caminhoLogo = "mmdistribuidora.png"
-    }
-    if(this.seletorImagemLogo.clientes.cliente6){
-      this.caminhoLogo = "logo_prudenseg.png"
-    }
-    if(this.seletorImagemLogo.clientes.cliente7){
-      this.caminhoLogo = "esguicho-dagua.png"
-    }
   }
 
   goTo(event: PageChangedEvent): void {

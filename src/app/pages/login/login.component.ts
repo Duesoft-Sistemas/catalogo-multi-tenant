@@ -64,34 +64,6 @@ export class LoginComponent implements OnInit {
 
   private habilitaIcone() {
     this.seletorImagemLogo.getImagem();
-    if(this.seletorImagemLogo.clientes.cliente1){
-      this.nomeCatalogo = "Mendes";
-      this.caminhoLogo = "Fundo_Mendes.jpeg"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente2){
-      this.nomeCatalogo = "Canguru";
-      this.caminhoLogo = "CatalogoMasterFundo.png"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente3){
-      this.nomeCatalogo = "Autocar";
-      this.caminhoLogo = "autocar.jpg"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente4){
-      this.nomeCatalogo = "Microtec";
-      this.caminhoLogo = "microtec_logo.png"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente5){
-      this.nomeCatalogo = "MM Distribuidora";
-      this.caminhoLogo = "mmdistribuidora.png"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente6){
-      this.nomeCatalogo = "Prudenseg";
-      this.caminhoLogo = "logo_prudenseg.png"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente7){
-      this.nomeCatalogo = "Disk água";
-      this.caminhoLogo = "esguicho-dagua.png"
-    }
   }
 
   validarCnpj(recuperarSenha?): void {

@@ -54,29 +54,13 @@ export class SidebarComponent implements OnInit {
 
   habilitaIcone() {
     this.seletorImagemLogo.getImagem();
-    if(this.seletorImagemLogo.clientes.cliente1){
-      this.caminhoLogo = "Fundo_Mendes.jpeg"
-    }else
     if(this.seletorImagemLogo.clientes.cliente2){
-      debugger
       var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
       centralizarLogoSideBar.classList.add('logoCanguru');
-      this.caminhoLogo = "logo_canguru.png"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente3){
-      this.caminhoLogo = "autocar.jpg"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente4){
-      this.caminhoLogo = "microtec_logo.png"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente5){
-      this.caminhoLogo = "mmdistribuidora.png"
-    }else
-    if(this.seletorImagemLogo.clientes.cliente6){
-      this.caminhoLogo = "logo_prudenseg.png"
     }else
     if(this.seletorImagemLogo.clientes.cliente7){
-      this.caminhoLogo = "esguicho-dagua.png"
+      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
+      centralizarLogoSideBar.classList.add('logoCanguru');
     }
   }
 }
