@@ -16,9 +16,11 @@
         <div class="bt-1 col-12 mb-2" style="max-height: 100px; overflow: auto;"> <span [innerHtml]="produto?.completeDescription ?? 'Não informado'"></span></div>
         <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Grupo:</span> {{produto?.productGroup??'-'}}</div>
         <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Subgrupo:</span> {{produto?.productSubgroup??'-'}}</div>
-        <div class="bt-1 col-md-4 mb-2"> <span class="text-bold">Estoque:</span> {{produto?.stock??'-'}}</div>
+        <div class="bt-1 col-md-4 mb-2" *ngIf="!this.seletorPeculiaridadesCatalogos.clientes.cliente6"> <span class="text-bold">Estoque:</span> {{produto?.stock??'-'}}</div>
+        <div class="bt-1 col-md-4 mb-2" *ngIf="produto.stock && this.seletorPeculiaridadesCatalogos.clientes.cliente6"> <span class="text-bold">Estoque:</span> {{produto?.stock??'-'}}</div>
         <div class="bt-1 col-md-4 mb-2"> <span class="text-bold">Unidade:</span> {{produto?.unity??'-'}}</div>
         <div class="bt-1 col-md-4 mb-2"> <span class="text-bold">Preço:</span> {{(getPrice(produto?.price) | currency)??'-'}}</div>
+        <div class="bt-1 col-md-4 mb-2" *ngIf="!produto.stock && this.seletorPeculiaridadesCatalogos.clientes.cliente6"></div>
         <div class="bt-1 col-12 mb-2">
           <div class="text-bold">Códigos Originais:</div>
           <div *ngFor="let item of produto?.originalCodes;">{{item.originalCode ? ' - ' + item.originalCode : ''}} </div>

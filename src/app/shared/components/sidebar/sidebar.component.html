@@ -1,8 +1,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a routerLinkActive="active" id="brandLogo" routerLink="inicio" class="brand-link navbar-pattern">
-    <img [src]='"../../../assets/images/"+this.seletorImagemLogo.logoSidebar+""' alt="Logo" class="brand-image img-circle elevation-3"
-      style="opacity: .8;  padding: 0; margin: 0">
+    <img [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoSidebar+""' alt="Logo" class="brand-image img-circle elevation-3"
+      style="opacity: .8;  padding: 0; margin: 0" [ngStyle]="{'background-color':getColor(),'opacity':getOpacidade()}">
   </a>
   <!-- Sidebar -->
   <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">

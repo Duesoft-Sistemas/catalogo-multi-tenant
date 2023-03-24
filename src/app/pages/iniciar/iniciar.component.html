@@ -3,9 +3,11 @@
     <div class="col-sm-8 mb-1 form-group ">
       <div class="row d-flex justify-content-center">
         <app-carrosel-imagens-iniciar  [imagens]="this.bgStyle" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo != null"></app-carrosel-imagens-iniciar>
-        <div class="col-sm-12 img-custom" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo == null">
-          <img class="img-custom" *ngIf="!this.seletorImagemLogo.clientes.cliente2"  [src]='"../../../assets/images/"+this.seletorImagemLogo.logoInicio+""' alt="Logo">
-          <img class="img-custom-background-image" *ngIf="this.seletorImagemLogo.clientes.cliente2"  [src]='"../../../assets/images/"+this.seletorImagemLogo.logoInicio+""' alt="Logo">
+        <div class="col-sm-12 img-custom" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo == null && !this.seletorPeculiaridadesCatalogos.clientes.cliente2">
+          <img class="img-custom" [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoInicio+""' alt="Logo">
+        </div>
+        <div class="col-sm-12 centraliza-imagem-canguru" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo == null && this.seletorPeculiaridadesCatalogos.clientes.cliente2">
+          <img class="img-custom-background-image"  [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoInicio+""' alt="Logo">
         </div>
         <div class="col-sm-12 divPading">
           <div class="input-group-sm">
@@ -18,7 +20,7 @@
           </div>
         </div>
         <div class="col-sm-12 d-flex justify-content-center mt-2 divPading">
-          <button *ngIf="this.seletorImagemLogo.pesquisaAvancada" mat-raised-button class="button-primary" (click)="openModalPesquisaAvancada()">
+          <button *ngIf="this.seletorPeculiaridadesCatalogos.pesquisaAvancada" mat-raised-button class="button-primary" (click)="openModalPesquisaAvancada()">
             Pesquisa Avançada
           </button>
         </div>
@@ -29,7 +31,7 @@
   </div>
   <div body *ngIf="listProdutos.length > 0">
     <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="formEsteira.get('totalPages').value"
-      (pageChanged)="goTo($event)"></app-lista-produtos>
+    (pageChanged)="goTo($event)"></app-lista-produtos>
   </div>
 </app-body-page>
 <div class="btn-absolute" *ngIf="listProdutos.length > 0">
@@ -39,6 +41,6 @@
   </button>
   <button mat-fab color="primary" class="btn btn-pattern ml-2" (click)="openModalPesquisaAvancada()" matTooltip="Pesquisa Avançada"
     aria-label="Filtro Avançado">
-      <i class="fa fa-search-plus" aria-hidden="true"></i>
+    <i class="fa fa-search-plus" aria-hidden="true"></i>
   </button>
 </div>

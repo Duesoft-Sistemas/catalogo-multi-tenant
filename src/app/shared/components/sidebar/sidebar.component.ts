@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlterarSenhaComponent } from 'src/app/pages/alterar-senha/alterar-senha.component';
-import { SeletorImagemCatalogo } from '../../classes/seletor-imagem-catalogo';
+import { SeletorPeculiaridadesCatalogos } from '../../classes/seletor-peculiaridades-catalogos';
 import { AuthStorageService } from '../../guards/auth-storage.service';
 import { TenantService } from '../../tenant/tenant.service';
 
@@ -11,7 +11,7 @@ import { TenantService } from '../../tenant/tenant.service';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-  seletorImagemLogo : SeletorImagemCatalogo = new SeletorImagemCatalogo(this.serviceTenant);
+  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
   caminhoLogo: string;
 
   constructor(
@@ -53,14 +53,34 @@ export class SidebarComponent implements OnInit {
   }
 
   habilitaIcone() {
-    this.seletorImagemLogo.getImagem();
-    if(this.seletorImagemLogo.clientes.cliente2){
+    this.seletorPeculiaridadesCatalogos.getTenant();
+    if(this.seletorPeculiaridadesCatalogos.clientes.cliente2){
       var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
       centralizarLogoSideBar.classList.add('logoCanguru');
     }else
-    if(this.seletorImagemLogo.clientes.cliente7){
+    if(this.seletorPeculiaridadesCatalogos.clientes.cliente7){
       var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
       centralizarLogoSideBar.classList.add('logoCanguru');
     }
+  }
+
+  getColor():string{
+    var cor;
+    if(this.seletorPeculiaridadesCatalogos.clientes.cliente5)
+     cor = '#ffffff';
+    else
+     cor = '';
+
+    return cor;
+  }
+
+  getOpacidade():string{
+    var opacidade;
+    if(this.seletorPeculiaridadesCatalogos.clientes.cliente5)
+     opacidade = '0.9';
+    else
+     opacidade = '0.8';
+
+    return opacidade;
   }
 }

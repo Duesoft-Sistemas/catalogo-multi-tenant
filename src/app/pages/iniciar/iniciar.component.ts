@@ -5,7 +5,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { take } from 'rxjs';
 import { PesquisaEsteiraClass } from 'src/app/shared/classes/pesquisa-esteira-class';
-import { SeletorImagemCatalogo } from 'src/app/shared/classes/seletor-imagem-catalogo';
+import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
 import { FiltroProdutosComponent } from 'src/app/shared/components/filtro-produtos/filtro-produtos.component';
 import { KeyboardKey } from 'src/app/shared/enums/keyboard-key.enum';
 import { Formularios } from 'src/app/shared/functions/formularios';
@@ -51,8 +51,9 @@ export class IniciarComponent implements OnInit {
   bgStyle: any;
   listProdutos: IProdutos[] = [];
   caminhoLogo: string;
-  seletorImagemLogo : SeletorImagemCatalogo = new SeletorImagemCatalogo(this.serviceTenant);
+  seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
   pesquisaAvancada = true;
+
   constructor(
     private service: GlobalService,
     private serviceTenant: TenantService,
@@ -151,7 +152,7 @@ export class IniciarComponent implements OnInit {
     });
   }
   private habilitaPlanoFundo() {
-    this.seletorImagemLogo.getImagem();
+    this.seletorPeculiaridadesCatalogos.getTenant();
   }
 
   goTo(event: PageChangedEvent): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
@@ -6,24 +6,35 @@ import { AlterarSenha } from 'src/app/shared/classes/alterar-senha';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Toaster } from 'src/app/shared/functions/toaster';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { Tenant, TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-alterar-senha',
   templateUrl: './alterar-senha.component.html',
-  styleUrls: ['./alterar-senha.component.css'],
+  styleUrls: ['./alterar-senha.component.css', './alterar-senha.component.skins.less'],
 })
 export class AlterarSenhaComponent implements OnInit {
   formulario: FormGroup;
   spinner = false;
+  @HostBinding("class.mendes") public client1Theme: boolean;
+  @HostBinding("class.canguru") public client2Theme: boolean;
+  @HostBinding("class.autocar") public client3Theme: boolean;
+  @HostBinding("class.microtec") public client4Theme: boolean;
+  @HostBinding("class.mm") public client5Theme: boolean;
+  @HostBinding("class.prudenseg") public client6Theme: boolean;
+  @HostBinding("class.diskagua") public client7Theme: boolean;
 
   constructor(
     private service: GlobalService,
-    public dialogRef: MatDialogRef<AlterarSenhaComponent>
+    public dialogRef: MatDialogRef<AlterarSenhaComponent>,
+    private serviceTenant: TenantService
   ) {
     this.formulario = Formularios.geraFormulario(new AlterarSenha());
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.habilitaTema();
+  }
 
   validaErrorSenhas(aux: any): boolean {
     return Formularios.validTouched(this.formulario.get(aux) as FormControl);
@@ -65,5 +76,15 @@ export class AlterarSenhaComponent implements OnInit {
       this.formulario.get('confirmNewPassword')?.setErrors(null);
     }
     this.formulario.updateValueAndValidity();
+  }
+
+  private habilitaTema() {
+    this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;
+    this.client2Theme = this.serviceTenant.getTenant() === Tenant.catalogomaster;
+    this.client3Theme = this.serviceTenant.getTenant() === Tenant.catalogoautocar;
+    this.client4Theme = this.serviceTenant.getTenant() === Tenant.catalogomicrotec;
+    this.client5Theme = this.serviceTenant.getTenant() === Tenant.catalogomm;
+    this.client6Theme = this.serviceTenant.getTenant() === Tenant.catalogoprudenseg;
+    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogolm;
   }
 }

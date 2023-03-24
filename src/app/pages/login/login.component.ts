@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AppComponent } from 'src/app/app.component';
-import { SeletorImagemCatalogo } from 'src/app/shared/classes/seletor-imagem-catalogo';
+import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   modeloRecuperarSenha: UsuarioLogin = new UsuarioLogin();
   cnpjRecuperarSenhaValido = false;
   caminhoLogo: string;
-  seletorImagemLogo : SeletorImagemCatalogo = new SeletorImagemCatalogo(this.serviceTenant);
+  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
   nomeCatalogo: string;
 
   constructor(
@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
     private appComponent: AppComponent,
     public dialog: MatDialog
   ) {
-
     this.autenticado = appComponent.autenticado;
     if (localStorage.getItem('tokenCatalogo')) {
       this.router.navigate(['inicio']);
@@ -63,11 +62,10 @@ export class LoginComponent implements OnInit {
   }
 
   private habilitaIcone() {
-    this.seletorImagemLogo.getImagem();
+    this.seletorPeculiaridadesCatalogos.getTenant();
   }
 
   validarCnpj(recuperarSenha?): void {
-    debugger
     this.spinner = true;
     this.service
       .getCompanies(this.formulario.get('user')?.value)

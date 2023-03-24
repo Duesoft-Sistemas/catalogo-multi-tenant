@@ -16,7 +16,12 @@
   width: 580px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  margin-top: -3rem;
+  margin-top: -6rem;
+}
+
+.centraliza-imagem-canguru{
+  justify-content: center;
+  display: flex;
 }
 
 .boxButton {
@@ -129,11 +134,25 @@ input::placeholder {
 
 @media (max-width: 766px) {
   .img-custom {
-    max-width: 436px;
+    max-width: 297px;
     max-height: 30vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     bottom: 2rem;
+  }
+  .divPading {
+    padding-left: 1rem;
+    bottom: -1rem;
+  }
+}
+
+@media (max-width: 766px) {
+  .img-custom-background-image {
+    max-width: 297px;
+    max-height: 30vh;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    bottom: 6rem;
   }
   .divPading {
     padding-left: 1rem;

@@ -12,6 +12,13 @@ import {Title} from "@angular/platform-browser";
 export class AppComponent {
   autenticado = false;
   favIcon: HTMLLinkElement = document.querySelector('#appIcone');
+  @HostBinding("class.mendes") public client1Theme: boolean;
+  @HostBinding("class.canguru") public client2Theme: boolean;
+  @HostBinding("class.autocar") public client3Theme: boolean;
+  @HostBinding("class.microtec") public client4Theme: boolean;
+  @HostBinding("class.mm") public client5Theme: boolean;
+  @HostBinding("class.prudenseg") public client6Theme: boolean;
+  @HostBinding("class.diskagua") public client7Theme: boolean;
 
   constructor(
     private router: Router,
@@ -26,14 +33,6 @@ export class AppComponent {
     this.habilitaTema();
     this.alteraFaviconNomeCatalogo();
   }
-
-  @HostBinding("class.mendes") public client1Theme: boolean;
-  @HostBinding("class.canguru") public client2Theme: boolean;
-  @HostBinding("class.autocar") public client3Theme: boolean;
-  @HostBinding("class.microtec") public client4Theme: boolean;
-  @HostBinding("class.mm") public client5Theme: boolean;
-  @HostBinding("class.prudenseg") public client6Theme: boolean;
-  @HostBinding("class.diskagua") public client7Theme: boolean;
 
   private habilitaTema() {
     this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;

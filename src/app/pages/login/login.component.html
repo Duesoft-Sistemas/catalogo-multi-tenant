@@ -3,8 +3,8 @@
   <div class="card">
     <div class="card-header">
       <div class="login-logo">
-        <img class="logo" [src]='"../../../assets/images/"+this.seletorImagemLogo.logoLogin+""' alt="Logo">
-        <b>Catálogo {{this.seletorImagemLogo.nomeCatalogo}}</b>
+        <img class="logo" [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoLogin+""' alt="Logo">
+        <b>Catálogo {{this.seletorPeculiaridadesCatalogos.nomeCatalogo}}</b>
       </div>
     </div>
     <div class="card-body login-card-body">
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="d-flex justify-content-between">
-            <a class="nav-link cadastrar-se cursor-hand" (click)="openModalCadastrarse()">Cadastrar-se</a>
+            <a *ngIf="this.seletorPeculiaridadesCatalogos.cadastrarCliente" class="nav-link cadastrar-se cursor-hand" (click)="openModalCadastrarse()">Cadastrar-se</a>
             <a class="nav-link recuperar-senha cursor-hand" (click)="validarCnpj(true)">Recuperar senha</a>
           </div>
         </div>

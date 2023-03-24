@@ -20,9 +20,13 @@
         <p class="limitar-linhas2">
           <strong>Descrição: </strong> {{produto.description}}
         </p>
-        <p class="limitar-linhas2">
+        <p *ngIf="!this.seletorPeculiaridadesCatalogos.clientes.cliente6" class="limitar-linhas2">
           <strong>Estoque: </strong>
-          {{produto.stockStatus}} / {{getPrice(produto?.price) | currency}}
+          {{ produto.stockStatus}} / {{getPrice(produto?.price) | currency}}
+        </p>
+        <p *ngIf="this.seletorPeculiaridadesCatalogos.clientes.cliente6" class="limitar-linhas2">
+          <strong>Preço: </strong>
+           {{getPrice(produto?.price) | currency}}
         </p>
       </mat-card-content>
       <mat-card-actions>

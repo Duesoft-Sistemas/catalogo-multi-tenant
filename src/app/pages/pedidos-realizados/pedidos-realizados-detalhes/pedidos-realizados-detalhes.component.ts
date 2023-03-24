@@ -152,8 +152,7 @@ export class PedidosRealizadosDetalhesComponent implements OnInit {
 
   getDate(date: any): Date {
     var parts = date.split('/');
-    parts[2] = '20'.concat(parts[2]);
-    let data = new Date(parts[2], parts[0] - 1, parts[1]);
+    let data = new Date(parts[2], parts[1]-1, parts[0]);
     return data;
   }
 

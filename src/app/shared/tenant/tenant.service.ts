@@ -56,7 +56,7 @@ export class TenantService {
     else
     if(tenant === 'catalogolm')
     schema = 'Diskagua'
-    debugger
+
     return schema;
   }
 }

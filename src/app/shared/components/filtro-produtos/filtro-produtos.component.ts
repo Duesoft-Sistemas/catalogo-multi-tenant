@@ -2,7 +2,6 @@ import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FiltroPesquisarProdutos } from '../../classes/filtro-pesquisar-produtos';
-import { SeletorImagemCatalogo } from '../../classes/seletor-imagem-catalogo';
 import { KeyboardKey } from '../../enums/keyboard-key.enum';
 import { Formularios } from '../../functions/formularios';
 import { Tenant, TenantService } from '../../tenant/tenant.service';

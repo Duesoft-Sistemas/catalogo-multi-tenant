@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
@@ -8,6 +8,7 @@ import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IPedidos } from 'src/app/shared/interface/IPedidos';
 import { IPedidosRealizados } from 'src/app/shared/interface/IPedidosRealizados';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 import { PedidosRealizadosDetalhesComponent } from './pedidos-realizados-detalhes/pedidos-realizados-detalhes.component';
 import { PedidosRealizadosFiltroComponent } from './pedidos-realizados-filtro/pedidos-realizados-filtro.component';
 
@@ -18,6 +19,14 @@ import { PedidosRealizadosFiltroComponent } from './pedidos-realizados-filtro/pe
 })
 export class PedidosRealizadosComponent implements OnInit {
   spinner = false;
+  @HostBinding("class.mendes") public client1Theme: boolean;
+  @HostBinding("class.canguru") public client2Theme: boolean;
+  @HostBinding("class.autocar") public client3Theme: boolean;
+  @HostBinding("class.microtec") public client4Theme: boolean;
+  @HostBinding("class.mm") public client5Theme: boolean;
+  @HostBinding("class.prudenseg") public client6Theme: boolean;
+  @HostBinding("class.diskagua") public client7Theme: boolean;
+
   columns = [
     {
       columnDef: 'solicitacao',
@@ -54,7 +63,8 @@ export class PedidosRealizadosComponent implements OnInit {
   constructor(
     private service: GlobalService,
     private storage: AuthStorageService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private serviceTenant: TenantService,
   ) {}
 
   ngOnInit() {
