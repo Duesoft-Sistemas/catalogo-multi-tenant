@@ -58,9 +58,19 @@ export class SidebarComponent implements OnInit {
       var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
       centralizarLogoSideBar.classList.add('logoCanguru');
     }else
+    if(this.seletorPeculiaridadesCatalogos.clientes.cliente4){
+      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
+      centralizarLogoSideBar.classList.add('logoCanguru');
+    }
+    else
     if(this.seletorPeculiaridadesCatalogos.clientes.cliente7){
       var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
       centralizarLogoSideBar.classList.add('logoCanguru');
+    }
+    else
+    if(this.seletorPeculiaridadesCatalogos.clientes.cliente3){
+      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#imgLogo");
+      centralizarLogoSideBar.classList.add('logoAutocar');
     }
   }
 
