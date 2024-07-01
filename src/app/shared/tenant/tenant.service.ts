@@ -42,9 +42,6 @@ export class TenantService {
     if(tenant === 'catalogomendes')
     schema = 'Mendes';
     else
-    if(tenant === 'catalogoautocar')
-    schema = 'Autocar';
-    else
     if(tenant === 'catalogomm')
     schema = 'MMDistribuidora';
     else
