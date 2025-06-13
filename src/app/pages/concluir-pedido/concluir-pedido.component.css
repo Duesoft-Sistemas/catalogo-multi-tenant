@@ -4,14 +4,23 @@
   background-color: #ccc;
   border-radius: 100%;
 }
-.observacao-concluir{
-  margin-top: 1rem;
 
+.observacao-concluir {
+  margin-top: 1rem;
 }
-.observacao-text-box{
+
+.color-label {
+  color: black;
+  padding: 6px;
+}
+
+.observacao-text-box {
   width: 100% !important;
   height: 100px;
+}
 
+.color-span {
+  color: #fff;
 }
 
 .button-carrinho {
@@ -21,11 +30,11 @@
 }
 
 .footer-style {
-  font-weight: bold;
-  background-color: var(--color-primary);
+  font-weight: bold !important;
+  background-color: var(--color-primary) !important;
 }
 
-td.mat-footer-cell{
+td.mat-mdc-footer-cell {
   font-size: 1.1rem;
 }
 
@@ -33,20 +42,29 @@ td.mat-footer-cell{
   font-size: 1rem !important;
 }
 
+.btn-absolute {
+  position: fixed;
+  bottom: 0.2rem;
+  right: 0.2rem;
+}
+
+::ng-deep th.Fase {
+  color: white !important;
+}
+
 @media (max-width: 880px) {
-  .mat-paginator-container {
+  .mat-mdc-paginator-container {
     display: flex;
     justify-content: center !important;
   }
 
   .btn-remover {
-    position: absolute;
-    top: 10px;
+    position: flex;
     left: 10px;
     z-index: 1000;
   }
 
-  .mat-table tbody {
+  .mat-mdc-table tbody {
     border-left: 2px solid var(--color-primary);
   }
 
@@ -55,7 +73,6 @@ td.mat-footer-cell{
   }
 
   .mobile-label {
-    /* width: 50%; */
     padding-right: 14px;
     display: inline-block;
     font-weight: bold;
@@ -96,58 +113,57 @@ td.mat-footer-cell{
     margin-left: 60px;
   }
 
-  .mat-header-row {
+  .mat-mdc-header-row {
     display: none;
   }
 
   .mobile-checkbox {
     text-align: right;
     margin-right: 20px;
-    margin-top: 20px;
+    margin-top: 40px;
   }
 
-  .mat-checkbox-inner-container {
-    height: 20px !important;
+  .mat-mdc-checkbox-inner-container {
+    height: 40px !important;
     width: 20px !important;
   }
 
-  td.mat-cell {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+  td.mat-mdc-cell {
+    padding: 11px !important;
     border: none !important;
     position: relative;
   }
 
-  ::ng-deep td.mat-footer-cell {
+  ::ng-deep td.mat-mdc-footer-cell {
     border: none !important;
     display: flex !important;
     justify-content: flex-end;
     align-items: center;
   }
 
-  tr.mat-row > td:first-child {
+  tr.mat-mdc-row > td:first-child {
     margin-top: 0.5rem;
   }
 
-  tr.mat-row > td:last-child {
+  tr.mat-mdc-row > td:last-child {
     margin-bottom: 0.5rem;
     width: 100% !important;
   }
 
-  .mat-row {
+  .mat-mdc-row {
     flex-direction: column;
     align-items: start;
     padding: 8px 24px;
     border: 1px solid #ccc;
   }
 
-  .mat-row h6,
-  .mat-row p {
+  .mat-mdc-row h6,
+  .mat-mdc-row p {
     display: inline;
   }
 
-  .mat-cell,
-  .mat-footer-cell {
+  .mat-mdc-cell,
+  .mat-mdc-footer-cell {
     display: block;
   }
 

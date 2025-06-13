@@ -1,8 +1,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a routerLinkActive="active" id="brandLogo" routerLink="inicio" class="brand-link navbar-pattern">
-    <img [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoSidebar+""' id="imgLogo" alt="Logo" class="brand-image img-circle elevation-3"
-      style="opacity: .8;  padding: 0; margin: 0" [ngStyle]="{'background-color':getColor(),'opacity':getOpacidade()}">
+    <div>
+      <img [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoSidebar+""' id="imgLogo" alt="Logo" class="brand-image img-circle elevation-3"
+        style="opacity: .8;  padding: 0;" [ngStyle]="{'background-color':getColor(),'opacity':getOpacidade()}">
+    </div>
   </a>
   <!-- Sidebar -->
   <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
@@ -26,9 +28,15 @@
                 </a>
               </li>
               <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="lancamentos" class="nav-link" (click)="escondeMenu()">
-                  <i class="far fa-star"></i>
-                  <p>Lançamentos</p>
+                <a routerLinkActive="active" routerLink="pesquisar-produtos" class="nav-link" (click)="escondeMenu()">
+                  <i class="fas fa-search"></i>
+                  <p>Pesquisar Produtos</p>
+                </a>
+              </li>
+              <li class="nav-item has-treeview">
+                <a routerLinkActive="active" routerLink="fornecedores" class="nav-link" (click)="escondeMenu()">
+                  <i class="fas fa-dolly"></i>
+                  <p>Fornecedores</p>
                 </a>
               </li>
               <li class="nav-item has-treeview">
@@ -38,15 +46,9 @@
                 </a>
               </li>
               <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="pesquisar-produtos" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-search"></i>
-                  <p>Pesquisar Produtos</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="concluir-pedido" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-cart-arrow-down"></i>
-                  <p>Concluir Pedido</p>
+                <a routerLinkActive="active" routerLink="lancamentos" class="nav-link" (click)="escondeMenu()">
+                  <i class="far fa-star"></i>
+                  <p>Lançamentos</p>
                 </a>
               </li>
               <li class="nav-item has-treeview">
@@ -55,18 +57,18 @@
                   <p>Pedidos Realizados</p>
                 </a>
               </li>
+              <li class="nav-item has-treeview">
+                <a routerLinkActive="active" routerLink="concluir-pedido" class="nav-link" (click)="escondeMenu()">
+                  <i class="fas fa-cart-arrow-down"></i>
+                  <p>Concluir Pedido</p>
+                </a>
+              </li>
               <!-- <li class="nav-item has-treeview">
                 <a routerLinkActive="active" routerLink="relatorio-financeiro" class="nav-link" (click)="escondeMenu()">
                   <i class="fas fa-file-invoice-dollar"></i>
                   <p>Relatório Financeiro</p>
                 </a>
               </li> -->
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="fornecedores" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-dolly"></i>
-                  <p>Fornecedores</p>
-                </a>
-              </li>
               <!-- <li class="nav-item has-treeview">
                 <a routerLinkActive="active" routerLink="devolucoes" class="nav-link" (click)="escondeMenu()">
                   <i class="fas fa-undo-alt"></i>

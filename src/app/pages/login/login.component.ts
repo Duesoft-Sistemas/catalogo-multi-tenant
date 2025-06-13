@@ -1,25 +1,25 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AppComponent } from 'src/app/app.component';
-import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IDataStorage } from 'src/app/shared/interface/IDataStorage';
 import { GlobalService } from 'src/app/shared/services/global.service';
-import { TenantService } from 'src/app/shared/tenant/tenant.service';
 import { UsuarioLogin } from '../login/login.model';
 import { PrimeiroAcessoComponent } from '../primeiro-acesso/primeiro-acesso.component';
 import { RecuperarSenhaComponent } from '../recuperar-senha/recuperar-senha.component';
 import { CadastrarSeComponent } from '../sem-autenticacao/cadastrar-se/cadastrar-se.component';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
+import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css','./login.skins.less'],
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   listEmpresas = [];
@@ -33,17 +33,18 @@ export class LoginComponent implements OnInit {
   modeloRecuperarSenha: UsuarioLogin = new UsuarioLogin();
   cnpjRecuperarSenhaValido = false;
   caminhoLogo: string;
-  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
+  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos;
   nomeCatalogo: string;
-
   constructor(
+    private serviceTenant: TenantService,
     private authStorageService: AuthStorageService,
     private service: GlobalService,
-    private serviceTenant: TenantService,
     private router: Router,
     private appComponent: AppComponent,
     public dialog: MatDialog
   ) {
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
+
     this.autenticado = appComponent.autenticado;
     if (localStorage.getItem('tokenCatalogo')) {
       this.router.navigate(['inicio']);
@@ -118,6 +119,7 @@ export class LoginComponent implements OnInit {
             dataStorage.titlePage = 'Início';
             dataStorage.carrinho = [];
             dataStorage.planoFundo = data.caminhosPlanoFundo;
+            dataStorage.navigationList = [];
             if(dataStorage.planoFundo.caminhoPlanoFundoCatalogo == '')
             {
               dataStorage.planoFundo.caminhoPlanoFundoCatalogo = null;

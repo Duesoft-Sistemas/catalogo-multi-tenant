@@ -3,10 +3,13 @@
   <div class="card">
     <div class="card-header">
       <div class="login-logo">
-        <img class="logo" [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoLogin+""' alt="Logo">
-        <br>
-        <b>Catálogo {{this.seletorPeculiaridadesCatalogos.nomeCatalogo}}</b>
-      </div>
+        <div class="card-logo">
+          <img class="logo" [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoLogin+""' alt="Logo">
+        </div>
+        <b>
+          <p *ngIf="!this.seletorPeculiaridadesCatalogos.clientes.cliente13">Catálogo </p>{{this.seletorPeculiaridadesCatalogos.nomeCatalogo}}
+        </b>
+    </div>
     </div>
     <div class="card-body login-card-body">
       <p class="login-box-msg">Faça login para iniciar sua sessão</p>
@@ -17,7 +20,7 @@
               <label for="">CPF/CNPJ</label>
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="CPF/CNPJ" formControlName="user"
-                  mask="000.000.000-00 || 00.000.000/0000-00"  >
+                  mask="CPF_CNPJ" >
                 <div class="input-group-append">
                   <div class="input-group-text">
                     <i class="fas fa-id-card-alt"></i>
@@ -49,16 +52,17 @@
           </div>
           <div class="row mt-2">
             <div class="p-0 col-md-12 text-right">
-              <button (click)="validarCnpj()" type="button" class="btn btn-primary btn-pattern">Buscar
+              <button (click)="validarCnpj()" type="button" class="btn btn-primary btn-pattern" [ngClass]="this.seletorPeculiaridadesCatalogos.clientes.cliente11 || this.seletorPeculiaridadesCatalogos.clientes.cliente15 ? 'black' : 'white'">Buscar
                 &nbsp; <i class="fas fa-search"></i>
               </button>
               <button (click)="efetuarLogin()" type="button" class="btn btn-primary btn-pattern ml-2"
+                [ngClass]="this.seletorPeculiaridadesCatalogos.clientes.cliente11 || this.seletorPeculiaridadesCatalogos.clientes.cliente15 ? 'black' : 'white'"
                 *ngIf="cnpjValido">Entrar
                 &nbsp;<i class="fas fa-sign-in-alt"></i></button>
             </div>
           </div>
           <div class="d-flex justify-content-between">
-            <a *ngIf="this.seletorPeculiaridadesCatalogos.cadastrarCliente" class="nav-link cadastrar-se cursor-hand" (click)="openModalCadastrarse()">Cadastrar-se</a>
+            <a class="nav-link cadastrar-se cursor-hand" (click)="openModalCadastrarse()">Cadastrar-se</a>
             <a class="nav-link recuperar-senha cursor-hand" (click)="validarCnpj(true)">Recuperar senha</a>
           </div>
         </div>

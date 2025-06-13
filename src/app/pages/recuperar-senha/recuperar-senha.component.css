@@ -3,6 +3,12 @@
     max-width: 95vw !important;
   }
 }
+
 .character{
-  color: white;
+  color: white !important;
+}
+
+.container-senha {
+  padding: 24px !important;
+  max-width: 350px !important;
 }

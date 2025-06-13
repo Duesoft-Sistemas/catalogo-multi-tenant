@@ -14,7 +14,7 @@
               <div class="box">
                 <input matInput class="form-control input justify-content-center" placeholder="Código / Fábrica / Original / Similar / Descrição" [(ngModel)]="descricao" type="search" id="inputSearchDescricao">
                 <button matSuffix mat-icon-button aria-label="Clear" class="botaoNoInput" (click)="buscaProdutosPorDescricao()">
-                  <mat-icon class="text-white">search</mat-icon>
+                  <mat-icon [ngClass]="this.seletorPeculiaridadesCatalogos.clientes.cliente11 || this.seletorPeculiaridadesCatalogos.clientes.cliente15 ? 'black' : 'text-white'">search</mat-icon>
                 </button>
               </div>
           </div>
@@ -31,7 +31,7 @@
   </div>
   <div body *ngIf="listProdutos.length > 0">
     <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="formEsteira.get('totalPages').value"
-    (pageChanged)="goTo($event)"></app-lista-produtos>
+      (pageChanged)="goTo($event)"></app-lista-produtos>
   </div>
 </app-body-page>
 <div class="btn-absolute" *ngIf="listProdutos.length > 0">
@@ -41,6 +41,6 @@
   </button>
   <button mat-fab color="primary" class="btn btn-pattern ml-2" (click)="openModalPesquisaAvancada()" matTooltip="Pesquisa Avançada"
     aria-label="Filtro Avançado">
-    <i class="fa fa-search-plus" aria-hidden="true"></i>
+      <i class="fa fa-search-plus" aria-hidden="true"></i>
   </button>
 </div>

@@ -10,33 +10,62 @@
           <label for="initialDate"> Data Inicial </label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+              <span class="input-group-text"
+                ><i class="far fa-calendar-alt"></i
+              ></span>
             </div>
-            <input type="text" placeholder="" class="form-control" bsDatepicker maxlength="10"
-              formControlName="initialDate">
+            <input
+              type="text"
+              placeholder=""
+              class="form-control"
+              bsDatepicker
+              maxlength="10"
+              formControlName="initialDate"
+            />
           </div>
         </div>
         <div class="col-12">
           <label for="finalDate"> Data Final </label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+              <span class="input-group-text"
+                ><i class="far fa-calendar-alt"></i
+              ></span>
             </div>
-            <input type="text" placeholder="" class="form-control" bsDatepicker maxlength="10"
-              formControlName="finalDate">
+            <input
+              type="text"
+              placeholder=""
+              class="form-control"
+              bsDatepicker
+              maxlength="10"
+              formControlName="finalDate"
+            />
           </div>
         </div>
         <div class="col-12">
           <label for="sel"> Status </label>
-          <ng-select [items]="listStatus" [loading]="loadListStatus" [multiple]="true"
-          bindLabel="description" bindValue="statusId" formControlName="status" placeholder="Selecione...">
-        </ng-select>
+          <ng-select
+            [items]="listStatus"
+            [loading]="loadListStatus"
+            [multiple]="true"
+            bindLabel="description"
+            bindValue="statusId"
+            formControlName="status"
+            placeholder="Selecione..."
+          >
+          </ng-select>
         </div>
       </div>
     </form>
   </mat-card-content>
   <mat-card-actions class="d-flex justify-content-between">
-    <button mat-raised-button class="btn btn-pattern" (click)="buscar()">Buscar</button>
+    <button
+      mat-mdc-raised-button
+      class="btn btn-primary btn-pattern"
+      (click)="buscar()"
+    >
+      Buscar
+    </button>
     <button mat-raised-button (click)="limpar()">Limpar</button>
     <button mat-raised-button mat-dialog-close>Fechar</button>
   </mat-card-actions>

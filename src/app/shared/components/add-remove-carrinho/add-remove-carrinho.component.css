@@ -3,3 +3,9 @@
   text-align: center;
   font-weight: bold;
 }
+
+.espacamentoSelect{
+  bottom: 0.2rem;
+  position: relative;
+  z-index: 100;
+}

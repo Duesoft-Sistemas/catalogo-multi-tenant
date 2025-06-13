@@ -1,11 +1,4 @@
-:root() {
-  --color-primary: #00d986 ;
-  --color-primary-light: #08c04f;
-  --color-primary-light-shadow: #1a442b3a;
-  --color-link-active: rgb(194, 81, 81);
-  --font-color: 343a40;
-  --font-color-light: #fff;
-}
+
 
 body {
   height: 100vh !important;

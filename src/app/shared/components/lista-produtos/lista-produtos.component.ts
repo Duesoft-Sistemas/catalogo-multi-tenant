@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { SeletorPeculiaridadesCatalogos } from '../../classes/seletor-peculiaridades-catalogos';
 import { Toaster } from '../../functions/toaster';
 import { IProdutos } from '../../interface/IProdutos';
 import { GlobalService } from '../../services/global.service';
-import { TenantService } from '../../tenant/tenant.service';
 import { AdicionarCarrinhoComponent } from '../adicionar-carrinho/adicionar-carrinho.component';
 import { DetalhesProdutosComponent } from '../detalhes-produtos/detalhes-produtos.component';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -25,17 +24,19 @@ export class ListaProdutosComponent implements OnInit {
   @Input() listProdutos: IProdutos[];
   @Input() totalPaginas: number;
   @Input() detalhes?: boolean;
-  @Output() pageChanged = new EventEmitter();
-  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
 
-  constructor(public dialog: MatDialog,
-    private service: GlobalService,
-    private serviceTenant: TenantService) {
+  @Output() pageChanged = new EventEmitter();
+
+  constructor(public dialog: MatDialog, private service: GlobalService, public sanitizer: DomSanitizer) {
     this.maxSizePaginator = window.innerWidth > 575 ? 5 : 1;
   }
 
   ngOnInit() {
-    this.seletorPeculiaridadesCatalogos.getTenant()
+    this.listProdutos.forEach((produto)=>{
+      if(produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
+         produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(produto.image)
+      }
+    })
   }
 
   getPrice(price: any): number {

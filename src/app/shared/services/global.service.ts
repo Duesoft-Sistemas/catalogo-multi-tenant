@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UsuarioLogin } from 'src/app/pages/login/login.model';
 import { Pessoas } from 'src/app/pages/pessoas/pessoas';
@@ -12,6 +11,7 @@ import { FiltroRelatorioFinanceiro } from '../classes/filtro-relatorio-financeir
 import { RecuperarSenha } from '../classes/recuperar-senha';
 import { ICarrinho } from '../interface/ICarrinho';
 import { TenantService } from '../tenant/tenant.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +19,11 @@ import { TenantService } from '../tenant/tenant.service';
 export class GlobalService {
   baseUrl: string;
 
-  constructor(protected http: HttpClient,
-    private serviceTenant : TenantService,
-    private router : Router) {
+  constructor(
+    protected http: HttpClient,
+    private serviceTenant: TenantService,
+    private router : Router
+  ) {
     this.baseUrl = `${environment.UrlBase}/${environment.SchemaDSCOP}`;
   }
 

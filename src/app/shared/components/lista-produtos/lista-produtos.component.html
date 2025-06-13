@@ -1,6 +1,6 @@
 <app-spinner [show]="spinner"></app-spinner>
 <div class="row d-flex justify-content-center" *ngIf="listProdutos.length > 0">
-  <div class="mb-3" [ngClass]="{'col-sm-6 col-lg-4 col-xl-3 col-gg-2': !detalhes, 'col-md-6': detalhes}"
+  <div class="mb-3" [ngClass]="{'col-sm-6 col-lg-4 col-xl-2 col-gg-2': !detalhes, 'col-md-6': detalhes}"
     *ngFor="let produto of listProdutos">
     <mat-card class="prods-card elevation-4 position-relative p-3"  style="margin: 0 auto;" (click)="getDetalhes(produto, 'D')">
       <div class="ribbon-wrapper ribbon-lg" *ngIf="produto.emPromocao" >
@@ -8,8 +8,8 @@
             Promoção
         </div>
       </div>
-      <img mat-card-image class="d-flex" style="margin: 0 auto;"
-        [src]="produto.image.includes('imagem_nao_encontrada.jpg') ? imgPadraoProduto : produto.image"
+      <img mat-card-md-image class="d-flex" style="margin: 0 auto;"
+        [src]="produto.image.includes('imagem_nao_encontrada.jpg') ? imgPadraoProduto : this.sanitizer.bypassSecurityTrustUrl(produto.image)"
         [alt]="produto.code">
       <mat-card-header>
         <mat-card-title>{{produto.code}}</mat-card-title>
@@ -20,25 +20,24 @@
         <p class="limitar-linhas2">
           <strong>Descrição: </strong> {{produto.description}}
         </p>
-        <p *ngIf="!this.seletorPeculiaridadesCatalogos.clientes.cliente6" class="limitar-linhas2">
-          <strong>Estoque: </strong>
-          {{ produto.stockStatus}} / {{getPrice(produto?.price) | currency}}
-        </p>
-        <p *ngIf="this.seletorPeculiaridadesCatalogos.clientes.cliente6" class="limitar-linhas2">
+        <p class="limitar-linhas2" *ngIf="getPrice(produto?.price2)<=0">
           <strong>Preço: </strong>
-           {{getPrice(produto?.price) | currency}}
+          {{getPrice(produto?.price) | currency}}
+        </p>
+        <p class="limitar-linhas2" *ngIf="getPrice(produto?.price2)>0">
+          <strong>Preço: </strong>
+          {{produto?.unity}} {{getPrice(produto?.price) | currency}} / {{produto?.unity2}} {{getPrice(produto?.price2) | currency}}
         </p>
       </mat-card-content>
       <mat-card-actions>
         <div class="row d-flex flex-wrap">
-          <div class="col-6 marcaPecaProdutoHolder">
+          <div class="col-3 marcaPecaProdutoHolder">
             <img
-              [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : produto.marcaPecaProduto">
+              [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : this.sanitizer.bypassSecurityTrustUrl(produto.marcaPecaProduto)">
           </div>
-          <div class="col-6">
-            <button class="btn float-right" (click)="getDetalhes(produto, 'C')"><i class="fas fa-cart-plus icon-btn"></i></button>
-            <button class="btn float-right" (click)="getDetalhes(produto, 'D')"><i
-                class="fas fa-exclamation-circle icon-btn"></i></button>
+          <div class="col-6 buttonPadding">
+            <button class="btn" (click)="getDetalhes(produto, 'C')"><i class="fas fa-cart-plus icon-btn"></i></button>
+            <button class="btn" (click)="getDetalhes(produto, 'D')"><i class="fas fa-exclamation-circle icon-btn"></i></button>
           </div>
         </div>
       </mat-card-actions>

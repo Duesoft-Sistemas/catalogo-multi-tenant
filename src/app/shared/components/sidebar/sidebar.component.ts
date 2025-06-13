@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlterarSenhaComponent } from 'src/app/pages/alterar-senha/alterar-senha.component';
-import { SeletorPeculiaridadesCatalogos } from '../../classes/seletor-peculiaridades-catalogos';
 import { AuthStorageService } from '../../guards/auth-storage.service';
 import { TenantService } from '../../tenant/tenant.service';
+import { SeletorPeculiaridadesCatalogos } from '../../classes/seletor-peculiaridades-catalogos';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,17 +11,17 @@ import { TenantService } from '../../tenant/tenant.service';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
-  caminhoLogo: string;
+  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos;
 
   constructor(
     private authStorageService: AuthStorageService,
-    public dialog: MatDialog,
     private serviceTenant : TenantService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
     this.habilitaIcone();
   }
 

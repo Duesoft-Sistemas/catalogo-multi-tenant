@@ -9,6 +9,11 @@
   max-height: 215px;
 }
 
+.buttonPadding{
+  display: flex;
+  /* padding-left: 2rem !important; */
+}
+
 .prods-card {
   max-width: 400px;
 }
@@ -18,9 +23,9 @@
 }
 
 .marcaPecaProdutoHolder > img {
-  /* width: 160px !important; */
-  padding-right: 1rem;
+  /* padding-right: 1rem; */
   max-height: 40px !important;
+  max-width: 40px !important;
 }
 
 .limitar-linhas1 {
@@ -34,6 +39,7 @@
   min-height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 14px;
 }
 
 .icon-btn {
@@ -52,19 +58,41 @@
 }
 
 @media (min-width: 1800px) {
-  .col-gg-2 {
+  .col-xxl-2 {
+    -ms-flex: 0 0 16.666667%;
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+  .col-xl-3{
     -ms-flex: 0 0 16.666667%;
     flex: 0 0 16.666667%;
     max-width: 16.666667%;
   }
 }
 
-@media (max-width: 575px) {
-  /* ::ng-deep .pagination-first, ::ng-deep .pagination-last{
-    display: none !important;
-  } */
+@media (max-width: 1200px) {
+  .buttonPadding{
+    display: flex;
+    padding-left: 40% !important;
+  }
+}
 
-  /* ::ng-deep .pagination-page{
-    display: none;
-  } */
+@media (max-width: 992px) {
+  .buttonPadding{
+    display: flex;
+    padding-left: 60% !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .buttonPadding{
+    display: flex;
+    padding-left: 70% !important;
+  }
+}
+@media (max-width: 320px) {
+  .buttonPadding{
+    display: flex;
+    padding-left: 20% !important;
+  }
 }

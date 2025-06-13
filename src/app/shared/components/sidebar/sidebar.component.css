@@ -4,13 +4,17 @@ i {
   text-align: center;
 }
 
-p {
-  padding-left: 10px;
+.tamanho
+{
+  min-height: 30px;
+  max-height: 33px;
+  max-width: 53px;
 }
 
-.logoCanguru{
+.alinhaLogo{
   padding-left: 1.2rem;
 }
-.logoAutocar{
-  max-width: 55px;
+
+p {
+  padding-left: 10px;
 }

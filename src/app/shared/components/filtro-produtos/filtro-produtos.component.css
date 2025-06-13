@@ -1,4 +1,5 @@
 .container-filtros {
+  padding: 24px;
   max-width: 350px !important;
 }
 
@@ -17,8 +18,15 @@
   border-radius: 10px;
   box-shadow: 3px 2px 5px #696969;
 }
+
 .espacamento {
+  font-size: 14px !important;
   margin-bottom: 1rem !important;
+  color: #212529;
+}
+
+.espacamentoBtn{
+  margin-top: 1rem !important;
 }
 
 .inputShadow {

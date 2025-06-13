@@ -2,6 +2,8 @@ import { Component, DoCheck } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthStorageService } from '../../guards/auth-storage.service';
 import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component';
+import { SeletorPeculiaridadesCatalogos } from '../../classes/seletor-peculiaridades-catalogos';
+import { TenantService } from '../../tenant/tenant.service';
 
 @Component({
   selector: 'app-header',
@@ -12,8 +14,23 @@ export class HeaderComponent implements DoCheck {
   userNameCatalogo: string | null = null;
   autenticado = false;
   urlImg = 'assets/images/users-icon.png';
+  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos;
 
-  constructor(private storage: AuthStorageService, public dialog: MatDialog) {}
+  constructor(
+    private storage: AuthStorageService, 
+    private serviceTenant: TenantService,
+    public dialog: MatDialog
+  ) {
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
+  }
+
+  ngOnInit(): void {
+    this.habilitaIcone()
+  }
+
+  private habilitaIcone() {
+    this.seletorPeculiaridadesCatalogos.getTenant();  
+  }
 
   ngDoCheck() {
     if (localStorage.getItem('tokenCatalogo')) {

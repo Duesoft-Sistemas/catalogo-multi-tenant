@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
 import { ProdutoCarrinho } from 'src/app/shared/classes/produto-carrinho';
+import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
 import { ModalConfirmComponent } from 'src/app/shared/components/modal-confirm/modal-confirm.component';
 import { TableActions } from 'src/app/shared/enums/table-actions.enum';
 import { Formularios } from 'src/app/shared/functions/formularios';
@@ -14,6 +15,7 @@ import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { ICarrinho } from 'src/app/shared/interface/ICarrinho';
 import { ITableAction } from 'src/app/shared/interface/ITableAction';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-concluir-pedido',
@@ -21,9 +23,12 @@ import { GlobalService } from 'src/app/shared/services/global.service';
   styleUrls: ['./concluir-pedido.component.css'],
 })
 export class ConcluirPedidoComponent implements OnInit {
+  schema = '';
   spinner = false;
   imgPadraoProduto = '../../../assets/images/imagem_nao_encontrada.jpg';
   form: FormGroup;
+
+  seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos;
 
   columns = [
     {
@@ -57,7 +62,11 @@ export class ConcluirPedidoComponent implements OnInit {
       columnDef: 'valor',
       header: 'Valor',
       cell: (element: ProdutoCarrinho) =>
-        `${element.produto.price * element.quantidade}`,
+        `${
+          element.produto.unidadeEscolhida === element.produto.unity
+            ? Number(element.produto.price) * element.quantidade
+            : Number(element.produto.price2) * element.quantidade
+        }`,
       currency: true,
     },
     {
@@ -69,22 +78,26 @@ export class ConcluirPedidoComponent implements OnInit {
 
   dataSource: MatTableDataSource<ProdutoCarrinho> =
     new MatTableDataSource<ProdutoCarrinho>();
-
   action = new EventEmitter<ITableAction>();
   displayedColumns?: string[];
   tableActions = TableActions;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
+    private serviceTenant: TenantService,
     private service: GlobalService,
     private storage: AuthStorageService,
     public dialog: MatDialog
   ) {
+    this.schema = this.serviceTenant.getSchemaTenant();
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(
+      this.serviceTenant
+    );
     this.form = Formularios.geraFormulario(new ProdutoCarrinho());
   }
 
   ngOnInit() {
+    this.seletorPeculiaridadesCatalogos.getTenant();
     this.storage.setTitlePage('Concluir Pedido');
     this.atualizaTabela();
   }
@@ -96,6 +109,15 @@ export class ConcluirPedidoComponent implements OnInit {
 
   private atualizaTabela(): void {
     this.dataSource = new MatTableDataSource(this.storage.getCarrinho());
+    this.dataSource.filteredData.forEach((produto) => {
+      produto.produto.price = produto.produto.price
+        .toString()
+        .replace(',', '.');
+      if (produto.produto.price2 != null && produto.produto.price2 != '')
+        produto.produto.price2 = produto.produto.price2
+          .toString()
+          .replace(',', '.');
+    });
     this.displayedColumns = this.columns?.map((c) => c.columnDef);
     Table.atualizaTable(this.dataSource, this.paginator);
   }
@@ -105,12 +127,20 @@ export class ConcluirPedidoComponent implements OnInit {
     this.atualizaTabela();
   }
 
+  getPrice(produto: any, quantidade: number): number {
+    if (produto.unidadeEscolhida === produto.unity)
+      return Number(produto.price) * quantidade;
+    else return Number(produto.price2) * quantidade;
+  }
+
   getTotal(): any {
     let total = 0;
-    this.dataSource.data.map(
-      (x) =>
-        (total += x.quantidade * +x.produto.price.toString().replace(',', '.'))
-    );
+    this.dataSource.data.map((x) => {
+      if (x.produto.unidadeEscolhida === x.produto.unity2) {
+        total += x.quantidade * +x.produto.price2.toString().replace(',', '.');
+      } else
+        total += x.quantidade * +x.produto.price.toString().replace(',', '.');
+    });
     return total.toFixed(2);
   }
 

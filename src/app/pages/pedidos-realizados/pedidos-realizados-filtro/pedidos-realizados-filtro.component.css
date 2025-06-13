@@ -1,4 +1,5 @@
 .container-filtros {
+  padding: 24px;
   max-width: 350px !important;
 }
 
@@ -6,8 +7,4 @@
   ::ng-deep .cdk-overlay-pane {
     max-width: 95vw !important;
   }
-}
-
-.bs-datepicker-head {
-  background-color: #606260 !important;
 }

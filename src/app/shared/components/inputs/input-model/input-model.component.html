@@ -1,6 +1,6 @@
 <form [formGroup]="form" *ngIf="form">
   <div [class]="formularios.getRequired(form, controlName)">
-    <label [for]="'txt' + label"> {{ label }} </label>
+    <label class ="color-label" [for]="'txt' + label"> {{ label }} </label>
     <input
       [type]="type ? type : 'text'"
       [name]="'txt' + label"

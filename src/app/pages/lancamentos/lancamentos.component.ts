@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {  MatDialog } from '@angular/material/dialog';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { take } from 'rxjs';
 import { FiltroPesquisarProdutos } from 'src/app/shared/classes/filtro-pesquisar-produtos';

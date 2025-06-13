@@ -1,3 +1,13 @@
 .content-wrapper > .content {
   padding: 0.1rem 0 0.5rem !important;
 }
+
+.button-goback {
+  align-items: center;
+  display: flex;
+  max-height: 25px;
+}
+
+::ng-deep button.Fase {
+  color: white !important;
+}

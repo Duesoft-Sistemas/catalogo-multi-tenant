@@ -45,7 +45,7 @@ export class PromocoesComponent implements OnInit {
           if (data) {
             this.listProdutos = data.produtos;
             this.totalPaginas = data.totalPaginas;
-            if (data.produtos.lengh <= 0) {
+            if (data.produtos.length <= 0) {
               Toaster.Warning('Nenhum produto encontrado.');
             }
           } else {

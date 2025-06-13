@@ -1,4 +1,4 @@
-import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,14 +11,15 @@ import { AuthStorageService } from './shared/guards/auth-storage.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './shared/guards/auth-interceptor.service';
 import { RouterModule } from '@angular/router';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AlterarSenhaComponent } from './pages/alterar-senha/alterar-senha.component';
 import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
 import { CadastrarSeComponent } from './pages/sem-autenticacao/cadastrar-se/cadastrar-se.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ngx-currency';
 import { PrimeiroAcessoComponent } from './pages/primeiro-acesso/primeiro-acesso.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "left",
@@ -56,6 +57,12 @@ const maskConfig: Partial<IConfig> = {
     MatTooltipModule,
     MatDialogModule,
     SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     AuthGuardService,

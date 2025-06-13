@@ -1,16 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { PrimeiroAcesso } from 'src/app/shared/classes/primeiro-acesso';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Router } from '@angular/router';
 import { Toaster } from 'src/app/shared/functions/toaster';
-import { IDataStorage } from 'src/app/shared/interface/IDataStorage';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { environment } from 'src/environments/environment';
 import { UsuarioLogin } from '../login/login.model';
-import { AppComponent } from 'src/app/app.component';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
@@ -28,8 +26,8 @@ export class PrimeiroAcessoComponent implements OnInit {
   constructor(
     private authStorageService: AuthStorageService,
     private router: Router,
-    private serviceTenant : TenantService,
     private service: GlobalService,
+    private serviceTenant : TenantService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<PrimeiroAcessoComponent>
   ) {

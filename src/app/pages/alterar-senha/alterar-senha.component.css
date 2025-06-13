@@ -7,3 +7,8 @@
 .character{
   color: white;
 }
+
+.container-senha {
+  padding: 24px;
+  max-width: 350px !important;
+}

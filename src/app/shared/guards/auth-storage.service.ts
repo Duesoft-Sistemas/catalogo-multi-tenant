@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IDataStorage } from '../interface/IDataStorage';
 import { ProdutoCarrinho } from '../classes/produto-carrinho';
-import { TenantService } from '../tenant/tenant.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +13,7 @@ export class AuthStorageService {
   urlBase = environment.UrlBase;
   idStorage = environment.idLocalStorage;
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) {}
 
   refreshToken(): Observable<any> {
     const loginDto = { Token: this.getRefreshToken() };
@@ -115,7 +112,11 @@ export class AuthStorageService {
 
   addProdutoCarrinho(item: ProdutoCarrinho): void {
     let data = this.getDataStorage();
-    let index = data.carrinho.findIndex(x => x.produto.code === item.produto.code);
+    let index //= data.carrinho.findIndex(x => {x.produto.code === item.produto.code});
+    data.carrinho.forEach((itemCarrinho, indexCarrinho)=>{
+      if(itemCarrinho.produto.code === item.produto.code && itemCarrinho.produto.unidadeEscolhida === item.produto.unidadeEscolhida)
+        index = indexCarrinho;
+    });
     if (index >= 0) data.carrinho[index].quantidade += item.quantidade;
     else data.carrinho.push(item);
     this.setDataStorage(data);
@@ -123,7 +124,11 @@ export class AuthStorageService {
 
   removeProdutoCarrinho(item: ProdutoCarrinho): ProdutoCarrinho[] {
     let data = this.getDataStorage();
-    let index = data.carrinho.findIndex(x => x.produto.code === item.produto.code);
+    let index //= data.carrinho.findIndex(x => x.produto.code === item.produto.code);
+    data.carrinho.forEach((itemCarrinho, indexCarrinho)=>{
+      if(itemCarrinho.produto.code === item.produto.code && itemCarrinho.produto.unidadeEscolhida === item.produto.unidadeEscolhida)
+        index = indexCarrinho;
+    });
     data.carrinho.splice(index, 1);
     this.setDataStorage(data);
     return data.carrinho;
@@ -131,7 +136,11 @@ export class AuthStorageService {
 
   atualizaItemCarrinho(item: ProdutoCarrinho): void {
     let data = this.getDataStorage();
-    let index = data.carrinho.findIndex(x => x.produto.code === item.produto.code);
+    let index //= data.carrinho.findIndex(x => x.produto.code === item.produto.code);
+    data.carrinho.forEach((itemCarrinho, indexCarrinho)=>{
+      if(itemCarrinho.produto.code === item.produto.code && itemCarrinho.produto.unidadeEscolhida === item.produto.unidadeEscolhida)
+        index = indexCarrinho;
+    });
     if (index >= 0) data.carrinho[index] = item;
     this.setDataStorage(data);
   }

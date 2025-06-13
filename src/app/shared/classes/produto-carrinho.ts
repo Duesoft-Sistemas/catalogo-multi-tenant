@@ -30,11 +30,11 @@ export class ProdutoCarrinho implements IFormularios {
       description: this.produto.description,
       qtd: 0.000000,
       appQtd: this.quantidade,
-      unity: this.produto.unity,
+      unity: this.produto.unidadeEscolhida,
       price: 0.00,
-      appPrice: +this.produto.price.toString().replace(',', '.'),
+      appPrice: this.produto.unidadeEscolhida === this.produto.unity2 ? +Number(this.produto.price2.toString().replace(',', '.')) : +this.produto.price.toString().replace(',', '.'),
       totalPrice: 0.00,
-      appTotalPrice: (this.quantidade * +this.produto.price.toString().replace(',', '.')),
+      appTotalPrice: this.produto.unidadeEscolhida === this.produto.unity2 ? (this.quantidade* +this.produto.price2.toString().replace(',', '.')) : (this.quantidade * +this.produto.price.toString().replace(',', '.')),
     };
   }
 }

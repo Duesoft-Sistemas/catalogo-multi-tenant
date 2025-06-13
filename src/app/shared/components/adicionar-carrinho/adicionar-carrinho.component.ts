@@ -7,6 +7,7 @@ import { Toaster } from '../../functions/toaster';
 import { AuthStorageService } from '../../guards/auth-storage.service';
 import { IProdutos } from '../../interface/IProdutos';
 import { GlobalService } from '../../services/global.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-adicionar-carrinho',
@@ -15,7 +16,6 @@ import { GlobalService } from '../../services/global.service';
 })
 export class AdicionarCarrinhoComponent implements OnInit {
   imgPadraoProduto = '../../../assets/images/imagem_nao_encontrada.jpg';
-
   produto!: IProdutos;
   formulario: FormGroup;
 
@@ -23,30 +23,25 @@ export class AdicionarCarrinhoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private service: GlobalService,
     private storage: AuthStorageService,
-    public dialogRef: MatDialogRef<AdicionarCarrinhoComponent>
+    public dialogRef: MatDialogRef<AdicionarCarrinhoComponent>,
+    private sanitizer: DomSanitizer
   ) {
     this.produto = data.detalhes;
+    if(this.produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
+      this.produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(this.produto.image)
+    }
     this.formulario = Formularios.geraFormulario(new ProdutoCarrinho());
     this.formulario.get('produto').setValue(this.produto);
     this.formulario.get('quantidade').setValue(this.produto.unitiesOnPackage);
+
   }
 
-  ngOnInit() {}
-
-  // getDetalhes(): void {
-  //   this.service
-  //     .getDetalhesProduto(this.data.produto.id)
-  //     .pipe(take(1))
-  //     .subscribe(
-  //       (data) => {
-  //         if (data) this.produto = data;
-  //         else Toaster.Warning('Produto não encontrado.');
-  //       },
-  //       () => { Toaster.Error('Ocorreu um erro ao pesquisar os detalhes do produto selecionado.'); }
-  //     );
-  // }
+  ngOnInit() {
+    this.produto.unidadeEscolhida = this.produto.unity;
+  }
 
   addCarrinho(): void {
+    this.produto
     if (this.formulario.valid) {
       let quantidade = this.formulario.get('quantidade').value;
       let carrinho = this.storage.getCarrinho();

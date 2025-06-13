@@ -10,13 +10,13 @@
     <form [formGroup]="formulario" *ngIf="formulario">
       <div class="row"  style="margin-top: 12px;">
         <div class="col-12">
-          <label for="selCode" class="espacamento"> Código / Fábrica / Original / Similar / Descrição </label>
+          <label for="selCode" class="espacamento "> Código / Fábrica / Original / Similar / Descrição </label>
           <input type="text" name="selCode" class="form-control inputShadow" formControlName="code" placeholder="..." id="inputFiltrar">
         </div>
       </div>
     </form>
   </mat-card-content>
   <mat-card-actions class="d-flex justify-content-center mt-2 mb-0">
-    <button mat-raised-button class="btn btn-pattern buttonMax mr-2 character" (click)="buscar()">Buscar</button>
+    <button class="btn btn-pattern buttonMax mr-2 espacamentoBtnx'" (click)="buscar()">Buscar</button>
   </mat-card-actions>
 </div>

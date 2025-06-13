@@ -5,7 +5,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { take } from 'rxjs';
 import { PesquisaEsteiraClass } from 'src/app/shared/classes/pesquisa-esteira-class';
-import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
 import { FiltroProdutosComponent } from 'src/app/shared/components/filtro-produtos/filtro-produtos.component';
 import { KeyboardKey } from 'src/app/shared/enums/keyboard-key.enum';
 import { Formularios } from 'src/app/shared/functions/formularios';
@@ -13,9 +12,10 @@ import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IProdutos } from 'src/app/shared/interface/IProdutos';
 import { GlobalService } from 'src/app/shared/services/global.service';
-import { Tenant, TenantService } from 'src/app/shared/tenant/tenant.service';
 import { FiltroPesquisaAvancada } from './modal-pesquisa-avancada/filtro-pesquisa-avancada';
 import { ModalPesquisaAvancadaComponent } from './modal-pesquisa-avancada/modal-pesquisa-avancada.component';
+import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-iniciar',
@@ -32,6 +32,7 @@ export class IniciarComponent implements OnInit {
       ) {
         if (event.target.id === 'inputSearchDescricao')
           this.buscaProdutosPorDescricao();
+        // else this.pesquisarProdutos();
       }
     }
   }
@@ -50,18 +51,16 @@ export class IniciarComponent implements OnInit {
   descricao: string;
   bgStyle: any;
   listProdutos: IProdutos[] = [];
-  caminhoLogo: string;
-  seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
-  pesquisaAvancada = true;
+  seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos;
 
   constructor(
     private service: GlobalService,
     private serviceTenant: TenantService,
     private storage: AuthStorageService,
     private router: Router,
-    public dialog: MatDialog,
-    private elementRef: ElementRef
+    public dialog: MatDialog
   ) {
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
     let data = this.storage.getDataStorage();
     this.bgStyle = data.planoFundo;
     this.router.events.subscribe((e: any) => {
@@ -76,6 +75,10 @@ export class IniciarComponent implements OnInit {
     this.innerWidth = window.innerWidth;
     this.storage.setTitlePage('Início');
     this.formEsteira = Formularios.geraFormulario(new PesquisaEsteiraClass());
+  }
+
+  private habilitaPlanoFundo() {
+    this.seletorPeculiaridadesCatalogos.getTenant();
   }
 
   limpar(): void {
@@ -150,9 +153,6 @@ export class IniciarComponent implements OnInit {
         this.buscaProdutosPorDescricao();
       }
     });
-  }
-  private habilitaPlanoFundo() {
-    this.seletorPeculiaridadesCatalogos.getTenant();
   }
 
   goTo(event: PageChangedEvent): void {

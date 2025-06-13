@@ -1,3 +1,5 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export interface IProdutos {
   id: number;
   code: string;
@@ -8,12 +10,15 @@ export interface IProdutos {
   marcaPecaProduto: string;
   completeDescription: string;
   linha: string;
-  price: number;
+  price: string;
+  price2: string;
   observations: string;
   unity: string;
+  unity2: string;
   stock: number;
   stockStatus: string;
   unitiesOnPackage: number;
+  unitiesOnPackage2: number;
   image: string;
   conversions: string;
   similar: IProdutos[];
@@ -21,6 +26,8 @@ export interface IProdutos {
   applications: Applications[];
   originalCodes: OriginalCodes[];
   emPromocao: boolean;
+  imageSafe: SafeUrl;
+  unidadeEscolhida:string;
 }
 
 export interface OriginalCodes{
@@ -33,4 +40,5 @@ export interface Applications{
 
 export interface Images{
   caminho: string;
+  caminhoSafe: SafeUrl;
 }

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "catalogo-app": {
+    "prudentina-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -39,7 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/catalogo-app",
+            "outputPath": "dist/prudentina-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -47,7 +47,17 @@
             "inlineStyleLanguage": "css",
             "assets": [
               "src/duesoft.ico",
-              "src/assets"
+              "src/hvs.ico",
+              "src/farms_rugs.ico",
+              "src/farms_rugs2.ico",
+              "src/PrudentinaIco.ico",
+              "src/farms.ico",
+              "src/farms2.ico",
+              "src/clx.ico",
+              "src/aws_metal.ico",
+              "src/fase.ico",
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/custom-theme.scss",
@@ -70,7 +80,9 @@
               "node_modules/admin-lte/plugins/jquery-mousewheel/jquery.mousewheel.js",
               "node_modules/admin-lte/plugins/raphael/raphael.js",
               "node_modules/admin-lte/plugins/jquery-mapael/jquery.mapael.js"
-            ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -109,10 +121,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "catalogo-app:build:production"
+              "browserTarget": "prudentina-app:build:production"
             },
             "development": {
-              "browserTarget": "catalogo-app:build:development"
+              "browserTarget": "prudentina-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -120,7 +132,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "catalogo-app:build"
+            "browserTarget": "prudentina-app:build"
           }
         },
         "test": {
@@ -133,7 +145,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

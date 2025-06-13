@@ -1,19 +1,18 @@
-import { AfterViewInit, Component, HostBinding, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { take } from 'rxjs';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
-import { Tenant, TenantService } from 'src/app/shared/tenant/tenant.service';
 import { FiltroPesquisaAvancada } from './filtro-pesquisa-avancada';
 import { ModalPesquisaAvancada } from './modal-pesquisa-avancada';
 
 @Component({
   selector: 'app-modal-pesquisa-avancada',
   templateUrl: './modal-pesquisa-avancada.component.html',
-  styleUrls: ['./modal-pesquisa-avancada.component.css','./modal-pesquisa-avancada.component.skins.less'],
+  styleUrls: ['./modal-pesquisa-avancada.component.css'],
 })
 export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
   spinner = true;
@@ -24,20 +23,13 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
   loadListaGrupos = false;
   listaSubgrupos: any[] = [];
   loadListaSubgrupos = false;
-  @HostBinding("class.mendes") public client1Theme: boolean;
-  @HostBinding("class.canguru") public client2Theme: boolean;
-  @HostBinding("class.autocar") public client3Theme: boolean;
-  @HostBinding("class.microtec") public client4Theme: boolean;
-  @HostBinding("class.mm") public client5Theme: boolean;
-  @HostBinding("class.prudenseg") public client6Theme: boolean;
-  @HostBinding("class.diskagua") public client7Theme: boolean;
+
   filtroPesquisaAvancada = FiltroPesquisaAvancada;
 
   constructor(
     public dialogRef: MatDialogRef<ModalPesquisaAvancadaComponent>,
     private service: GlobalService,
     private storage: AuthStorageService,
-    private serviceTenant : TenantService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.spinner = false;
@@ -45,7 +37,6 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.habilitaTema();
     this.obterListas();
     this.obterFiltros();
   }
@@ -255,15 +246,5 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
     } else {
       this.formulario.get('idSubgrupo')?.enable();
     }
-  }
-
-  habilitaTema(){
-    this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;
-    this.client2Theme = this.serviceTenant.getTenant() === Tenant.catalogomaster;
-    this.client3Theme = this.serviceTenant.getTenant() === Tenant.catalogoautocar;
-    this.client4Theme = this.serviceTenant.getTenant() === Tenant.catalogomicrotec;
-    this.client5Theme = this.serviceTenant.getTenant() === Tenant.catalogomm;
-    this.client6Theme = this.serviceTenant.getTenant() === Tenant.catalogoprudenseg;
-    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogolm;
   }
 }

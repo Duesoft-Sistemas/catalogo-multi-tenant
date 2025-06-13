@@ -10,6 +10,9 @@ import { IProdutos } from 'src/app/shared/interface/IProdutos';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { FiltroPesquisaAvancada } from '../iniciar/modal-pesquisa-avancada/filtro-pesquisa-avancada';
 import { ModalPesquisaAvancadaComponent } from '../iniciar/modal-pesquisa-avancada/modal-pesquisa-avancada.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-pesquisar-produtos',
@@ -21,19 +24,25 @@ export class PesquisarProdutosComponent implements OnInit {
   totalPaginas: number;
   listProdutos: IProdutos[] = [];
   modelo = new FiltroPesquisarProdutos();
+  
+  seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos;
 
   filtroPesquisaAvancada = FiltroPesquisaAvancada;
 
   constructor(
+    private serviceTenant: TenantService,
     private service: GlobalService,
     public dialog: MatDialog,
-    private storage: AuthStorageService
+    private storage: AuthStorageService,
+    private sanitizer: DomSanitizer
   ) {
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
     this.totalPaginas = 0;
     this.modelo.page = 1;
   }
 
   ngOnInit() {
+    this.seletorPeculiaridadesCatalogos.getTenant();
     this.storage.setTitlePage('Produtos');
     this.buscarProdutosFiltro().then(x => this.openModalFiltro());
   }
@@ -55,6 +64,11 @@ export class PesquisarProdutosComponent implements OnInit {
       if (result) {
         if (result.produtos) {
           this.listProdutos = result.produtos;
+          this.listProdutos.forEach((produto)=>{
+            if(produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
+               produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(produto.image)
+            }
+          })
           this.totalPaginas = result.totalPaginas;
         }
         if (result.filtro.flag) {
@@ -92,8 +106,13 @@ export class PesquisarProdutosComponent implements OnInit {
             if (data) {
               resolve(data);
               this.listProdutos = data.produtos;
+              this.listProdutos.forEach((produto)=>{
+                if(produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
+                   produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(produto.image)
+                }
+              })
               this.totalPaginas = data.totalPaginas;
-              if (data.produtos.lenght <= 0) {
+              if (data.produtos.length <= 0) {
                 Toaster.Warning('Nenhum produto encontrado.');
               }
             } else {

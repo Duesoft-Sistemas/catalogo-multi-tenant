@@ -22,6 +22,7 @@ import { ITableAction } from '../../interface/ITableAction';
 export class TableModelComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() dataSource!: MatTableDataSource<any>;
   @Input() columns!: any[];
+  @Input() schema?: string;
   @Output() action = new EventEmitter<ITableAction | any>();
   @Output() clickedRow = new EventEmitter<any>();
 

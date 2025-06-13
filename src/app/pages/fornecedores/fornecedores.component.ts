@@ -33,9 +33,17 @@ export class FornecedoresComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: (data: any) => {
-          this.listFornecedores = data;
-          this.totalPaginas = this.listFornecedores.length / 9;
-          this.spinner = false;
+          if (data) {
+            this.listFornecedores = data;
+            this.totalPaginas = this.listFornecedores.length / 9;
+            this.spinner = false;
+
+            if (this.listFornecedores.length <= 0) {
+              Toaster.Warning('Nenhum fornecedor encontrado.');
+            }
+          } else {
+            Toaster.Warning('Nenhum fornecedor encontrado.');
+          }
         },
         error: (error) => {
           Toaster.Error(Toaster.msg.ErroCarregarDados);
