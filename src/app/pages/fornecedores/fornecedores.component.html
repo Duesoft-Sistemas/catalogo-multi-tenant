@@ -1,7 +1,9 @@
-<app-spinner [show]="spinner"></app-spinner>
-<app-body-page>
+<app-body-page [spinner]="spinner" [schema]="schema">
   <div body *ngIf="listFornecedores.length > 0">
-    <app-lista-fornecedores [listFornecedores]="listFornecedores" [totalPaginas]="this.totalPaginas">
+    <app-lista-fornecedores
+      [listFornecedores]="listFornecedores"
+      [totalPaginas]="this.totalPaginas"
+    >
     </app-lista-fornecedores>
   </div>
 </app-body-page>

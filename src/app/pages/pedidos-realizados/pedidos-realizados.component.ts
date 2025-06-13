@@ -57,9 +57,9 @@ export class PedidosRealizadosComponent implements OnInit {
     private service: GlobalService,
     private storage: AuthStorageService,
     public dialog: MatDialog,
-    private serviceTenant: TenantService
+    private tenantService: TenantService
   ) {
-    this.schema = this.serviceTenant.getSchemaTenant();
+    this.schema = this.tenantService.getSchemaTenant();
   }
 
   ngOnInit() {

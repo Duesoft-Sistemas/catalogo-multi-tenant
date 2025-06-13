@@ -5,13 +5,15 @@ import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IProdutos } from 'src/app/shared/interface/IProdutos';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-promocoes',
   templateUrl: './promocoes.component.html',
-  styleUrls: ['./promocoes.component.css']
+  styleUrls: ['./promocoes.component.css'],
 })
 export class PromocoesComponent implements OnInit {
+  schema = '';
   spinner = false;
   pagina: number;
   totalPaginas: number;
@@ -19,8 +21,10 @@ export class PromocoesComponent implements OnInit {
 
   constructor(
     private service: GlobalService,
-    private storage: AuthStorageService
+    private storage: AuthStorageService,
+    private tenantService: TenantService
   ) {
+    this.schema = this.tenantService.getSchemaTenant();
     this.totalPaginas = 0;
     this.pagina = 1;
   }
@@ -56,7 +60,9 @@ export class PromocoesComponent implements OnInit {
           Toaster.Error(error);
           this.spinner = false;
         },
-        complete: () => { this.spinner = false; }
+        complete: () => {
+          this.spinner = false;
+        },
       });
   }
 }

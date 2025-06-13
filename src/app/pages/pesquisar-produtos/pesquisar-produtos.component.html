@@ -1,14 +1,44 @@
-<app-body-page [spinner]="spinner">3
+<app-body-page [spinner]="spinner" [schema]="schema">
   <div body *ngIf="listProdutos.length > 0">
-    <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="totalPaginas" (pageChanged)="goTo($event)"></app-lista-produtos>
+    <app-lista-produtos
+      [listProdutos]="listProdutos"
+      [totalPaginas]="totalPaginas"
+      (pageChanged)="goTo($event)"
+    ></app-lista-produtos>
   </div>
 </app-body-page>
 <div class="btn-absolute">
-  <button mat-fab  class="btn btn-pattern" (click)="openModalFiltro()" matTooltip="Buscar" aria-label="Buscar">
-    <i class="fas fa-search" [ngClass]="(this.seletorPeculiaridadesCatalogos.clientes.cliente11 || this.seletorPeculiaridadesCatalogos.clientes.cliente15) && 'text-black'"></i>
+  <button
+    mat-fab
+    class="btn btn-pattern"
+    (click)="openModalFiltro()"
+    matTooltip="Buscar"
+    aria-label="Buscar"
+  >
+    <i
+      class="fas fa-search"
+      [ngClass]="
+        (this.seletorPeculiaridadesCatalogos.clientes.cliente11 ||
+          this.seletorPeculiaridadesCatalogos.clientes.cliente15) &&
+        'text-black'
+      "
+    ></i>
   </button>
-  <button mat-fab  class="btn btn-pattern ml-2" (click)="openModalPesquisaAvancada()" matTooltip="Pesquisa Avançada"
-    aria-label="Filtro Avançado">
-      <i class="fa fa-search-plus" aria-hidden="true" [ngClass]="(this.seletorPeculiaridadesCatalogos.clientes.cliente11 || this.seletorPeculiaridadesCatalogos.clientes.cliente15) && 'text-black'"></i>
+  <button
+    mat-fab
+    class="btn btn-pattern ml-2"
+    (click)="openModalPesquisaAvancada()"
+    matTooltip="Pesquisa Avançada"
+    aria-label="Filtro Avançado"
+  >
+    <i
+      class="fa fa-search-plus"
+      aria-hidden="true"
+      [ngClass]="
+        (this.seletorPeculiaridadesCatalogos.clientes.cliente11 ||
+          this.seletorPeculiaridadesCatalogos.clientes.cliente15) &&
+        'text-black'
+      "
+    ></i>
   </button>
 </div>

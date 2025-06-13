@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {  MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { take } from 'rxjs';
 import { FiltroPesquisarProdutos } from 'src/app/shared/classes/filtro-pesquisar-produtos';
@@ -8,6 +8,7 @@ import { Toaster } from 'src/app/shared/functions/toaster';
 import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IProdutos } from 'src/app/shared/interface/IProdutos';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-lancamentos',
@@ -15,6 +16,7 @@ import { GlobalService } from 'src/app/shared/services/global.service';
   styleUrls: ['./lancamentos.component.css'],
 })
 export class LancamentosComponent implements OnInit {
+  schema = '';
   spinner = false;
   totalPaginas: number;
   listProdutos: IProdutos[] = [];
@@ -24,8 +26,10 @@ export class LancamentosComponent implements OnInit {
   constructor(
     private service: GlobalService,
     public dialog: MatDialog,
-    private storage: AuthStorageService
+    private storage: AuthStorageService,
+    private tenantService: TenantService
   ) {
+    this.schema = this.tenantService.getSchemaTenant();
     this.totalPaginas = 0;
     this.modelo.page = 1;
   }

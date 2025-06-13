@@ -20,11 +20,12 @@ import { TenantService } from 'src/app/shared/tenant/tenant.service';
   styleUrls: ['./pesquisar-produtos.component.css'],
 })
 export class PesquisarProdutosComponent implements OnInit {
+  schema = '';
   spinner = false;
   totalPaginas: number;
   listProdutos: IProdutos[] = [];
   modelo = new FiltroPesquisarProdutos();
-  
+
   seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos;
 
   filtroPesquisaAvancada = FiltroPesquisaAvancada;
@@ -36,7 +37,10 @@ export class PesquisarProdutosComponent implements OnInit {
     private storage: AuthStorageService,
     private sanitizer: DomSanitizer
   ) {
-    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
+    this.schema = this.serviceTenant.getSchemaTenant();
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(
+      this.serviceTenant
+    );
     this.totalPaginas = 0;
     this.modelo.page = 1;
   }
@@ -44,7 +48,7 @@ export class PesquisarProdutosComponent implements OnInit {
   ngOnInit() {
     this.seletorPeculiaridadesCatalogos.getTenant();
     this.storage.setTitlePage('Produtos');
-    this.buscarProdutosFiltro().then(x => this.openModalFiltro());
+    this.buscarProdutosFiltro().then((x) => this.openModalFiltro());
   }
 
   goTo(event: PageChangedEvent): void {
@@ -57,18 +61,20 @@ export class PesquisarProdutosComponent implements OnInit {
       width: '548px',
       data: {
         filtro: this.filtroPesquisaAvancada,
-      }
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (result.produtos) {
           this.listProdutos = result.produtos;
-          this.listProdutos.forEach((produto)=>{
-            if(produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
-               produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(produto.image)
+          this.listProdutos.forEach((produto) => {
+            if (produto.image != './static/img/imagem_nao_encontrada.jpg') {
+              produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(
+                produto.image
+              );
             }
-          })
+          });
           this.totalPaginas = result.totalPaginas;
         }
         if (result.filtro.flag) {
@@ -106,11 +112,13 @@ export class PesquisarProdutosComponent implements OnInit {
             if (data) {
               resolve(data);
               this.listProdutos = data.produtos;
-              this.listProdutos.forEach((produto)=>{
-                if(produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
-                   produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(produto.image)
+              this.listProdutos.forEach((produto) => {
+                if (produto.image != './static/img/imagem_nao_encontrada.jpg') {
+                  produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(
+                    produto.image
+                  );
                 }
-              })
+              });
               this.totalPaginas = data.totalPaginas;
               if (data.produtos.length <= 0) {
                 Toaster.Warning('Nenhum produto encontrado.');
