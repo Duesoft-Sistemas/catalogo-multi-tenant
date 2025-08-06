@@ -9,90 +9,141 @@
   max-height: 215px;
 }
 
-.buttonPadding{
-  display: flex;
-  /* padding-left: 2rem !important; */
-}
-
-.prods-card {
-  max-width: 400px;
-}
-
-.font-strong {
-  font-size: 1.05rem;
-}
-
-.marcaPecaProdutoHolder > img {
-  /* padding-right: 1rem; */
-  max-height: 40px !important;
-  max-width: 40px !important;
-}
-
-.limitar-linhas1 {
-  max-height: 40px;
-  min-height: 40px;
-  overflow: hidden;
-}
-
-.limitar-linhas2 {
-  max-height: 40px;
-  min-height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 14px;
-}
-
-.icon-btn {
-  font-size: 1.3rem;
-}
-
-.icon-btn:hover {
-  transition-delay: 200ms;
-  color: var(--color-primary);
-  opacity: 0.7;
-}
-
 ::ng-deep .page-item.disabled > .page-link {
   background-color: var(--color-primary-light) !important;
   color: #ccc !important;
 }
 
-@media (min-width: 1800px) {
-  .col-xxl-2 {
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
+/* Estilos para melhorar o tratamento de imagens */
+img {
+  object-fit: contain;
+  max-width: 100%;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+img[src*="imagem_nao_encontrada.jpg"] {
+  opacity: 0.7;
+}
+
+/* Prevenir distorção de imagens */
+.object-contain {
+  object-fit: contain !important;
+  background-color: #f8f9fa;
+}
+
+/* Loading state para imagens */
+img:not([src]), img[src=""] {
+  opacity: 0;
+}
+
+/* Container da imagem responsivo */
+.image-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 180px;
+  max-height: 180px;
+}
+
+/* Responsividade melhorada */
+@media (max-width: 640px) {
+  .image-container {
+    height: 160px;
   }
-  .col-xl-3{
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
+  
+  .product-image {
+    max-width: 140px;
+    max-height: 140px;
   }
 }
 
-@media (max-width: 1200px) {
-  .buttonPadding{
-    display: flex;
-    padding-left: 40% !important;
+@media (min-width: 641px) and (max-width: 1024px) {
+  .image-container {
+    height: 180px;
+  }
+  
+  .product-image {
+    max-width: 160px;
+    max-height: 160px;
   }
 }
 
-@media (max-width: 992px) {
-  .buttonPadding{
-    display: flex;
-    padding-left: 60% !important;
+@media (min-width: 1025px) {
+  .image-container {
+    height: 200px;
+  }
+  
+  .product-image {
+    max-width: 180px;
+    max-height: 180px;
   }
 }
 
-@media (max-width: 576px) {
-  .buttonPadding{
-    display: flex;
-    padding-left: 70% !important;
+/* Classes utilitárias para truncamento de texto */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Melhorar responsividade dos cards */
+@media (max-width: 640px) {
+  .w-38 {
+    width: 9.5rem !important;
+  }
+  .h-38 {
+    height: 9.5rem !important;
   }
 }
-@media (max-width: 320px) {
-  .buttonPadding{
-    display: flex;
-    padding-left: 20% !important;
+
+/* Hover effects melhorados */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Melhorar espaçamento em dispositivos pequenos */
+@media (max-width: 480px) {
+  .grid {
+    gap: 0.75rem;
+  }
+  
+  .p-3 {
+    padding: 0.75rem;
+  }
+  
+  .mb-3 {
+    margin-bottom: 0.75rem;
   }
 }

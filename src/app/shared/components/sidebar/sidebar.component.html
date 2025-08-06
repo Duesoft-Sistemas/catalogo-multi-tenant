@@ -1,101 +1,97 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-  <!-- Brand Logo -->
-  <a routerLinkActive="active" id="brandLogo" routerLink="inicio" class="brand-link navbar-pattern">
-    <div>
-      <img [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoSidebar+""' id="imgLogo" alt="Logo" class="brand-image img-circle elevation-3"
-        style="opacity: .8;  padding: 0;" [ngStyle]="{'background-color':getColor(),'opacity':getOpacidade()}">
+<aside
+  class="main-sidebar sidebar-dark-primary elevation-4 transition-all duration-300 pt-2"
+  [ngClass]="{ 
+    '!w-[4.6rem]': sidebarColapsada && !isMobile, 
+    '!w-64': !sidebarColapsada || isMobile 
+  }"
+  (mouseenter)="!isMobile && (sidebarColapsada = false)"
+  (mouseleave)="!isMobile && (sidebarColapsada = true)"
+>
+
+  <!-- Brand -->
+  <a routerLink="inicio" routerLinkActive="active" class="!h-[58px] flex items-center px-4 py-2">
+    <div class="flex items-center flex-shrink-0">
+      <img
+        [src]="'../../../assets/images/' + seletorPeculiaridadesCatalogos.logoSidebar"
+        alt="Logo"
+        class="!max-h-8 w-auto rounded-full flex-shrink-0"
+        [ngStyle]="{ 'background-color': getColor(), 'opacity': getOpacidade() }"
+      />
+      <span
+        *ngIf="nomeEmpresa"
+        class="!text-white !text-sm !font-bold overflow-hidden transition-all duration-300"
+        [ngClass]="{
+          'opacity-0 w-0 invisible': sidebarColapsada && !isMobile,
+          'opacity-100 w-auto visible ml-3': !sidebarColapsada || isMobile,
+          'whitespace-nowrap': !isMobile,
+          'whitespace-normal max-w-40': isMobile
+        }"
+      >
+        {{ nomeEmpresa }}
+      </span>
     </div>
   </a>
-  <!-- Sidebar -->
-  <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
-    <div class="os-resize-observer-host">
-      <div class="os-resize-observer observed" style="left: 0px; right: auto;"></div>
-    </div>
-    <div class="os-size-auto-observer" style="height: calc(100% + 1px); float: left;">
-      <div class="os-resize-observer observed"></div>
-    </div>
-    <div class="os-content-glue" style="margin: 0px -8px; width: 249px; height: 402px;"></div>
-    <div class="os-padding">
-      <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll; right: 0px; bottom: 0px;">
-        <div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
-          <!-- Sidebar Menu -->
-          <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="true">
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="inicio" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-home"></i>
-                  <p>Início</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="pesquisar-produtos" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-search"></i>
-                  <p>Pesquisar Produtos</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="fornecedores" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-dolly"></i>
-                  <p>Fornecedores</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="promocoes" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-percent"></i>
-                  <p>Promoções</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="lancamentos" class="nav-link" (click)="escondeMenu()">
-                  <i class="far fa-star"></i>
-                  <p>Lançamentos</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="pedidos-realizados" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-clipboard-list"></i>
-                  <p>Pedidos Realizados</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="concluir-pedido" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-cart-arrow-down"></i>
-                  <p>Concluir Pedido</p>
-                </a>
-              </li>
-              <!-- <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="relatorio-financeiro" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-file-invoice-dollar"></i>
-                  <p>Relatório Financeiro</p>
-                </a>
-              </li> -->
-              <!-- <li class="nav-item has-treeview">
-                <a routerLinkActive="active" routerLink="devolucoes" class="nav-link" (click)="escondeMenu()">
-                  <i class="fas fa-undo-alt"></i>
-                  <p>Devoluções</p>
-                </a>
-              </li> -->
-              <li class="nav-item has-treeview">
-                <a  class="nav-link cursor-hand" (click)="openModalAlterarSenha()">
-                  <i class="fas fa-users-cog"></i>
-                  <p>Alterar Senha</p>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-    <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
-      <div class="os-scrollbar-track">
-        <div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div>
-      </div>
-    </div>
-    <div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden">
-      <div class="os-scrollbar-track">
-        <div class="os-scrollbar-handle" style="height: 32.035%; transform: translate(0px, 0px);"></div>
-      </div>
-    </div>
-    <div class="os-scrollbar-corner"></div>
+
+  <!-- Menu -->
+  <div class="!w-full !p-2 overflow-y-auto h-full">
+    <nav class="!w-full mt-2">
+      <ul
+        class="w-full flex flex-col gap-2"
+        [ngClass]="{
+          'items-center': sidebarColapsada && !isMobile,
+          'items-start': !sidebarColapsada || isMobile
+        }"
+      >
+        <li *ngFor="let item of menuItems" class="w-full">
+          <a
+            [routerLink]="item.link"
+            routerLinkActive="active"
+            (click)="escondeMenu()"
+            class="w-full flex px-4 py-3 min-h-[50px] rounded text-white cursor-pointer transition-all items-center"
+            [ngClass]="{
+              'bg-gray-700': router.isActive(item.link, { paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }),
+              'hover:bg-gray-700': true,
+              'justify-center': sidebarColapsada && !isMobile,
+              'justify-start': !sidebarColapsada || isMobile
+            }"
+          >
+            <i [class]="item.icon + ' text-lg w-6 min-w-6 text-center flex-shrink-0'"></i>
+            <span
+              class="whitespace-nowrap overflow-hidden transition-all duration-300 flex-shrink-0"
+              [ngClass]="{
+                'opacity-0 w-0 invisible': sidebarColapsada && !isMobile,
+                'opacity-100 w-auto visible ml-3': !sidebarColapsada || isMobile
+              }"
+            >
+              {{ item.label }}
+            </span>
+          </a>
+        </li>
+
+        <!-- Alterar Senha -->
+        <li class="w-full">
+          <a
+            (click)="openModalAlterarSenha()"
+            class="w-full flex px-4 py-3 min-h-[50px] rounded hover:bg-gray-700 text-white cursor-pointer transition-all items-center"
+            [ngClass]="{
+              'justify-center': sidebarColapsada && !isMobile,
+              'justify-start': !sidebarColapsada || isMobile
+            }"
+          >
+            <i class="fas fa-users-cog text-lg w-6 min-w-6 text-center flex-shrink-0"></i>
+            <span
+              class="whitespace-nowrap overflow-hidden transition-all duration-300 flex-shrink-0"
+              [ngClass]="{
+                'opacity-0 w-0 invisible': sidebarColapsada && !isMobile,
+                'opacity-100 w-auto visible ml-3': !sidebarColapsada || isMobile
+              }"
+            >
+              Alterar Senha
+            </span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
   </div>
 </aside>

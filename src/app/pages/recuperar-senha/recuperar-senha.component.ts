@@ -92,7 +92,7 @@ export class RecuperarSenhaComponent implements OnInit {
           complete: () => {
             this.spinner = false;
           },
-        });
+      });
     }
   }
 

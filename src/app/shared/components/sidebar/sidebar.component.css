@@ -1,8 +1,9 @@
-i {
+/* Removendo estilos que interferem com Tailwind */
+/* i {
   margin-left: 10px;
   width: 20px;
   text-align: center;
-}
+} */
 
 .tamanho
 {
@@ -15,6 +16,39 @@ i {
   padding-left: 1.2rem;
 }
 
-p {
+/* Removendo padding que interfere com alinhamento */
+/* p {
   padding-left: 10px;
+} */
+
+/* Estilos específicos para mobile e tablet */
+@media (max-width: 1023px) {
+  .main-sidebar {
+    width: 15rem !important; /* 256px - largura completa no mobile/tablet */
+  }
+  
+  /* Garantir que no mobile/tablet o sidebar sempre abra completamente */
+  .sidebar-collapse .main-sidebar {
+    width: 16rem !important;
+  }
+  
+  /* Mostrar textos no mobile/tablet mesmo quando colapsado */
+  .sidebar-collapse .brand-text,
+  .sidebar-collapse .sidebar .nav-sidebar .nav-link p,
+  .sidebar-collapse .sidebar .user-panel > .info {
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    margin-left: 0 !important;
+  }
+  
+  /* Ajustar alinhamento dos itens no mobile/tablet */
+  .sidebar-collapse .nav-sidebar .nav-link {
+    justify-content: flex-start !important;
+  }
+  
+  /* Garantir que os ícones não fiquem centralizados no mobile/tablet */
+  .sidebar-collapse .nav-sidebar > .nav-item > .nav-link > span {
+    display: inline-block !important;
+  }
 }

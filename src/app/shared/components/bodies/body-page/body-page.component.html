@@ -1,31 +1,49 @@
 <div class="content-wrapper">
   <app-spinner [show]="spinner"></app-spinner>
-  <div class="content">
-    <div class="container-fluid">
-      <div class="content-header">
+ 
+  <div class="content !p-2 !pb-4">
+    <div class="container-fluid !px-6">
+      
+      <!-- CABEÇALHO -->
+      <div class="content-header !mb-6 !pb-4 !border-b !border-gray-200 !px-6 !pt-4">
+
+        <!-- BOTÃO VOLTAR -->
         <button
           *ngIf="this.inicialPage"
           (click)="goBack()"
           type="button"
-          class="btn btn-pattern button-goback"
+          class="!bg-fase-primary !border-fase-primary hover:!bg-fase-primary/90 hover:!shadow-lg hover:!shadow-black/20 !text-white !px-6 !py-3 !rounded-xl 
+          !transition-all !duration-300 !flex !items-center !gap-2 !text-sm !font-medium !border-0 !outline-none !focus:!ring-2 !focus:!ring-fase-primary/50"
           [ngClass]="[
             (this.seletorPeculiaridadesCatalogos.clientes.cliente14 ||
               this.seletorPeculiaridadesCatalogos.clientes.cliente18) &&
-              'white',
+              '!text-white',
             schema
           ]"
         >
-          Voltar &nbsp; <i class="fa fa-arrow-left"></i>
+          <i class="fa fa-arrow-left !text-sm"></i>
+          <span>Voltar</span>
         </button>
+        
+        <!-- CONTEÚDO DO CABEÇALHO: Slot para conteúdo customizado -->
         <ng-content select="[header]"></ng-content>
       </div>
-      <div class="content-body">
-        <div class="card">
+      
+      <!-- CORPO DA PÁGINA -->
+      <div class="content-body !p-0 ">
+        <!-- CARD PRINCIPAL -->
+        <div class="card !rounded-xl !overflow-hidden !min-h-[calc(100vh-200px)]  !border-0">
+          
+          <!-- FILTROS: Slot para filtros -->
           <ng-content select="[filter]"></ng-content>
-          <div class="card-body" *ngIf="showBody">
+          
+          <!-- CORPO DO CARD -->
+        
             <ng-content select="[body]"></ng-content>
-          </div>
-          <div class="card-footer" *ngIf="showFooter">
+        
+          
+          <!-- RODAPÉ DO CARD -->
+          <div class="card-footer !px-8 !py-6 !bg-gradient-to-r !from-gray-50 !to-gray-100 !border-t !border-gray-200 !rounded-b-xl" *ngIf="showFooter">
             <ng-content select="[footer]"></ng-content>
           </div>
         </div>

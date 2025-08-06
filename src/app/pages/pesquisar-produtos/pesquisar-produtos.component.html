@@ -1,5 +1,8 @@
+<!-- SEÇÃO PRINCIPAL: Container da página com spinner e schema -->
 <app-body-page [spinner]="spinner" [schema]="schema">
+  <!-- SEÇÃO DO CORPO: Lista de produtos (só aparece se houver produtos) -->
   <div body *ngIf="listProdutos.length > 0">
+    <!-- COMPONENTE: Lista de produtos com paginação -->
     <app-lista-produtos
       [listProdutos]="listProdutos"
       [totalPaginas]="totalPaginas"
@@ -7,37 +10,44 @@
     ></app-lista-produtos>
   </div>
 </app-body-page>
-<div class="btn-absolute">
+
+<!-- SEÇÃO DOS BOTÕES FLUTUANTES: Botões de ação fixos na tela -->
+<div class="!fixed !bottom-16 !right-12 sm:!bottom-4 sm:!right-4">
+  <!-- BOTÃO 1: Busca/Filtro básico -->
   <button
     mat-fab
-    class="btn btn-pattern"
+    class="!bg-fase-primary/75 !border-fase-primary hover:!bg-fase-primary hover:!border-fase-primary-light !text-white !shadow-lg !transition-colors !duration-200"
     (click)="openModalFiltro()"
     matTooltip="Buscar"
     aria-label="Buscar"
   >
+    <!-- ÍCONE: Lupa de busca -->
     <i
       class="fas fa-search"
       [ngClass]="
         (this.seletorPeculiaridadesCatalogos.clientes.cliente11 ||
           this.seletorPeculiaridadesCatalogos.clientes.cliente15) &&
-        'text-black'
+        '!text-black'
       "
     ></i>
   </button>
+  
+  <!-- BOTÃO 2: Pesquisa avançada -->
   <button
     mat-fab
-    class="btn btn-pattern ml-2"
+    class="!bg-fase-primary/75 !border-fase-primary hover:!bg-fase-primary hover:!border-fase-primary-light !text-white !shadow-lg !transition-colors !duration-200 !ml-2"
     (click)="openModalPesquisaAvancada()"
     matTooltip="Pesquisa Avançada"
     aria-label="Filtro Avançado"
   >
+    <!-- ÍCONE: Lupa com plus (pesquisa avançada) -->
     <i
       class="fa fa-search-plus"
       aria-hidden="true"
       [ngClass]="
         (this.seletorPeculiaridadesCatalogos.clientes.cliente11 ||
           this.seletorPeculiaridadesCatalogos.clientes.cliente15) &&
-        'text-black'
+        '!text-black'
       "
     ></i>
   </button>

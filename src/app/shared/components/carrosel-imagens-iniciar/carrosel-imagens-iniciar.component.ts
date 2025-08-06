@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { CarroselImagens } from '../../classes/carrosel-imagens';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-carrosel-imagens-iniciar',
@@ -11,7 +12,8 @@ export class CarroselImagensIniciarComponent implements OnInit {
   timerSubs!: Subscription;
   @Input() imagens: CarroselImagens;
   exibirPlanoFundo :string [] = []
-  constructor(){
+  
+  constructor(private imageService: ImageService){
 
   }
 
@@ -57,6 +59,10 @@ export class CarroselImagensIniciarComponent implements OnInit {
   ativarImagem(index: number): void {
     this.indexImagemAtiva = index;
     this.iniciarTimer();
+  }
+
+  onImageError(event: any): void {
+    this.imageService.handleImageError(event);
   }
 
 }

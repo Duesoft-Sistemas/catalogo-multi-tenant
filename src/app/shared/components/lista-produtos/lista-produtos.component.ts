@@ -4,6 +4,7 @@ import { take } from 'rxjs/operators';
 import { Toaster } from '../../functions/toaster';
 import { IProdutos } from '../../interface/IProdutos';
 import { GlobalService } from '../../services/global.service';
+import { ImageService } from '../../services/image.service';
 import { AdicionarCarrinhoComponent } from '../adicionar-carrinho/adicionar-carrinho.component';
 import { DetalhesProdutosComponent } from '../detalhes-produtos/detalhes-produtos.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -27,16 +28,24 @@ export class ListaProdutosComponent implements OnInit {
 
   @Output() pageChanged = new EventEmitter();
 
-  constructor(public dialog: MatDialog, private service: GlobalService, public sanitizer: DomSanitizer) {
+  constructor(
+    public dialog: MatDialog, 
+    private service: GlobalService, 
+    public sanitizer: DomSanitizer,
+    private imageService: ImageService
+  ) {
     this.maxSizePaginator = window.innerWidth > 575 ? 5 : 1;
   }
 
   ngOnInit() {
     this.listProdutos.forEach((produto)=>{
-      if(produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
-         produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(produto.image)
-      }
+      produto.imageSafe = this.imageService.sanitizeImageUrl(produto.image);
     })
+  }
+
+  onImageError(event: any, produto: IProdutos) {
+    this.imageService.handleImageError(event);
+    produto.imageSafe = this.imageService.sanitizeImageUrl(this.imgPadraoProduto);
   }
 
   getPrice(price: any): number {

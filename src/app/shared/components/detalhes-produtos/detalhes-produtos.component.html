@@ -6,7 +6,12 @@
     </button>
   </div>
   <div class="marcaProduto">
-    <img [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : produto.marcaPecaProduto">
+    <img 
+      [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : produto.marcaPecaProduto"
+      (error)="onMarcaImageError($event)"
+      alt="Marca do produto"
+      loading="lazy"
+    >
   </div>
   <mat-tab-group>
     <mat-tab label="Geral">
@@ -48,7 +53,13 @@
         <div class="col-12 mb-2">
           <carousel>
             <slide *ngFor="let item of this.produto?.images">
-              <img [src]="item.caminhoSafe" alt="Imagem ilustrativa" class="img-carousel">
+              <img 
+                [src]="item.caminhoSafe" 
+                alt="Imagem ilustrativa" 
+                class="img-carousel"
+                (error)="onCarouselImageError($event, item)"
+                loading="lazy"
+              >
             </slide>
           </carousel>
         </div>

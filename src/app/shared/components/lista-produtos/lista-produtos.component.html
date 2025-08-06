@@ -1,50 +1,90 @@
 <app-spinner [show]="spinner"></app-spinner>
-<div class="row d-flex justify-content-center" *ngIf="listProdutos.length > 0">
-  <div class="mb-3" [ngClass]="{'col-sm-6 col-lg-4 col-xl-2 col-gg-2': !detalhes, 'col-md-6': detalhes}"
-    *ngFor="let produto of listProdutos">
-    <mat-card class="prods-card elevation-4 position-relative p-3"  style="margin: 0 auto;" (click)="getDetalhes(produto, 'D')">
-      <div class="ribbon-wrapper ribbon-lg" *ngIf="produto.emPromocao" >
-        <div class="ribbon bg-danger text-sm">
-            Promoção
+
+<!-- CONTAINER PRINCIPAL - LISTA DE PRODUTOS -->
+<div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5" *ngIf="listProdutos.length > 0">
+  
+  <!-- CARD INDIVIDUAL DE PRODUTO -->
+  <div class="w-full h-auto min-h-[400px] sm:min-h-[450px] lg:min-h-[500px] xl:min-h-[520px]" *ngFor="let produto of listProdutos">
+    
+    <!-- CARD DO PRODUTO - CLICÁVEL PARA DETALHES -->
+    <div class="bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden cursor-pointer flex flex-col h-full card-hover"
+         (click)="getDetalhes(produto, 'D')">
+
+      <!-- RIBBON DE PROMOÇÃO -->
+      <div class="relative" *ngIf="produto.emPromocao">
+        <div class="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 z-10 rounded-bl-lg shadow-md">
+          Promoção
         </div>
       </div>
-      <img mat-card-md-image class="d-flex" style="margin: 0 auto;"
-        [src]="produto.image.includes('imagem_nao_encontrada.jpg') ? imgPadraoProduto : this.sanitizer.bypassSecurityTrustUrl(produto.image)"
-        [alt]="produto.code">
-      <mat-card-header>
-        <mat-card-title>{{produto.code}}</mat-card-title>
-        <mat-card-subtitle class="limitar-linhas1">{{produto.productGroup}} / {{produto.productSubgroup}}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="limitar-linhas2">
-          <strong>Descrição: </strong> {{produto.description}}
-        </p>
-        <p class="limitar-linhas2" *ngIf="getPrice(produto?.price2)<=0">
-          <strong>Preço: </strong>
-          {{getPrice(produto?.price) | currency}}
-        </p>
-        <p class="limitar-linhas2" *ngIf="getPrice(produto?.price2)>0">
-          <strong>Preço: </strong>
-          {{produto?.unity}} {{getPrice(produto?.price) | currency}} / {{produto?.unity2}} {{getPrice(produto?.price2) | currency}}
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="row d-flex flex-wrap">
-          <div class="col-3 marcaPecaProdutoHolder">
+
+      <!-- CONTEÚDO DO CARD -->
+      <div class="flex flex-col p-3 sm:p-4 h-full">
+
+        <!-- IMAGEM DO PRODUTO -->
+        <div class="flex justify-center mb-3 sm:mb-4 flex-shrink-0">
+          <div class="image-container">
             <img
-              [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : this.sanitizer.bypassSecurityTrustUrl(produto.marcaPecaProduto)">
-          </div>
-          <div class="col-6 buttonPadding">
-            <button class="btn" (click)="getDetalhes(produto, 'C')"><i class="fas fa-cart-plus icon-btn"></i></button>
-            <button class="btn" (click)="getDetalhes(produto, 'D')"><i class="fas fa-exclamation-circle icon-btn"></i></button>
+              class="product-image"
+              [src]="produto.image.includes('imagem_nao_encontrada.jpg') ? imgPadraoProduto : produto.imageSafe || produto.image"
+              [alt]="produto.code"
+              (error)="onImageError($event, produto)"
+              loading="lazy"
+            />
           </div>
         </div>
-      </mat-card-actions>
-    </mat-card>
+
+        <!-- DETALHES DO PRODUTO -->
+        <div class="flex flex-col flex-grow justify-between">
+
+          <!-- CÓDIGO DO PRODUTO -->
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2 tracking-tight line-clamp-1">
+            {{produto.code}}
+          </h3>
+
+          <!-- GRUPO E SUBGRUPO -->
+          <p class="text-xs sm:text-sm text-gray-500 mb-2 line-clamp-1">
+            <span class="font-semibold">{{produto.productGroup}}</span>
+            <span *ngIf="produto.productSubgroup"> • {{produto.productSubgroup}}</span>
+          </p>
+
+          <!-- DESCRIÇÃO -->
+          <p class="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 leading-snug flex-grow line-clamp-3">
+            <span class="font-semibold text-gray-700">Descrição:</span> {{produto.description}}
+          </p>
+
+          <!-- PREÇO -->
+          <div class="mb-3 sm:mb-4 flex-shrink-0">
+            <p *ngIf="getPrice(produto?.price2) <= 0" class="text-base sm:text-lg font-bold text-purple-700">
+              <span class="text-gray-700 text-sm">Preço:</span> {{getPrice(produto?.price) | currency}}
+            </p>
+            <p *ngIf="getPrice(produto?.price2) > 0" class="text-base sm:text-lg font-bold text-purple-700">
+              <span class="text-gray-700 text-sm">Preço:</span> {{produto?.unity}} {{getPrice(produto?.price) | currency}} / {{produto?.unity2}} {{getPrice(produto?.price2) | currency}}
+            </p>
+          </div>
+
+          <!-- BOTÕES DE AÇÃO -->
+          <div class="flex gap-2 sm:gap-4 justify-center flex-shrink-0">
+            <button 
+              class="bg-purple-700 hover:bg-purple-800 text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 shadow hover:scale-105 transition-transform duration-200 flex items-center justify-center"
+              (click)="getDetalhes(produto, 'C')"
+            >
+              <i class="fas fa-cart-plus text-xs sm:text-sm"></i>
+            </button>
+            <button 
+              class="bg-purple-700 hover:bg-purple-800 text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 shadow hover:scale-105 transition-transform duration-200 flex items-center justify-center"
+              (click)="getDetalhes(produto, 'D')"
+            >
+              <i class="fas fa-info text-xs sm:text-sm"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="d-flex justify-content-center mt-3" *ngIf="totalPaginas">
+
+<!-- PAGINAÇÃO - APARECE APENAS SE HOUVER MÚLTIPLAS PÁGINAS -->
+<div class="flex justify-center mt-6" *ngIf="totalPaginas">
   <pagination [boundaryLinks]="true" [totalItems]="totalPaginas*10" previousText="&lsaquo;" nextText="&rsaquo;"
     firstText="&laquo;" lastText="&raquo;" [maxSize]="maxSizePaginator" (pageChanged)="pageChanged.emit($event)">
   </pagination>

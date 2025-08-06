@@ -60,16 +60,16 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "src/custom-theme.scss",
-              "src/assets/css/datapicker.css",
-              "src/assets/css/table.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css",
-              "src/styles.css",
-              "node_modules/admin-lte/plugins/fontawesome-free/css/all.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/admin-lte/plugins/fontawesome-free/css/all.css",
               "node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.css",
               "node_modules/admin-lte/dist/css/adminlte.css",
-              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "src/assets/css/datapicker.css",
+              "src/assets/css/table.css",
+              "src/custom-theme.scss",
+              "src/styles.css"
             ],
             "scripts": [
               "node_modules/admin-lte/plugins/jquery/jquery.js",
