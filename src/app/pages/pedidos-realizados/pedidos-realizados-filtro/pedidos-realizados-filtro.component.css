@@ -1,13 +1,92 @@
-.container-filtros {
-  max-width: 350px !important;
-}
-
+/* Responsividade para dispositivos móveis */
 @media (max-width: 767px) {
   ::ng-deep .cdk-overlay-pane {
     max-width: 95vw !important;
   }
 }
 
-.bs-datepicker-head {
-  background-color: #606260 !important;
+/* Estilos customizados para ng-select */
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-radius: 0.375rem !important;
+  padding: 0.25rem 0.5rem !important;
+  margin: 0.125rem !important;
+  font-size: 0.875rem !important;
+}
+
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label {
+  color: white !important;
+}
+
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon {
+  color: white !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Melhorar aparência do ng-select */
+::ng-deep .ng-select .ng-select-container {
+  border-radius: 0.5rem !important;
+  border: 1px solid #d1d5db !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px var(--color-primary-light-shadow) !important;
+}
+
+/* Estilos para os inputs de data */
+input[bsDatepicker] {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Animação suave para os botões */
+button {
+  transform: translateY(0) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+button:active {
+  transform: translateY(0) !important;
+}
+
+/* Melhorar espaçamento dos labels */
+label {
+  font-weight: 500 !important;
+  letter-spacing: 0.025em !important;
+}
+
+/* Estilo para o card principal */
+::ng-deep .mat-mdc-card {
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Melhorar o divider */
+::ng-deep .mat-divider {
+  border-color: #e5e7eb !important;
+  opacity: 0.8 !important;
+}
+
+/* Estilo para o header do card */
+::ng-deep .mat-mdc-card-header {
+  padding: 1.5rem 1.5rem 0 1.5rem !important;
+}
+
+/* Estilo para o conteúdo do card */
+::ng-deep .mat-mdc-card-content {
+  padding: 0 1.5rem !important;
+}
+
+/* Estilo para as ações do card */
+::ng-deep .mat-mdc-card-actions {
+  padding: 1rem 1.5rem 1.5rem 1.5rem !important;
+  margin: 0 !important;
 }

@@ -1,18 +1,59 @@
 <app-spinner [show]="spinner"></app-spinner>
-<div class="row" *ngIf="listProdutos.length <= 0">
-  <div class="mb-2 col-sm-6 col-md-4 col-xl-3" *ngFor="let fornecedores of listFornecedores">
-    <mat-card class="prods-card elevation-4 position-relative p-3 cardConteudo " style="margin: 0 auto;"
+
+<!-- SEÇÃO DE FORNECEDORES: Lista de fornecedores -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4" *ngIf="listProdutos.length <= 0">
+  <div class="mb-2" *ngFor="let fornecedores of listFornecedores">
+    <mat-card class="max-w-sm shadow-lg relative p-3 rounded-2xl mx-auto cursor-pointer" 
       (click)="getListaProdutos(fornecedores.id)">
-      <img class="d-flex cardImage" style="margin: 0 auto;"
+      <img class="flex mx-auto max-w-full h-40 px-6" 
         [src]="fornecedores.caminho == null || fornecedores.caminho == '' ? imgPadraoMarca : fornecedores.caminho" [alt]="fornecedores.id">
-      <mat-card-header class="justify-content-center"
-        Click="getListaProdutos(fornecedores.description,fornecedores.id)">
-        <mat-card-title class="cardTitle overflow">{{fornecedores.description}}</mat-card-title>
+      <mat-card-header class="justify-center">
+        <mat-card-title class="text-xl overflow-hidden whitespace-nowrap" style="max-width: 9rem; text-overflow: ellipsis;">{{fornecedores.description}}</mat-card-title>
       </mat-card-header>
     </mat-card>
   </div>
 </div>
+
+<!-- SEÇÃO DE PRODUTOS: Lista de produtos do fornecedor selecionado -->
 <div body *ngIf="listProdutos.length > 0">
-  <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="formEsteira.get('totalPages').value"
-    (pageChanged)="goTo($event)"></app-lista-produtos>
+  <app-lista-produtos 
+    [listProdutos]="listProdutos" 
+    [totalPaginas]="formEsteira.get('totalPages').value"
+    [enableSearch]="true"
+    (pageChanged)="goTo($event)"
+    (searchChanged)="onSearchChanged($event)"
+    (productsUpdated)="onProductsUpdated($event)"
+    (noProductsFound)="onNoProductsFound($event)"
+    (reloadCatalog)="reloadCatalog()">
+  </app-lista-produtos>
+</div>
+
+<!-- SEÇÃO DE ESTADO VAZIO: Quando não há produtos do fornecedor selecionado -->
+<div body *ngIf="listProdutos.length === 0 && descricao && !spinner" class="!flex !items-center !justify-center !min-h-[400px] !px-4">
+  <div class="!max-w-md !w-full !bg-gradient-to-br !from-green-50 !to-emerald-50 !border !border-primary-light !text-primary-dark !px-6 !py-8 !rounded-xl !shadow-lg !text-center !relative !overflow-hidden">
+    <!-- Ícone decorativo -->
+    <div class="!absolute !top-0 !left-0 !w-full !h-1 !bg-gradient-to-r !from-primary !to-primary-dark"></div>
+    
+    <!-- Ícone principal -->
+    <div class="!mb-4 !flex !justify-center">
+      <div class="!w-16 !h-16 !bg-primary-light !rounded-full !flex !items-center !justify-center !border-2 !border-green-200">
+        <i class="fas fa-boxes !text-2xl !text-primary"></i>
+      </div>
+    </div>
+    
+    <!-- Título -->
+    <h3 class="!text-lg !font-semibold !text-primary-dark !mb-2">Nenhum Produto Encontrado</h3>
+    
+    <!-- Mensagem -->
+    <p class="!text-primary !text-sm !leading-relaxed">
+      Este fornecedor não possui produtos cadastrados no momento. 
+      Tente selecionar outro fornecedor ou entre em contato conosco.
+    </p>
+    
+    <!-- Ícone de informação -->
+    <div class="!mt-4 !flex !items-center !justify-center !gap-2 !text-primary">
+      <i class="fas fa-info-circle !text-sm"></i>
+      <span class="!text-xs !font-medium">Produtos atualizados regularmente</span>
+    </div>
+  </div>
 </div>

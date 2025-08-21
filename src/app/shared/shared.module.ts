@@ -36,6 +36,11 @@ import { BtnSalvarComponent } from './components/buttons/btn-salvar/btn-salvar.c
 import { ListaFornecedoresComponent } from './components/lista-fornecedores/lista-fornecedores.component';
 import { FormDebugComponent } from './components/assistants/form-debug/form-debug.component';
 import { CarroselImagensIniciarComponent } from './components/carrosel-imagens-iniciar/carrosel-imagens-iniciar.component';
+import { NoProductsFoundComponent } from './components/no-products-found/no-products-found.component';
+
+// Services
+import { LoggerService } from './services/logger.service';
+import { ErrorHandlerService } from './services/error-handler.service';
 
 registerLocaleData(localePt);
 
@@ -100,6 +105,7 @@ export const customCurrencyMaskConfig = {
     AddRemoveCarrinhoComponent,
     FormDebugComponent,
     CarroselImagensIniciarComponent,
+    NoProductsFoundComponent,
   ],
   exports: [
     CommonModule,
@@ -139,10 +145,13 @@ export const customCurrencyMaskConfig = {
     AddRemoveCarrinhoComponent,
     FormDebugComponent,
     CarroselImagensIniciarComponent,
+    NoProductsFoundComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
-    { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+    LoggerService,
+    ErrorHandlerService
   ],
 })
 export class SharedModule {}

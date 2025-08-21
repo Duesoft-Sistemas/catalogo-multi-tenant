@@ -1,52 +1,244 @@
 <app-spinner [show]="spinner"></app-spinner>
-<div class="row d-flex justify-content-center" *ngIf="listProdutos.length > 0">
-  <div class="mb-3" [ngClass]="{'col-sm-6 col-lg-4 col-xl-3 col-gg-2': !detalhes, 'col-md-6': detalhes}"
-    *ngFor="let produto of listProdutos">
-    <mat-card class="prods-card elevation-4 position-relative p-3"  style="margin: 0 auto;" (click)="getDetalhes(produto, 'D')">
-      <div class="ribbon-wrapper ribbon-lg" *ngIf="produto.emPromocao" >
-        <div class="ribbon bg-danger text-sm">
-            Promoção
-        </div>
-      </div>
-      <img mat-card-image class="d-flex" style="margin: 0 auto;"
-        [src]="produto.image.includes('imagem_nao_encontrada.jpg') ? imgPadraoProduto : produto.image"
-        [alt]="produto.code">
-      <mat-card-header>
-        <mat-card-title>{{produto.code}}</mat-card-title>
-        <mat-card-subtitle class="limitar-linhas1">{{produto.productGroup}} / {{produto.productSubgroup}}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="limitar-linhas2">
-          <strong>Descrição: </strong> {{produto.description}}
-        </p>
-        <p *ngIf="!this.seletorPeculiaridadesCatalogos.clientes.cliente6" class="limitar-linhas2">
-          <strong>Estoque: </strong>
-          {{ produto.stockStatus}} / {{getPrice(produto?.price) | currency}}
-        </p>
-        <p *ngIf="this.seletorPeculiaridadesCatalogos.clientes.cliente6" class="limitar-linhas2">
-          <strong>Preço: </strong>
-           {{getPrice(produto?.price) | currency}}
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="row d-flex flex-wrap">
-          <div class="col-6 marcaPecaProdutoHolder">
-            <img
-              [src]="!produto.marcaPecaProduto || produto.marcaPecaProduto?.includes('./static/') ? imgPadraoMarca : produto.marcaPecaProduto">
-          </div>
-          <div class="col-6">
-            <button class="btn float-right" (click)="getDetalhes(produto, 'C')"><i class="fas fa-cart-plus icon-btn"></i></button>
-            <button class="btn float-right" (click)="getDetalhes(produto, 'D')"><i
-                class="fas fa-exclamation-circle icon-btn"></i></button>
-          </div>
-        </div>
-      </mat-card-actions>
-    </mat-card>
+
+<!-- INDICADOR DE CARREGAMENTO DOS DETALHES -->
+<div *ngIf="carregandoDetalhes" class="fixed top-4 right-4 bg-primary text-white px-4 py-2 rounded-lg shadow-lg z-50">
+  <div class="flex items-center gap-2">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span class="text-sm">Carregando detalhes dos produtos...</span>
   </div>
 </div>
-<div class="d-flex justify-content-center mt-3" *ngIf="totalPaginas">
-  <pagination [boundaryLinks]="true" [totalItems]="totalPaginas*10" previousText="&lsaquo;" nextText="&rsaquo;"
-    firstText="&laquo;" lastText="&raquo;" [maxSize]="maxSizePaginator" (pageChanged)="pageChanged.emit($event)">
-  </pagination>
+
+<!-- TÍTULO DA PÁGINA -->
+<div class="mb-6">
+  <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 leading-tight">Catálogo de Produtos</h1>
+</div>
+
+<!-- BARRA DE PESQUISA E FILTROS -->
+<div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center" *ngIf="enableSearch">
+  <div class="relative w-full sm:max-w-xl px-1">
+    <i class="fas fa-search absolute left-2.5 md:left-5 pl-1 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" aria-hidden="true"></i>
+    <input
+      type="text"
+      [(ngModel)]="termoPesquisa"
+      (keydown)="onSearchKeydown($event)"
+      (input)="onSearchInput($event)"
+      placeholder="Pesquisar por Código, Nome, Descrição..."
+      class="w-full h-12 sm:h-11 pl-9 md:pl-10 pr-3 text-base sm:text-sm text-gray-700 placeholder-gray-400 bg-white border border-gray-300 rounded-2xl focus:!outline-none focus:!ring-0"
+      aria-label="Pesquisar produtos"
+    />
+  </div>
+
+  <div class="flex w-full items-center gap-2 sm:w-auto sm:justify-end px-1">
+    <!-- Container para o select de ordenação com botão de cancelar -->
+    <div class="relative w-full sm:w-48">
+      <select 
+        [(ngModel)]="ordenacaoSelecionada"
+        (change)="onOrdenacaoChange()"
+        class="h-11 md:h-12 w-full text-base sm:text-sm text-gray-700 bg-white border border-gray-300 rounded-2xl focus:!outline-none focus:!ring-0 pr-8">
+        <option value="">Ordenar por</option>
+        <option value="stock-only">Apenas com Estoque</option>
+        <option value="featured">Destaques</option>
+        <option value="price-asc">Preço: Menor para Maior</option>
+        <option value="price-desc">Preço: Maior para Menor</option>
+        <option value="name-asc">Nome: A → Z</option>
+        <option value="name-desc">Nome: Z → A</option>
+      </select>
+      
+      <!-- Botão X para cancelar ordenação -->
+      <button 
+        *ngIf="ordenacaoSelecionada && ordenacaoSelecionada !== ''"
+        (click)="cancelarOrdenacao()"
+        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 flex items-center justify-center text-gray-500 hover:text-gray-700"
+        title="Cancelar ordenação">
+        <i class="fas fa-times text-xs"></i>
+      </button>
+    </div>
+
+    <button 
+      (click)="openModalPesquisaAvancada()"
+      class="h-12 sm:h-11 px-4 flex items-center gap-2 bg-white text-gray-700 text-base sm:text-sm border border-gray-300 rounded-2xl hover:bg-gray-50 transition-colors">
+      <i class="fas fa-filter text-sm"></i>
+      <span class="hidden sm:inline">Pesquisa Avançada</span>
+    </button>
+  </div>
+</div>
+
+<!-- GRADE DE PRODUTOS -->
+<section aria-label="Produtos" *ngIf="listProdutos && listProdutos.length > 0">
+  <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+    <div *ngFor="let produto of listProdutos" class="w-full">
+      <article class="flex h-full flex-col rounded-xl shadow-sm shadow-black border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+        <div class="relative">
+          <div class="image-container bg-white border-b border-gray-200">
+            <img
+              [src]="produto.image.includes('imagem_nao_encontrada.jpg') ? imgPadraoProduto : produto.imageSafe || produto.image"
+              [alt]="produto.code"
+              (error)="onImageError($event, produto)"
+              loading="lazy"
+              class="product-image"
+            />
+          </div>
+          
+          <!-- BADGES -->
+          <div *ngIf="produto.emPromocao" class="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-sm">
+            Promoção
+          </div>
+          <div *ngIf="isOutOfStock(produto)" class="absolute top-2 left-2 bg-gray-800 bg-opacity-80 text-white text-xs px-2 py-1 rounded-full font-medium shadow-sm">
+            Sem estoque
+          </div>
+        </div>
+        
+        <div class="flex flex-1 flex-col p-4 sm:p-4">
+          <h1 class="text-lg sm:text-xl font-bold text-gray-800 line-clamp-1" [title]="getProductName(produto)">
+            {{getProductName(produto)}}
+          </h1>
+
+          <!-- CÓDIGO DO PRODUTO -->
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2 line-clamp-1" [title]="produto.code">
+            {{produto.code}}
+          </h3>
+
+          <!-- GRUPO E SUBGRUPO -->
+          <p class="text-sm sm:text-sm text-gray-700 mb-2 line-clamp-1">
+            <span class="font-semibold">{{produto.productGroup}}</span>
+            <span *ngIf="produto.productSubgroup"> • {{produto.productSubgroup}}</span>
+          </p>
+
+          <!-- DESCRIÇÃO -->
+          <p class="text-sm sm:text-sm text-gray-600 mb-3 sm:mb-4 leading-snug flex-grow line-clamp-3">
+            <span class="font-semibold text-gray-700">Descrição:</span> {{produto.description}}
+          </p>
+
+          <!-- PREÇO -->
+          <div class="mb-3 sm:mb-4 flex-shrink-0">
+            <p *ngIf="getPrice(produto?.price2) <= 0" class="text-lg sm:text-lg font-bold text-primary flex items-center gap-2">
+              <span class="text-gray-700 text-sm">Preço:</span> {{getPrice(produto?.price) | currency}}
+            </p>
+            <p *ngIf="getPrice(produto?.price2) > 0" class="text-lg sm:text-lg font-bold text-primary">
+              <span class="text-gray-700 text-sm">Preço:</span> {{produto?.unity2}} {{getPrice(produto?.price2) | currency}}
+            </p>
+          </div>
+
+          <!-- BOTÕES DE AÇÃO -->
+          <div class="flex gap-6 sm:gap-6 justify-center flex-shrink-0">
+            <button 
+              type="button"
+              class="rounded-full w-12 h-12 sm:w-12 sm:h-12 shadow hover:scale-105 transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed relative z-20"
+              [class]="isCarregandoCarrinho(produto) ? 'bg-gray-400 text-gray-600' : (hasStock(produto) ? 'bg-primary hover:bg-primary-dark text-white' : 'bg-gray-400 text-gray-600')"
+              [disabled]="isCarregandoCarrinho(produto) || isOutOfStock(produto)"
+              (click)="adicionarAoCarrinho(produto); $event.stopPropagation(); $event.preventDefault()"
+              [attr.aria-label]="'Adicionar ' + produto.code + ' ao carrinho'"
+            >
+              <i *ngIf="isCarregandoCarrinho(produto)" class="fas fa-spinner fa-spin text-sm sm:text-sm"></i>
+              <i *ngIf="!isCarregandoCarrinho(produto)" class="fas fa-cart-plus text-sm sm:text-sm"></i>
+            </button>
+            <button 
+              type="button"
+              class="rounded-full w-12 h-12 sm:w-12 sm:h-12 shadow hover:scale-105 transition-all duration-200 flex items-center justify-center relative z-20"
+              [class]="isCarregandoDetalhes(produto) ? 'bg-gray-400 text-gray-600' : 'bg-primary hover:bg-primary-dark text-white'"
+              [disabled]="isCarregandoDetalhes(produto)"
+              (click)="abrirDetalhes(produto); $event.stopPropagation(); $event.preventDefault()"
+              [attr.aria-label]="'Ver detalhes de ' + produto.code"
+            >
+              <i *ngIf="isCarregandoDetalhes(produto)" class="fas fa-spinner fa-spin text-sm sm:text-sm"></i>
+              <i *ngIf="!isCarregandoDetalhes(produto)" class="fas fa-info text-sm sm:text-sm"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MENSAGEM QUANDO NÃO HÁ PRODUTOS -->
+<app-no-products-found 
+  *ngIf="!listProdutos || listProdutos.length === 0"
+  [message]="mensagemSemProdutos"
+  [customDescription]="descricaoSemProdutos">
+</app-no-products-found>
+
+<!-- PAGINAÇÃO MODERNA -->
+<div class="flex justify-center mt-6 sm:mt-8" *ngIf="totalPaginas && totalPaginas > 1">
+  <!-- PAGINAÇÃO SIMPLIFICADA PARA MOBILE MUITO PEQUENO -->
+  <nav *ngIf="isVerySmallScreen()" class="flex items-center justify-center gap-2 w-full max-w-full px-2" aria-label="Pagination">
+    <!-- BOTÃO ANTERIOR -->
+    <button
+      type="button"
+      class="h-12 w-12 rounded-full text-sm border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center flex-shrink-0"
+      [disabled]="currentPage === 1"
+      (click)="goToPage(currentPage - 1)"
+    >
+      <i class="fas fa-chevron-left text-xs"></i>
+    </button>
+
+    <!-- INDICADOR DE PÁGINA ATUAL -->
+    <div class="flex items-center gap-1 px-3 py-2 bg-gray-100 rounded-lg">
+      <span class="text-sm font-medium text-gray-700">{{currentPage}}</span>
+      <span class="text-sm text-gray-500">de {{totalPaginas}}</span>
+    </div>
+
+    <!-- BOTÃO PRÓXIMO -->
+    <button
+      type="button"
+      class="h-12 w-12 rounded-full text-sm border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center flex-shrink-0"
+      [disabled]="currentPage === totalPaginas"
+      (click)="goToPage(currentPage + 1)"
+    >
+      <i class="fas fa-chevron-right text-xs"></i>
+    </button>
+  </nav>
+
+  <!-- PAGINAÇÃO COMPLETA PARA TELAS MAIORES -->
+  <nav *ngIf="!isVerySmallScreen()" class="flex items-center justify-center gap-1 sm:gap-2 w-full max-w-full overflow-x-auto px-2 scrollbar-hide" aria-label="Pagination">
+    <!-- BOTÃO ANTERIOR -->
+    <button
+      type="button"
+      class="h-12 w-12 sm:h-10 sm:w-10 md:h-9 md:w-auto md:px-3 rounded-full text-sm border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-1 flex-shrink-0 min-w-0"
+      [disabled]="currentPage === 1"
+      (click)="goToPage(currentPage - 1)"
+    >
+      <i class="fas fa-chevron-left text-xs"></i>
+      <span class="hidden md:inline">Anterior</span>
+    </button>
+
+    <!-- PÁGINAS NUMERADAS -->
+    <div class="flex items-center gap-1 flex-shrink-0 min-w-0">
+      <ng-container *ngFor="let page of getVisiblePages()">
+        <!-- ELIPSIS INICIAL -->
+        <div *ngIf="page === 'start-ellipsis'" class="px-1 sm:px-2 text-gray-500 flex-shrink-0">
+          <i class="fas fa-ellipsis-h text-xs"></i>
+        </div>
+        
+        <!-- PÁGINA NUMERADA -->
+        <button
+          *ngIf="page !== 'start-ellipsis' && page !== 'end-ellipsis'"
+          type="button"
+          class="h-12 w-12 sm:h-10 sm:w-10 md:h-9 md:w-9 rounded-full text-sm border transition-colors duration-200 flex items-center justify-center flex-shrink-0 min-w-0"
+          [class]="page === currentPage 
+            ? 'bg-primary text-white border-primary hover:bg-primary-dark' 
+            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
+          (click)="goToPage(page)"
+          [attr.aria-current]="page === currentPage ? 'page' : undefined"
+        >
+          {{page}}
+        </button>
+        
+        <!-- ELIPSIS FINAL -->
+        <div *ngIf="page === 'end-ellipsis'" class="px-1 sm:px-2 text-gray-500 flex-shrink-0">
+          <i class="fas fa-ellipsis-h text-xs"></i>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- BOTÃO PRÓXIMO -->
+    <button
+      type="button"
+      class="h-12 w-12 sm:h-10 sm:w-10 md:h-9 md:w-auto md:px-3 rounded-full text-sm border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-1 flex-shrink-0 min-w-0"
+      [disabled]="currentPage === totalPaginas"
+      (click)="goToPage(currentPage + 1)"
+    >
+      <span class="hidden md:inline">Próximo</span>
+      <i class="fas fa-chevron-right text-xs"></i>
+    </button>
+  </nav>
 </div>

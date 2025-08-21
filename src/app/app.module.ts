@@ -1,24 +1,19 @@
-import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
-import { HeaderComponent } from './shared/components/header/header.component';
 import { SharedModule } from './shared/shared.module';
-import { AuthGuardService } from './shared/guards/auth-guard.service';
-import { AuthStorageService } from './shared/guards/auth-storage.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptorService } from './shared/guards/auth-interceptor.service';
-import { RouterModule } from '@angular/router';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { CoreModule } from './core/core.module';
+import { FeaturesModule } from './features/features.module';
 import { AlterarSenhaComponent } from './pages/alterar-senha/alterar-senha.component';
 import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
 import { CadastrarSeComponent } from './pages/sem-autenticacao/cadastrar-se/cadastrar-se.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ngx-currency';
 import { PrimeiroAcessoComponent } from './pages/primeiro-acesso/primeiro-acesso.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "left",
@@ -39,32 +34,26 @@ const maskConfig: Partial<IConfig> = {
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent,
-    HeaderComponent,
     AlterarSenhaComponent,
     RecuperarSenhaComponent,
     PrimeiroAcessoComponent,
     CadastrarSeComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    RouterModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
+    CoreModule,
+    FeaturesModule,
     NgxMaskModule.forRoot(maskConfig),
-    MatTooltipModule,
-    MatDialogModule,
     SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
-    AuthGuardService,
-    AuthStorageService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true,
-    },
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }

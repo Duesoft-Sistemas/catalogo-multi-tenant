@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { RecuperarSenha } from 'src/app/shared/classes/recuperar-senha';
 import { Formularios } from 'src/app/shared/functions/formularios';
@@ -49,6 +49,7 @@ export class RecuperarSenhaComponent implements OnInit {
               new RecuperarSenha(data.modelo)
             );
             this.formulario.get('schema').setValue(this.serviceTenant.getSchemaTenant());
+      this.formulario.get('schema').setValue(this.serviceTenant.getSchemaTenant());
             this.spinner = false;
           } else {
             this.spinner = false;
@@ -92,7 +93,7 @@ export class RecuperarSenhaComponent implements OnInit {
           complete: () => {
             this.spinner = false;
           },
-        });
+      });
     }
   }
 

@@ -1,0 +1,354 @@
+/* ======================================== */
+/* ESTILOS CLEAN - PEDIDOS REALIZADOS */
+/* ======================================== */
+
+/* Tabela clean e funcional */
+::ng-deep .mat-elevation-z8 {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Cabeçalho da tabela */
+::ng-deep .mat-mdc-header-row {
+  background-color: #f8fafc !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+::ng-deep .mat-mdc-header-cell {
+  color: #374151 !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  padding: 16px 12px !important;
+  border-bottom: none !important;
+}
+
+/* Linhas da tabela */
+::ng-deep .mat-mdc-row {
+  transition: background-color 0.2s ease !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+::ng-deep .mat-mdc-row:hover {
+  background-color: #f9fafb !important;
+  cursor: pointer !important;
+}
+
+::ng-deep .mat-mdc-row:nth-child(even) {
+  background-color: #fafbfc !important;
+}
+
+/* Células da tabela */
+::ng-deep .mat-mdc-cell {
+  padding: 16px 12px !important;
+  font-size: 0.875rem !important;
+  color: #374151 !important;
+  border-bottom: none !important;
+}
+
+/* Paginação clean */
+::ng-deep .mat-mdc-paginator {
+  background-color: #f8fafc !important;
+  border-top: 1px solid #e5e7eb !important;
+}
+
+::ng-deep .mat-mdc-paginator-container {
+  padding: 16px 24px !important;
+}
+
+::ng-deep .mat-mdc-paginator-page-size,
+::ng-deep .mat-mdc-paginator-range-label {
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+/* Botões da paginação */
+::ng-deep .mat-mdc-paginator-navigation-previous,
+::ng-deep .mat-mdc-paginator-navigation-next,
+::ng-deep .mat-mdc-paginator-navigation-first,
+::ng-deep .mat-mdc-paginator-navigation-last {
+  background-color: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 6px !important;
+  margin: 0 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+::ng-deep .mat-mdc-paginator-navigation-previous:hover,
+::ng-deep .mat-mdc-paginator-navigation-next:hover,
+::ng-deep .mat-mdc-paginator-navigation-first:hover,
+::ng-deep .mat-mdc-paginator-navigation-last:hover {
+  background-color: #f3f4f6 !important;
+  border-color: #9ca3af !important;
+}
+
+/* Estado vazio da tabela */
+::ng-deep .table-empty {
+  color: #6b7280 !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  padding: 32px 24px !important;
+}
+
+/* Valores monetários */
+::ng-deep .mat-mdc-cell:last-child {
+  font-weight: 600 !important;
+  color: var(--color-primary) !important;
+}
+
+/* ======================================== */
+/* CARDS MOBILE - DESIGN MODERNO */
+/* ======================================== */
+
+/* Cards mobile - melhorias de acessibilidade */
+.card-mobile {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-mobile:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Animação de toque para dispositivos touch */
+@media (hover: none) and (pointer: coarse) {
+  .card-mobile:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* Melhorias para telas muito pequenas */
+@media (max-width: 480px) {
+  .card-mobile {
+    margin: 0 0.5rem;
+  }
+  
+  .card-mobile .card-header {
+    padding: 0.75rem;
+  }
+  
+  .card-mobile .card-body {
+    padding: 0.75rem;
+  }
+  
+  .card-mobile .card-footer {
+    padding: 0.5rem;
+  }
+}
+
+/* Melhorias para telas médias */
+@media (min-width: 481px) and (max-width: 1023px) {
+  .card-mobile {
+    margin: 0 1rem;
+  }
+}
+
+/* ======================================== */
+/* MELHORIAS MOBILE - RESPONSIVIDADE */
+/* ======================================== */
+
+/* Mobile - Telas pequenas (até 768px) */
+@media (max-width: 768px) {
+  /* Cabeçalho da tabela mobile */
+  ::ng-deep .mat-mdc-header-cell {
+    padding: 16px 12px !important;
+    font-size: 0.875rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    background-color: #f1f5f9 !important;
+  }
+  
+  /* Células da tabela mobile */
+  ::ng-deep .mat-mdc-cell {
+    padding: 20px 12px !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Linhas mais distintas no mobile */
+  ::ng-deep .mat-mdc-row {
+    border-bottom: 2px solid #e2e8f0 !important;
+    background-color: white !important;
+  }
+  
+  ::ng-deep .mat-mdc-row:nth-child(even) {
+    background-color: #f8fafc !important;
+  }
+  
+  ::ng-deep .mat-mdc-row:hover {
+    background-color: #f0f9ff !important;
+  }
+  
+  /* Paginação mobile */
+  ::ng-deep .mat-mdc-paginator-container {
+    padding: 16px 20px !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  
+  ::ng-deep .mat-mdc-paginator-page-size {
+    order: 2 !important;
+  }
+  
+  ::ng-deep .mat-mdc-paginator-range-label {
+    order: 1 !important;
+    text-align: center !important;
+    font-size: 0.875rem !important;
+  }
+  
+  ::ng-deep .mat-mdc-paginator-navigation {
+    order: 3 !important;
+    justify-content: center !important;
+  }
+  
+  /* Botões da paginação mobile */
+  ::ng-deep .mat-mdc-paginator-navigation-previous,
+  ::ng-deep .mat-mdc-paginator-navigation-next,
+  ::ng-deep .mat-mdc-paginator-navigation-first,
+  ::ng-deep .mat-mdc-paginator-navigation-last {
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 4px !important;
+  }
+  
+  /* Estado vazio mobile */
+  ::ng-deep .table-empty {
+    padding: 32px 20px !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Melhorias na tabela mobile */
+  ::ng-deep .mat-mdc-table {
+    font-size: 0.875rem !important;
+  }
+  
+  /* Espaçamento entre linhas mobile */
+  ::ng-deep .mat-mdc-row {
+    min-height: 80px !important;
+  }
+}
+
+/* Mobile - Telas muito pequenas (até 480px) */
+@media (max-width: 480px) {
+  /* Cabeçalho ainda menor */
+  ::ng-deep .mat-mdc-header-cell {
+    padding: 14px 10px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Células ainda menores */
+  ::ng-deep .mat-mdc-cell {
+    padding: 18px 10px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Paginação mais compacta */
+  ::ng-deep .mat-mdc-paginator-container {
+    padding: 12px 16px !important;
+    gap: 12px !important;
+  }
+  
+  /* Botões menores */
+  ::ng-deep .mat-mdc-paginator-navigation-previous,
+  ::ng-deep .mat-mdc-paginator-navigation-next,
+  ::ng-deep .mat-mdc-paginator-navigation-first,
+  ::ng-deep .mat-mdc-paginator-navigation-last {
+    width: 40px !important;
+    height: 40px !important;
+    margin: 0 2px !important;
+  }
+  
+  /* Estado vazio mais compacto */
+  ::ng-deep .table-empty {
+    padding: 24px 16px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Linhas mais compactas */
+  ::ng-deep .mat-mdc-row {
+    min-height: 70px !important;
+  }
+}
+
+/* Mobile - Orientação landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  /* Ajustes para landscape */
+  ::ng-deep .mat-mdc-paginator-container {
+    flex-direction: row !important;
+    gap: 16px !important;
+  }
+  
+  ::ng-deep .mat-mdc-paginator-range-label {
+    order: unset !important;
+    text-align: left !important;
+  }
+}
+
+/* Melhorias gerais para touch */
+@media (hover: none) and (pointer: coarse) {
+  /* Melhor touch target */
+  ::ng-deep .mat-mdc-row {
+    min-height: 80px !important;
+  }
+  
+  ::ng-deep .mat-mdc-cell {
+    padding: 20px 12px !important;
+  }
+  
+  /* Hover removido em dispositivos touch */
+  ::ng-deep .mat-mdc-row:hover {
+    background-color: inherit !important;
+  }
+  
+  /* Active state para touch */
+  ::ng-deep .mat-mdc-row:active {
+    background-color: #f0f9ff !important;
+  }
+}
+
+/* ======================================== */
+/* ANIMAÇÕES DE ESTADO VAZIO */
+/* ======================================== */
+
+/* Estilos para o estado vazio de pedidos realizados */
+.empty-state-container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.empty-state-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.empty-state-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.empty-state-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}

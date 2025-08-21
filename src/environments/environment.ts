@@ -5,9 +5,10 @@
 export const environment = {
   production: false,
   SchemaDSCOP: 'DSCOP',
+  Schema: 'Fase',
   UrlBase: 'https://localhost:44331/api',
   //UrlBase: 'https://dswebapi.duesoft.com.br/api',
-  idLocalStorage: 'dscop'
+  idLocalStorage: 'dscop',
 };
 
 /*

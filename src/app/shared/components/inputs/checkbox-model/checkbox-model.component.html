@@ -1,17 +1,25 @@
-<form [formGroup]="form" *ngIf="form" class="d-flex align-items-center">
-  <div *ngIf="switch">
-    <label [for]="'cb'+controlName+index"> {{label}} </label>
-    <div class="custom-control custom-switch">
-      <input type="checkbox" [formControlName]="controlName" [id]="'cb'+controlName+index" class="custom-control-input">
-      <label class="custom-control-label m-0" [for]="'cb'+controlName+index">
+<form [formGroup]="form" *ngIf="form" class="w-full">
+  <div *ngIf="switch" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors duration-200">
+    <label [for]="'cb'+controlName+index" class="text-sm font-medium text-gray-700"> 
+      {{label}} 
+    </label>
+    <div class="flex items-center space-x-3">
+      <input 
+        type="checkbox" 
+        [formControlName]="controlName" 
+        [id]="'cb'+controlName+index" 
+        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+      <label class="text-sm font-medium text-gray-700" [for]="'cb'+controlName+index">
         {{form.get(controlName).value ? labelTrue : labelFalse}}
       </label>
     </div>
   </div>
-  <div *ngIf="!switch" class="checkbox-default">
-    <div class="custom-control custom-checkbox">
-      <input class="custom-control-input" type="checkbox" [id]="'cb'+controlName+index" [formControlName]="controlName">
-      <label [for]="'cb'+controlName+index" class="custom-control-label">{{label}}</label>
-    </div>
+  <div *ngIf="!switch" class="flex items-center space-x-3 p-3">
+    <input 
+      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" 
+      type="checkbox" 
+      [id]="'cb'+controlName+index" 
+      [formControlName]="controlName">
+    <label [for]="'cb'+controlName+index" class="text-sm font-medium text-gray-700">{{label}}</label>
   </div>
 </form>

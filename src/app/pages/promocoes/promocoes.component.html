@@ -1,5 +1,75 @@
-<app-body-page [spinner]="spinner">
+<!-- SEÇÃO PRINCIPAL: Container da página com spinner e schema -->
+<app-body-page [spinner]="spinner" [schema]="schema" [productCount]="listProdutos.length" [showProductCount]="false">
+  
+  <!-- SEÇÃO DO CORPO: Lista de produtos (só aparece se houver produtos) -->
   <div body *ngIf="listProdutos.length > 0">
-    <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="totalPaginas" (pageChanged)="goTo($event)"></app-lista-produtos>
+    <!-- COMPONENTE: Lista de produtos com paginação -->
+    <app-lista-produtos
+      [listProdutos]="listProdutos"
+      [totalPaginas]="totalPaginas"
+      [enableSearch]="true"
+      (pageChanged)="goTo($event)"
+      (searchChanged)="onSearchChanged($event)"
+      (productsUpdated)="onProductsUpdated($event)"
+      (noProductsFound)="onNoProductsFound($event)"
+      (reloadCatalog)="reloadCatalog()"
+    ></app-lista-produtos>
+  </div>
+  
+  <!-- SEÇÃO DE ESTADO VAZIO: Quando não há produtos em promoção -->
+  <div body *ngIf="listProdutos.length === 0 && !spinner" class="!flex !items-center !justify-center !min-h-[400px] !px-4 empty-state-container">
+    <div class="!max-w-md !w-full !border !border-primary !text-primary !px-6 !py-8 !rounded-xl !shadow-lg !text-center !relative !overflow-hidden empty-state-card">
+      <!-- Ícone decorativo -->
+      <div class="!absolute !top-0 !left-0 !w-full !h-1 !bg-gradient-to-r !from-primary !to-primary-light"></div>
+      
+      <!-- Ícone principal -->
+      <div class="!mb-4 !flex !justify-center">
+        <div class="!w-16 !h-16 !bg-transparent !rounded-full !flex !items-center !justify-center !border-2 !border-primary empty-state-icon">
+          <i class="fas fa-tags !text-2xl !text-primary"></i>
+        </div>
+      </div>
+      
+      <!-- Título -->
+      <h3 class="!text-lg !font-semibold !text-primary-dark !mb-2">Nenhuma Promoção Encontrada</h3>
+      
+      <!-- Mensagem -->
+      <p class="!text-primary !text-sm !leading-relaxed">
+        No momento não há produtos em promoção disponíveis. 
+        Volte mais tarde para conferir nossas ofertas especiais!
+      </p>
+      
+      <!-- Ícone de informação -->
+      <div class="!mt-4 !flex !items-center !justify-center !gap-2 !text-primary">
+        <i class="fas fa-info-circle !text-sm"></i>
+        <span class="!text-xs !font-medium">Promoções atualizadas regularmente</span>
+      </div>
+    </div>
   </div>
 </app-body-page>
+
+<!-- SEÇÃO DOS BOTÕES FLUTUANTES: Botões de ação fixos na tela -->
+<div class="!fixed !bottom-6 !right-6 !z-50 !flex !flex-col !gap-3" *ngIf="listProdutos.length > 0">
+  
+  <!-- BOTÃO 1: Busca/Filtro básico -->
+  <button
+    mat-fab
+    class="!bg-primary/90 hover:!bg-primary !text-white !shadow-xl hover:!shadow-2xl !transition-all !duration-300 !transform hover:!scale-110 !border-2 !border-white/20"
+    (click)="openModalFiltro()"
+    matTooltip="Buscar produtos"
+    aria-label="Buscar produtos"
+  >
+    <i class="fas fa-search !text-lg"></i>
+  </button>
+  
+  <!-- BOTÃO 2: Pesquisa avançada -->
+  <button
+    mat-fab
+    class="!bg-primary/90 hover:!bg-primary !text-white !shadow-xl hover:!shadow-2xl !transition-all !duration-300 !transform hover:!scale-110 !border-2 !border-white/20"
+    (click)="openModalPesquisaAvancada()"
+    matTooltip="Pesquisa Avançada"
+    aria-label="Filtro Avançado"
+  >
+    <i class="fa fa-search-plus !text-lg"></i>
+  </button>
+</div>
+

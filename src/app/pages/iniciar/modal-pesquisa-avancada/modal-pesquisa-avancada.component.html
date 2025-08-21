@@ -1,7 +1,8 @@
 <app-spinner [show]="spinner"></app-spinner>
+
 <app-body-modal [title]="'Pesquisa Avançada'">
-  <form card-body role="form" [formGroup]="formulario" *ngIf="formulario">
-    <div class="form-group col">
+  <form card-body role="form" [formGroup]="formulario" *ngIf="formulario" class="">
+    <div class="form-group col-12">
       <app-select-model
         class="mx-4"
         [label]="'Marca'"
@@ -11,8 +12,10 @@
         [loading]="loadListaMarcas"
         [bindValue]="'description'"
         [bindLabel]="'description'"
+        (change)="onMarcaChange($event)"
       >
       </app-select-model>
+
       <app-select-model
         class="mx-4"
         [label]="'Grupo'"
@@ -24,6 +27,7 @@
         [bindLabel]="'description'"
       >
       </app-select-model>
+
       <app-select-model
         class="mx-4"
         [label]="'Subgrupo'"
@@ -37,14 +41,17 @@
       </app-select-model>
     </div>
   </form>
-  <div card-buttons class="d-flex justify-content-center">
-    <button (click)="cancelar()" mat-raised-button class="button-primary ml-4">
+
+  <div card-buttons class="flex justify-center items-center p-2">
+    <button (click)="cancelar()" class="flex items-center justify-center gap-2 !py-2 !px-4 !rounded-xl bg-gray-500 text-white shadow-sm hover:rotate-2 duration-300">
       Cancelar <i class="fa fa-times-circle"></i>
     </button>
-    <button (click)="limpar()" mat-raised-button class="button-primary ml-4">
+
+    <button (click)="limpar()" class="flex items-center justify-center gap-2 !py-2 !px-4 !rounded-xl bg-gray-500 text-white shadow-sm hover:rotate-2 duration-300">
       Limpar <i class="fa fa-minus-circle"></i>
     </button>
-    <button (click)="buscarProdutosFiltro()" mat-raised-button class="button-primary ml-4">
+
+    <button (click)="buscarProdutosFiltro()" class="flex items-center justify-center gap-2 !py-2 !px-4 !rounded-xl bg-primary text-white shadow-sm hover:bg-primary-dark hover:rotate-1 duration-300">
       Buscar <i class="fa fa-search"></i>
     </button>
   </div>

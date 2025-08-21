@@ -1,46 +1,152 @@
-<app-body-page [spinner]="spinner" [showBody]="listProdutos.length > 0">
-  <div header *ngIf="listProdutos.length <= 0" class="row d-flex justify-content-center">
-    <div class="col-sm-8 mb-1 form-group ">
-      <div class="row d-flex justify-content-center">
-        <app-carrosel-imagens-iniciar  [imagens]="this.bgStyle" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo != null"></app-carrosel-imagens-iniciar>
-        <div class="col-sm-12 img-custom" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo == null && !this.seletorPeculiaridadesCatalogos.clientes.cliente2">
-          <img class="img-custom" [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoInicio+""' alt="Logo">
-        </div>
-        <div class="col-sm-12 centraliza-imagem-canguru" *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo == null && this.seletorPeculiaridadesCatalogos.clientes.cliente2">
-          <img class="img-custom-background-image"  [src]='"../../../assets/images/"+this.seletorPeculiaridadesCatalogos.logoInicio+""' alt="Logo">
-        </div>
-        <div class="col-sm-12 divPading">
-          <div class="input-group-sm">
-              <div class="box">
-                <input matInput class="form-control input justify-content-center" placeholder="Código / Fábrica / Original / Similar / Descrição" [(ngModel)]="descricao" type="search" id="inputSearchDescricao">
-                <button matSuffix mat-icon-button aria-label="Clear" class="botaoNoInput" (click)="buscaProdutosPorDescricao()">
-                  <mat-icon class="text-white">search</mat-icon>
-                </button>
-              </div>
+<!-- Carrossel de Imagens como Background -->
+ 
+ <!-- 
+<app-carrosel-imagens-iniciar 
+  [imagens]="this.bgStyle" 
+  *ngIf="this.bgStyle.caminhoPlanoFundoCatalogo != null && listProdutos.length <= 0">
+</app-carrosel-imagens-iniciar>
+-->
+
+<!-- Main Content Area -->
+<main *ngIf="listProdutos.length <= 0" class="w-full min-h-screen flex justify-center items-start pt-20 relative z-10 overflow-y-auto">
+  <div class="w-full md:w-4/5 lg:w-2/3 mb-3">
+    <div class="w-full flex flex-col px-3">
+      
+      <!-- Search Section -->
+      <section class="w-full flex flex-col justify-center items-center max-sm:mt-3 lg:mt-20 xl:mt-28">
+        <div class="w-full bg-white flex flex-col items-center gap-4 rounded-xl shadow-lg shadow-gray-200/70 px-4 max-md:-mx-2 py-4">
+          <header>
+            <h1 class="text-2xl font-medium text-black/85 mt-2">
+              Pesquisar produtos
+            </h1>
+          </header>
+   
+          <div class="max-sm:w-full md:w-5/6 flex items-center justify-center border-2 rounded-xl p-2 transition-all duration-150 focus-within:border-primary mb-3">
+            <input
+              matInput
+              class="block w-full px-2 py-1.5 text-base leading-6 text-gray-700 bg-white border-none outline-none focus:outline-none focus:ring-0 shadow-none"
+              placeholder="Código / Fábrica / Original / Similar / Descrição"
+              [(ngModel)]="descricao"
+              type="search"
+              id="inputSearchDescricao"
+              name="search"
+              aria-label="Pesquisar produtos"
+            />
+            <button
+              matSuffix
+              mat-icon-button
+              type="button"
+              aria-label="Buscar produtos"
+              class="!bg-primary !rounded-xl flex items-center justify-center"
+              (click)="buscaProdutosPorDescricao()"
+            >
+              <mat-icon [ngClass]="seletorPeculiaridadesCatalogos.clientes.cliente11 || seletorPeculiaridadesCatalogos.clientes.cliente15 ? 'black' : 'text-white'">
+                search
+              </mat-icon>
+            </button>
+          </div>
+
+          <div class="w-full flex justify-center mb-2">
+            <button 
+              *ngIf="this.seletorPeculiaridadesCatalogos.pesquisaAvancada" 
+              mat-raised-button 
+              class="!bg-gray-200 !border-0 !rounded-xl !px-5 !py-6 !shadow-none !text-gray-800 !font-medium" 
+              (click)="openModalPesquisaAvancada()"
+              [ngClass]="{'bg-primary': seletorPeculiaridadesCatalogos.clientes.cliente11 || seletorPeculiaridadesCatalogos.clientes.cliente15, 'bg-white text-black': !seletorPeculiaridadesCatalogos.clientes.cliente11 && !seletorPeculiaridadesCatalogos.clientes.cliente15}"
+              aria-label="Abrir pesquisa avançada"
+            >
+              Pesquisa Avançada
+            </button>
           </div>
         </div>
-        <div class="col-sm-12 d-flex justify-content-center mt-2 divPading">
-          <button *ngIf="this.seletorPeculiaridadesCatalogos.pesquisaAvancada" mat-raised-button class="button-primary" (click)="openModalPesquisaAvancada()">
-            Pesquisa Avançada
-          </button>
-        </div>
-      </div>
+      </section>             
+
+      <!-- Navigation Cards Section -->
+      <section class="w-full flex max-lg:flex-col justify-center gap-3 mt-4">
+        <nav class="bg-white w-full flex flex-col items-start justify-center gap-2 rounded-xl shadow-lg shadow-gray-200/70 px-4 py-4 cursor-pointer"
+        [routerLink]="['/lancamentos']">
+           <mat-icon class="text-2xl" aria-hidden="true">star</mat-icon>
+            
+           <h2 class="text-primary font-bold text-lg">
+            Lançamentos
+           </h2>
+
+           <p>
+            Confira os produtos Destaques
+           </p>
+        </nav>
+
+        <nav class="bg-white w-full flex flex-col items-start justify-center gap-2 rounded-xl shadow-lg shadow-gray-200/70 px-4 py-4 cursor-pointer"
+        [routerLink]="['/pesquisar-produtos']">
+          <mat-icon class="text-2xl" aria-hidden="true">inventory_2</mat-icon>
+
+          <h2 class="text-primary font-bold text-lg">
+            Catálogo
+           </h2>
+
+           <p>
+            Navegue pelo catálogo completo
+           </p> 
+        </nav>
+
+        <nav class="bg-white w-full flex flex-col items-start justify-center gap-2 rounded-xl shadow-lg shadow-gray-200/70 px-4 py-4 cursor-pointer"
+        [routerLink]="['/pedidos-realizados']">
+          <mat-icon class="text-2xl" aria-hidden="true">shopping_cart</mat-icon>
+
+          <h2 class="text-primary font-bold text-lg">
+            Pedidos
+           </h2>
+
+           <p>
+            Acompanhe seus pedidos
+           </p>
+        </nav>
+      </section>
     </div>
   </div>
-  <div>
-  </div>
-  <div body *ngIf="listProdutos.length > 0">
-    <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="formEsteira.get('totalPages').value"
-    (pageChanged)="goTo($event)"></app-lista-produtos>
+</main>
+
+<!-- Products List Section -->
+<app-body-page 
+  [spinner]="spinner" 
+  [showBody]="listProdutos.length > 0" 
+  [showContentBody]="listProdutos.length > 0" 
+  [productCount]="listProdutos.length"
+  [showProductCount]="false"
+  *ngIf="listProdutos.length > 0">
+  <div body>
+    <app-lista-produtos 
+      [listProdutos]="listProdutos" 
+      [totalPaginas]="formEsteira.get('totalPages').value" 
+      [enableSearch]="true"
+      (pageChanged)="goTo($event)"
+      (searchChanged)="onSearchChanged($event)"
+      (productsUpdated)="onProductsUpdated($event)"
+      (noProductsFound)="onNoProductsFound($event)"
+      (reloadCatalog)="reloadCatalog()">
+    </app-lista-produtos>
   </div>
 </app-body-page>
-<div class="btn-absolute" *ngIf="listProdutos.length > 0">
-  <button mat-fab color="primary" class="btn btn-pattern" (click)="openModalFiltro()" matTooltip="Pesquisar"
-    aria-label="Filtrar">
+
+<!-- Floating Action Buttons -->
+<aside class="btn-absolute" *ngIf="listProdutos.length > 0" role="complementary">
+  <button 
+    mat-fab 
+    color="primary" 
+    class="btn btn-pattern" 
+    (click)="openModalFiltro()" 
+    matTooltip="Pesquisar" 
+    aria-label="Filtrar produtos">
     <i class="fas fa-search" aria-hidden="true"></i>
   </button>
-  <button mat-fab color="primary" class="btn btn-pattern ml-2" (click)="openModalPesquisaAvancada()" matTooltip="Pesquisa Avançada"
+
+  <button 
+    mat-fab 
+    color="primary" 
+    class="btn btn-pattern ml-2" 
+    (click)="openModalPesquisaAvancada()" 
+    matTooltip="Pesquisa Avançada" 
     aria-label="Filtro Avançado">
     <i class="fa fa-search-plus" aria-hidden="true"></i>
   </button>
-</div>
+</aside>

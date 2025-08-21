@@ -1,13 +1,116 @@
-i {
+/* Removendo estilos que interferem com Tailwind */
+/* i {
   margin-left: 10px;
   width: 20px;
   text-align: center;
+} */
+
+.tamanho
+{
+  min-height: 30px;
+  max-height: 33px;
+  max-width: 53px;
 }
 
-p {
-  padding-left: 10px;
-}
-
-.logoCanguru{
+.alinhaLogo{
   padding-left: 1.2rem;
+}
+
+/* Removendo padding que interfere com alinhamento */
+/* p {
+  padding-left: 10px;
+} */
+
+/* ===== MELHORIAS MÍNIMAS DE ANIMAÇÃO ===== */
+
+/* Melhorar apenas a transição principal */
+.main-sidebar {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Melhorar transições de texto */
+.main-sidebar header span,
+.main-sidebar nav span {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Efeito hover sutil */
+.main-sidebar nav a:hover,
+.main-sidebar nav button:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Animações sutis dos ícones */
+.main-sidebar nav a:hover i,
+.main-sidebar nav button:hover i {
+  transform: scale(1.02);
+  transition: transform 0.2s ease !important;
+}
+
+/* Estado ativo mais suave */
+.main-sidebar nav a.active,
+.main-sidebar nav button.active {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ===== FIXAR ÍCONES NO DESKTOP ===== */
+/* Apenas no desktop (>1023px), fixar os ícones para evitar movimento */
+@media (min-width: 1024px) {
+  .main-sidebar nav a,
+  .main-sidebar nav button {
+    position: relative !important;
+  }
+  
+  .main-sidebar nav a i,
+  .main-sidebar nav button i {
+    position: absolute !important;
+    left: 1rem !important; /* 16px - mesmo que px-4 */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    transition: transform 0.2s ease !important;
+  }
+  
+  /* Ajustar padding para dar espaço ao ícone fixo */
+  .main-sidebar nav a,
+  .main-sidebar nav button {
+    padding-left: 3rem !important; /* 48px - espaço para ícone + padding original */
+  }
+  
+  /* Hover effect para ícones fixos */
+  .main-sidebar nav a:hover i,
+  .main-sidebar nav button:hover i {
+    transform: translateY(-50%) scale(1.02) !important;
+  }
+}
+
+/* Estilos específicos para mobile e tablet */
+@media (max-width: 1023px) {
+  .main-sidebar {
+    width: 15rem !important; /* 256px - largura completa no mobile/tablet */
+  }
+  
+  /* Garantir que no mobile/tablet o sidebar sempre abra completamente */
+  .sidebar-collapse .main-sidebar {
+    width: 16rem !important;
+  }
+  
+  /* Mostrar textos no mobile/tablet mesmo quando colapsado */
+  .sidebar-collapse .brand-text,
+  .sidebar-collapse .sidebar .nav-sidebar .nav-link p,
+  .sidebar-collapse .sidebar .user-panel > .info {
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    margin-left: 0 !important;
+  }
+  
+  /* Ajustar alinhamento dos itens no mobile/tablet */
+  .sidebar-collapse .nav-sidebar .nav-link {
+    justify-content: flex-start !important;
+  }
+  
+  /* Garantir que os ícones não fiquem centralizados no mobile/tablet */
+  .sidebar-collapse .nav-sidebar > .nav-item > .nav-link > span {
+    display: inline-block !important;
+  }
 }

@@ -1,33 +1,37 @@
-.container-filtros {
-  max-width: 350px !important;
-}
+/* Estilos complementares ao Tailwind */
 
-.character{
-  color: white;
-}
-
-.fecharModal {
-  position: absolute;
-  font-size: 2rem;
-  right: 0;
-}
-
-.buttonMax {
-  width: 40%;
-  border-radius: 10px;
-  box-shadow: 3px 2px 5px #696969;
-}
-.espacamento {
-  margin-bottom: 1rem !important;
-}
-
-.inputShadow {
-  border-radius: 15px;
-  box-shadow: 3px 2px 5px #696969;
-}
-
+/* Responsividade para mobile */
 @media (max-width: 767px) {
   ::ng-deep .cdk-overlay-pane {
     max-width: 95vw !important;
   }
+}
+
+/* Melhorias sutis no input */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Transições suaves */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Melhor contraste para acessibilidade */
+.text-gray-700 {
+  color: #374151;
+}
+
+/* Sombra sutil no hover do botão */
+button:hover {
+  transform: translateY(-1px);
+  transform: rotate(2deg);
+  scale: 1.05;
+}
+
+button:active {
+  transform: translateY(0);
+  transform: rotate(0deg);
+  scale: 1;
 }

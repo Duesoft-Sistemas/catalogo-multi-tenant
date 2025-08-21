@@ -1,0 +1,21 @@
+/* ======================================== */
+/* ARQUIVO CSS - PESQUISAR PRODUTOS */
+/* ======================================== */
+
+/* 
+  ESTE ARQUIVO FOI CONVERTIDO PARA TAILWIND CSS
+  
+  TODAS AS CLASSES CSS FORAM SUBSTITUÍDAS POR CLASSES UTILITÁRIAS DO TAILWIND:
+  
+  - btn-absolute → !fixed !bottom-16 !right-12 sm:!bottom-4 sm:!right-4
+  - btn btn-pattern → !bg-primary !border-primary hover:!bg-primary-light hover:!border-primary-light !text-white !shadow-lg !transition-colors !duration-200
+  - ml-2 → !ml-2
+  - text-black → !text-black (para casos condicionais)
+  
+  BENEFÍCIOS DA CONVERSÃO:
+  - Melhor performance
+  - Código mais limpo e organizado
+  - Responsividade aprimorada
+  - Transições suaves
+  - Sombras e efeitos visuais melhorados
+*/

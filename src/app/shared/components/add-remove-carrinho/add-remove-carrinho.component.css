@@ -3,3 +3,32 @@
   text-align: center;
   font-weight: bold;
 }
+
+.espacamentoSelect{
+  bottom: 0.2rem;
+  position: relative;
+  z-index: 100;
+}
+
+/* Garantir que os botões sejam clicáveis */
+.btn {
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Garantir que o input seja visível */
+.form-control {
+  background-color: white;
+  border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

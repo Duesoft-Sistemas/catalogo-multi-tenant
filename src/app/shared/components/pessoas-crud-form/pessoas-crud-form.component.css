@@ -1,0 +1,184 @@
+/* Estilos customizados para o componente pessoas-crud-form */
+
+/* Melhorar a aparência do ng-select */
+::ng-deep .ng-select {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .ng-select:hover {
+  border-color: #60a5fa !important;
+}
+
+::ng-deep .ng-select.ng-select-focused {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+::ng-deep .ng-select .ng-select-container {
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0.5rem !important;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+::ng-deep .ng-select .ng-placeholder {
+  color: #6b7280 !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .ng-select .ng-value {
+  background: #2563eb !important;
+  color: white !important;
+  border-radius: 9999px !important;
+  padding: 0.25rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  margin: 2px;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+::ng-deep .ng-select .ng-value .ng-value-label {
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+/* Melhorar a aparência dos inputs dos componentes filhos */
+::ng-deep app-input-model .form-control {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  padding: 0.5rem 0.75rem !important;
+  color: #111827 !important;
+  transition: all 0.2s ease;
+}
+
+::ng-deep app-input-model .form-control:hover {
+  border-color: #9ca3af !important;
+}
+
+::ng-deep app-input-model .form-control:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+  outline: none !important;
+}
+
+::ng-deep app-input-model .form-control.is-invalid {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+::ng-deep app-input-model label {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: #374151 !important;
+  margin-bottom: 0.5rem !important;
+  display: block !important;
+}
+
+/* Melhorar a aparência do checkbox */
+::ng-deep app-checkbox-model .custom-switch {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem !important;
+  background: #f9fafb !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+::ng-deep app-checkbox-model .custom-control-input {
+  width: 1rem !important;
+  height: 1rem !important;
+  color: #2563eb !important;
+  background-color: #f3f4f6 !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.25rem !important;
+}
+
+::ng-deep app-checkbox-model .custom-control-input:focus {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2) !important;
+}
+
+::ng-deep app-checkbox-model .custom-control-label {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: #374151 !important;
+  margin-left: 0.5rem !important;
+}
+
+/* Responsividade melhorada */
+@media (max-width: 768px) {
+  ::ng-deep .ng-select .ng-select-container {
+    min-height: 44px;
+  }
+  
+  ::ng-deep app-input-model .form-control {
+    padding: 0.75rem !important;
+  }
+}
+
+/* Animações suaves */
+::ng-deep * {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Estados de loading */
+::ng-deep .ng-select.ng-select-loading .ng-select-container {
+  opacity: 0.75 !important;
+}
+
+/* Melhorar acessibilidade */
+::ng-deep app-input-model label:focus-within {
+  color: #2563eb !important;
+}
+
+/* Estilos para campos obrigatórios */
+::ng-deep .required-field label::after {
+  content: " *";
+  color: #ef4444 !important;
+}
+
+/* Melhorar espaçamento entre campos */
+::ng-deep app-input-model,
+::ng-deep app-checkbox-model,
+::ng-deep app-select-model {
+  margin-bottom: 1rem !important;
+}
+
+/* Estilos para tooltips de erro */
+::ng-deep .tooltip-red {
+  background: #ef4444 !important;
+  color: white !important;
+  font-size: 0.75rem !important;
+  padding: 0.25rem 0.5rem !important;
+  border-radius: 0.25rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Melhorar a aparência do formulário em modo escuro (se aplicável) */
+@media (prefers-color-scheme: dark) {
+  ::ng-deep app-input-model .form-control {
+    background: #1f2937 !important;
+    border-color: #4b5563 !important;
+    color: white !important;
+  }
+  
+  ::ng-deep app-input-model label {
+    color: #e5e7eb !important;
+  }
+  
+  ::ng-deep .ng-select {
+    background: #1f2937 !important;
+    border-color: #4b5563 !important;
+  }
+  
+  ::ng-deep .ng-select .ng-placeholder {
+    color: #9ca3af !important;
+  }
+}

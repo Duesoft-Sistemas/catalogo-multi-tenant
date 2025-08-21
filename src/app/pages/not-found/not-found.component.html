@@ -1,0 +1,76 @@
+<div class="min-h-screen bg-zinc-300 flex items-center justify-center p-4 mt-4">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 max-w-md w-full text-center">
+    <!-- Error Code -->
+    <div class="text-6xl md:text-8xl font-bold text-primary mb-4">404</div>
+    
+    <!-- Title -->
+    <h1 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
+      Página não encontrada
+    </h1>
+    
+    <!-- Message -->
+    <p class="text-gray-600 mb-8 text-sm md:text-base">
+      A página que você está procurando não existe ou foi movida.
+    </p>
+    
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row gap-2 mb-8">
+      <button 
+        (click)="goHome()"
+        class="w-full bg-primary hover:bg-primary-dark text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+      >
+        <i class="fas fa-home"></i>
+        <span class="hidden sm:inline">Início</span>
+        <span class="sm:hidden">Início</span>
+      </button>
+      
+      <button 
+        (click)="goBack()"
+        class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+      >
+        <i class="fas fa-arrow-left"></i>
+        <span class="hidden sm:inline">Voltar</span>
+        <span class="sm:hidden">Voltar</span>
+      </button>
+    </div>
+    
+    <!-- Help Links -->
+    <div class="space-y-3">
+      <p class="text-gray-500 text-sm">Ou tente uma dessas páginas:</p>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <a 
+          href="/inicio" 
+          class="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-gray-700 hover:text-primary"
+        >
+          <i class="fas fa-search text-primary"></i>
+          <span class="text-sm">Catálogo</span>
+        </a>
+        
+        <a 
+          href="/fornecedores" 
+          class="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-gray-700 hover:text-primary"
+        >
+          <i class="fas fa-industry text-primary"></i>
+          <span class="text-sm">Fornecedores</span>
+        </a>
+        
+        <a 
+          href="/promocoes" 
+          class="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-gray-700 hover:text-primary"
+        >
+          <i class="fas fa-percentage text-primary"></i>
+          <span class="text-sm">Promoções</span>
+        </a>
+        
+        <a 
+          href="/pedidos-realizados" 
+          class="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-gray-700 hover:text-primary"
+        >
+          <i class="fas fa-shopping-cart text-primary"></i>
+          <span class="text-sm">Meus Pedidos</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

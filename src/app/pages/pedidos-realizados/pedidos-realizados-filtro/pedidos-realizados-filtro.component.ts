@@ -1,10 +1,7 @@
-import { Component, HostBinding, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
 import { FiltroPedidosRealizados } from 'src/app/shared/classes/filtro-pedidos-realizados';
@@ -12,48 +9,80 @@ import { GlobalService } from 'src/app/shared/services/global.service';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { take } from 'rxjs';
 import { Toaster } from 'src/app/shared/functions/toaster';
-import { Tenant, TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-pedidos-realizados-filtro',
   templateUrl: './pedidos-realizados-filtro.component.html',
-  styleUrls: ['./pedidos-realizados-filtro.component.css', './pedidos-realizados-filtro.component.skins.less'],
+  styleUrls: ['./pedidos-realizados-filtro.component.css'],
 })
 export class PedidosRealizadosFiltroComponent implements OnInit {
   formulario: FormGroup;
   listStatus: any[] = [];
   loadListStatus = true;
-  @HostBinding("class.mendes") public client1Theme: boolean;
-  @HostBinding("class.canguru") public client2Theme: boolean;
-  @HostBinding("class.autocar") public client3Theme: boolean;
-  @HostBinding("class.microtec") public client4Theme: boolean;
-  @HostBinding("class.mm") public client5Theme: boolean;
-  @HostBinding("class.prudenseg") public client6Theme: boolean;
-  @HostBinding("class.diskagua") public client7Theme: boolean;
 
   constructor(
-    public dialogRef: MatDialogRef<FiltroPedidosRealizados>,
+    public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public filtro: any,
-    private serviceTenant: TenantService,
     private localeService: BsLocaleService,
     public dialog: MatDialog,
     private service: GlobalService
   ) {
-    ptBrLocale.invalidDate = 'Insira uma data válida';
-    defineLocale('pt-br', ptBrLocale);
-    this.localeService.use('pt-br');
-    this.getListaStatus();
-    this.formulario = Formularios.geraFormulario(
-      new FiltroPedidosRealizados(filtro)
-    );
+    try {
+      ptBrLocale.invalidDate = 'Insira uma data válida';
+      defineLocale('pt-br', ptBrLocale);
+      this.localeService.use('pt-br');
+      
+      this.formulario = Formularios.geraFormulario(
+        new FiltroPedidosRealizados(filtro)
+      );
+      
+      this.getListaStatus();
+    } catch (error) {
+      console.error('Erro na inicialização do componente:', error);
+      Toaster.Error('Erro ao inicializar filtro. Tente novamente.');
+    }
   }
 
   buscar(): void {
-    this.dialogRef.close(new FiltroPedidosRealizados(this.formulario.value));
+    try {
+      const formValues = this.formulario.value;
+      
+      // Validar se pelo menos um filtro foi preenchido
+      const temFiltros = formValues.initialDate || formValues.finalDate || 
+                        (formValues.status && formValues.status.length > 0);
+      
+      if (!temFiltros) {
+        Toaster.Warning('Selecione pelo menos um critério de filtro.');
+        return;
+      }
+      
+      // Validar datas se foram preenchidas
+      if (formValues.initialDate && formValues.finalDate) {
+        const dataInicial = new Date(formValues.initialDate);
+        const dataFinal = new Date(formValues.finalDate);
+        
+        if (dataInicial > dataFinal) {
+          Toaster.Error('A data inicial não pode ser maior que a data final.');
+          return;
+        }
+      }
+      
+      const filtroData = new FiltroPedidosRealizados(formValues);
+      this.dialogRef.close(filtroData);
+    } catch (error) {
+      console.error('Erro ao criar filtro:', error);
+      Toaster.Error('Erro ao processar filtro. Tente novamente.');
+    }
   }
 
   limpar(): void {
-    this.formulario = Formularios.geraFormulario(new FiltroPedidosRealizados());
+    try {
+      this.formulario = Formularios.geraFormulario(new FiltroPedidosRealizados());
+      this.formulario.reset();
+    } catch (error) {
+      console.error('Erro ao limpar formulário:', error);
+      Toaster.Error('Erro ao limpar formulário. Tente novamente.');
+    }
   }
 
   private getListaStatus(): void {
@@ -62,30 +91,42 @@ export class PedidosRealizadosFiltroComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: (data: any) => {
-          if (data) {
+          if (data && Array.isArray(data)) {
             this.listStatus = data;
             this.loadListStatus = false;
           } else {
+            console.warn('Dados de status inválidos:', data);
+            this.listStatus = [];
+            this.loadListStatus = false;
             Toaster.Error(
               'Não foi possivel carregar lista de status de pedidos.'
             );
           }
         },
-        error: (error) => Toaster.Error(Toaster.msg.ErroCarregarDados),
+        error: (error) => {
+          console.error('Erro ao carregar status:', error);
+          this.listStatus = [];
+          this.loadListStatus = false;
+          Toaster.Error(Toaster.msg.ErroCarregarDados);
+        },
       });
   }
 
-  ngOnInit() {
-    this.habilitaTema();
-  }
+  ngOnInit() {}
 
-  habilitaTema(){
-    this.client1Theme = this.serviceTenant.getTenant() === Tenant.catalogomendes;
-    this.client2Theme = this.serviceTenant.getTenant() === Tenant.catalogomaster;
-    this.client3Theme = this.serviceTenant.getTenant() === Tenant.catalogoautocar;
-    this.client4Theme = this.serviceTenant.getTenant() === Tenant.catalogomicrotec;
-    this.client5Theme = this.serviceTenant.getTenant() === Tenant.catalogomm;
-    this.client6Theme = this.serviceTenant.getTenant() === Tenant.catalogoprudenseg;
-    this.client7Theme = this.serviceTenant.getTenant() === Tenant.catalogolm;
+  getStatusColor(item: any): string {
+    // Cores diferentes para diferentes status
+    const statusColors: { [key: string]: string } = {
+      'PENDENTE': '#f59e0b',      // Amarelo
+      'APROVADO': '#10b981',      // Verde
+      'REPROVADO': '#ef4444',     // Vermelho
+      'CANCELADO': '#6b7280',     // Cinza
+      'FINALIZADO': '#3b82f6',    // Azul
+      'EM_PROCESSAMENTO': '#8b5cf6', // Roxo
+      'ENVIADO': '#06b6d4',       // Ciano
+      'ENTREGUE': '#059669'       // Verde escuro
+    };
+    
+    return statusColors[item.description?.toUpperCase()] || '#6b7280';
   }
 }

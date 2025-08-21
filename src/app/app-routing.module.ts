@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuardService } from './shared/guards/auth-guard.service';
+import { AuthGuardService } from './core/guards/auth-guard.service';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'inicio',
-    pathMatch: 'full'
-  },
+  // Default route
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
+
+  // Public routes (no authentication required)
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule),
   },
+
+  // Protected routes (authentication required)
   {
     path: 'inicio',
     loadChildren: () => import('./pages/iniciar/iniciar.module').then(m => m.IniciarModule),
@@ -47,25 +48,24 @@ const routes: Routes = [
     loadChildren: () => import('./pages/pedidos-realizados/pedidos-realizados.module').then(m => m.PedidosRealizadosModule),
     canActivate: [AuthGuardService],
   },
-  // {
-  //   path: 'devolucoes',
-  //   loadChildren: () => import('./pages/devolucoes/devolucoes.module').then(m => m.DevolucoesModule),
-  //   canActivate: [AuthGuardService],
-  // },
   {
     path: 'concluir-pedido',
     loadChildren: () => import('./pages/concluir-pedido/concluir-pedido.module').then(m => m.ConcluirPedidoModule),
     canActivate: [AuthGuardService],
   },
-  // {
-  //   path: 'relatorio-financeiro',
-  //   loadChildren: () => import('./pages/relatorio-financeiro/relatorio-financeiro.module').then(m => m.RelatorioFinanceiroModule),
-  //   canActivate: [AuthGuardService],
-  // },
+
+  // NotFound
+  {
+    path: '**',
+    component: NotFoundComponent,
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes, { 
+    onSameUrlNavigation: 'reload',
+    scrollPositionRestoration: 'enabled'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

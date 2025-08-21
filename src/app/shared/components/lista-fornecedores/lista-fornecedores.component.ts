@@ -8,11 +8,11 @@ import { Formularios } from '../../functions/formularios';
 import { Toaster } from '../../functions/toaster';
 import { IProdutos } from '../../interface/IProdutos';
 import { GlobalService } from '../../services/global.service';
+import { FiltroPesquisarProdutos } from '../../classes/filtro-pesquisar-produtos';
 
 @Component({
   selector: 'app-lista-fornecedores',
   templateUrl: './lista-fornecedores.component.html',
-  styleUrls: ['./lista-fornecedores.component.css'],
 })
 export class ListaFornecedoresComponent implements OnInit {
   spinner = true;
@@ -23,6 +23,7 @@ export class ListaFornecedoresComponent implements OnInit {
   listProdutos: IProdutos[] = [];
   formEsteira: FormGroup;
   @Output() pageChanged = new EventEmitter();
+  @Output() productCountChanged = new EventEmitter<number>();
   toogleClick = false;
   descricao: string;
 
@@ -46,12 +47,12 @@ export class ListaFornecedoresComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: (data) => {
-          this.listFornecedores;
-
           if (data) {
             this.listProdutos = data.produtos;
             this.formEsteira.get('totalPages').setValue(data.totalPaginas);
-            if (data.produtos.lengh <= 0)
+            // Emitir a contagem de produtos
+            this.productCountChanged.emit(this.listProdutos.length);
+            if (data.produtos.length <= 0)
               Toaster.Warning('Nenhum produto encontrado.');
           } else Toaster.Warning('Nenhum produto encontrado.');
         },
@@ -67,5 +68,29 @@ export class ListaFornecedoresComponent implements OnInit {
 
   private getDataBusca(): any {
     return { Code: this.descricao, Page: +this.formEsteira.get('page').value };
+  }
+
+  // Método para lidar com mudanças na pesquisa
+  onSearchChanged(filtro: FiltroPesquisarProdutos): void {
+    // Para lista de fornecedores, não implementamos pesquisa ainda
+    // Pode ser implementado no futuro se necessário
+  }
+
+  // Método para lidar com atualizações dos produtos
+  onProductsUpdated(produtos: IProdutos[]): void {
+    this.listProdutos = produtos;
+  }
+
+  onNoProductsFound(message: string): void {
+    Toaster.Warning(message);
+  }
+
+  // Método para recarregar o catálogo
+  reloadCatalog(): void {
+    // Recarregar o catálogo do fornecedor selecionado
+    if (this.descricao) {
+      this.formEsteira.get('page').setValue(1);
+      this.getListaProdutos(this.descricao);
+    }
   }
 }

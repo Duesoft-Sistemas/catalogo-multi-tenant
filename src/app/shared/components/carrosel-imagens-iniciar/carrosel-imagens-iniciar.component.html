@@ -1,6 +1,9 @@
-<div class="card-body content-center"><div
-  class="item"
-  [style.backgroundImage]="
-    'url(' + exibirPlanoFundo[indexImagemAtiva] + ')'
-  "
-></div></div>
+<div class="card-body content-center">
+  <div
+    class="item"
+    [style.backgroundImage]="
+      'url(' + (exibirPlanoFundo[indexImagemAtiva] || '../../../assets/images/imagem_nao_encontrada.jpg') + ')'
+    "
+    (error)="onImageError($event)"
+  ></div>
+</div>

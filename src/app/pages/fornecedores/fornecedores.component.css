@@ -1,63 +1,39 @@
-::ng-deep .mat-card-header-text {
-  margin: 0 !important;
+/* Estilos para o estado vazio de fornecedores */
+.empty-state-container {
+  animation: fadeInUp 0.6s ease-out;
 }
 
-.prods-card {
-  max-width: 400px;
+.empty-state-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
-.font-strong {
-  font-size: 1.05rem;
+.empty-state-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.marcaPecaProdutoHolder > img {
-  /* width: 160px !important; */
-  padding-right: 1rem;
-  max-height: 40px !important;
+.empty-state-icon {
+  animation: pulse 2s infinite;
 }
 
-.limitar-linhas1 {
-  max-height: 40px;
-  min-height: 40px;
-  overflow: hidden;
-}
-
-.limitar-linhas2 {
-  max-height: 40px;
-  min-height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.icon-btn {
-  font-size: 1.3rem;
-}
-
-.icon-btn:hover {
-  transition-delay: 200ms;
-  color: var(--color-primary);
-  opacity: 0.7;
-}
-
-::ng-deep .page-item.disabled > .page-link {
-  background-color: var(--color-primary-light) !important;
-  color: #ccc !important;
-}
-
-@media (min-width: 1800px) {
-  .col-gg-2 {
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 575px) {
-  /* ::ng-deep .pagination-first, ::ng-deep .pagination-last{
-    display: none !important;
-  } */
-
-  /* ::ng-deep .pagination-page{
-    display: none;
-  } */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }

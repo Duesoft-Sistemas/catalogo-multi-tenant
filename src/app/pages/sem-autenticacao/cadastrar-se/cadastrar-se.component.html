@@ -1,8 +1,208 @@
-<app-spinner [show]="spinner"></app-spinner>
-<app-body-modal [title]="'Cadastrar-se'">
-  <app-pessoas-crud-form card-body [form]="form" *ngIf="form"></app-pessoas-crud-form>
-  <div card-buttons>
-    <app-btn-cancelar (click)="cancelar()"></app-btn-cancelar>
-    <app-btn-salvar (click)="salvar()"></app-btn-salvar>
+<!-- Spinner de carregamento -->
+<div *ngIf="spinner" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+</div>
+
+<!-- Modal de Cadastro -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 p-4">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    
+    <!-- Header do Modal -->
+    <div class="flex items-center justify-between p-6 border-b border-gray-200">
+      <h2 class="text-xl font-semibold text-gray-800">Cadastrar-se</h2>
+      <button 
+        (click)="cancelar()" 
+        class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+        type="button"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Conteúdo do Modal -->
+    <div class="p-6">
+      <form [formGroup]="form" *ngIf="form" class="space-y-6">
+        
+        <!-- Seção Dados -->
+        <div>
+          <h3 class="text-lg font-medium text-primary mb-4">Dados</h3>
+          <hr class="border-gray-200 mb-6">
+        </div>
+
+        <!-- Tipo de Documento -->
+        <div class="w-full">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Documento
+          </label>
+
+          <div class="flex items-center space-x-4">
+            <label class="flex items-center">
+              <input 
+                type="checkbox" 
+                formControlName="tipoDocumento"
+                class="sr-only"
+              >
+              
+              <div class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-200"
+                [class]="form.get('tipoDocumento')?.value ? 'bg-primary' : 'bg-gray-300'">
+                <span class="inline-block w-4 h-4 bg-white rounded-full transition-transform duration-200 transform"
+                [class]="form.get('tipoDocumento')?.value ? 'translate-x-6' : 'translate-x-1'"></span>
+              </div>
+
+              <span class="ml-3 text-sm text-gray-700">
+                {{ form.get('tipoDocumento')?.value ? 'CNPJ' : 'CPF' }}
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Nome e Razão Social -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+            <input 
+              type="text" 
+              formControlName="nome"
+              maxlength="100"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              [class]="isFieldValid('nome') ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''"
+              placeholder="Digite o nome"
+            >
+            <div *ngIf="isFieldValid('nome')" class="text-red-500 text-sm mt-1">
+              {{ getFieldError('nome') }}
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Razão Social</label>
+            <input 
+              type="text" 
+              formControlName="razao"
+              maxlength="100"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              [class]="isFieldValid('razao') ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''"
+              placeholder="Digite a razão social"
+            >
+            <div *ngIf="isFieldValid('razao')" class="text-red-500 text-sm mt-1">
+              {{ getFieldError('razao') }}
+            </div>
+          </div>
+        </div>
+
+        <!-- CPF/CNPJ -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              {{ form.get('tipoDocumento')?.value ? 'CNPJ' : 'CPF' }}
+            </label>
+            <input 
+              type="text" 
+              formControlName="cpfCnpj"
+              [maxlength]="form.get('tipoDocumento')?.value ? 18 : 14"
+              [mask]="form.get('tipoDocumento')?.value ? '00.000.000/0000-00' : '000.000.000-00'"
+              (blur)="form.get('tipoDocumento')?.value ? verificaCnpj() : verificaCpf()"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              [class]="isFieldValid('cpfCnpj') ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''"
+              placeholder="Digite o {{ form.get('tipoDocumento')?.value ? 'CNPJ' : 'CPF' }}"
+            >
+            <div *ngIf="isFieldValid('cpfCnpj')" class="text-red-500 text-sm mt-1">
+              {{ getFieldError('cpfCnpj') }}
+            </div>
+          </div>
+
+          <!-- Empresa -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Empresa</label>
+            <ng-select 
+              [loading]="loadListEmpresas" 
+              [items]="listEmpresas" 
+              bindLabel="companyName" 
+              bindValue="companyId"
+              placeholder="Selecione..." 
+              formControlName="codEmpresa"
+              class="w-full"
+            ></ng-select>
+            <div *ngIf="isFieldValid('codEmpresa')" class="text-red-500 text-sm mt-1">
+              {{ getFieldError('codEmpresa') }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input 
+            type="email" 
+            formControlName="email"
+            maxlength="75"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            [class]="isFieldValid('email') ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''"
+            placeholder="Digite o email"
+          >
+          <div *ngIf="isFieldValid('email')" class="text-red-500 text-sm mt-1">
+            {{ getFieldError('email') }}
+          </div>
+        </div>
+
+        <!-- DDD e Telefone -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">DDD</label>
+            <input 
+              type="text" 
+              formControlName="numeroDddContato"
+              maxlength="2"
+              mask="00"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              [class]="isFieldValid('numeroDddContato') ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''"
+              placeholder="DDD"
+            >
+            <div *ngIf="isFieldValid('numeroDddContato')" class="text-red-500 text-sm mt-1">
+              {{ getFieldError('numeroDddContato') }}
+            </div>
+          </div>
+          
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+            <input 
+              type="text" 
+              formControlName="numeroFoneContato"
+              maxlength="9"
+              mask="0000-0000||0 0000-0000"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              [class]="isFieldValid('numeroFoneContato') ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''"
+              placeholder="Digite o telefone"
+            >
+            <div *ngIf="isFieldValid('numeroFoneContato')" class="text-red-500 text-sm mt-1">
+              {{ getFieldError('numeroFoneContato') }}
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Botões do Modal -->
+    <div class="flex justify-end space-x-3 p-6 border-t border-gray-200">
+      <button 
+        (click)="cancelar()" 
+        type="button"
+        class="px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-md transition-colors duration-200 font-medium"
+      >
+        Cancelar
+      </button>
+      <button 
+        (click)="salvar()" 
+        type="button"
+        class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md transition-colors duration-200 font-medium"
+        [disabled]="!form?.valid || spinner"
+      >
+        <span *ngIf="spinner" class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+        Salvar
+      </button>
+    </div>
+
   </div>
-</app-body-modal>
+</div>

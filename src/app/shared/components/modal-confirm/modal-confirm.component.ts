@@ -3,8 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal-confirm',
-  templateUrl: './modal-confirm.component.html',
-  styleUrls: ['./modal-confirm.component.css'],
+  templateUrl: './modal-confirm.component.html'
 })
 export class ModalConfirmComponent implements OnInit {
   title: string;

@@ -1,0 +1,34 @@
+<div class="no-products-container">
+  <div class="no-products-content">
+    <!-- Ícone -->
+    <div class="no-products-icon" *ngIf="showIcon">
+      <i class="fas fa-search text-6xl text-gray-400 mb-6"></i>
+    </div>
+    
+    <!-- Mensagem Principal -->
+    <h2 class="no-products-title">{{ message }}</h2>
+    
+    <!-- Descrição -->
+    <p class="no-products-description" *ngIf="showDescription">
+      {{ customDescription }}
+    </p>
+    
+    <!-- Sugestões -->
+    <div class="no-products-suggestions" *ngIf="showDescription">
+      <div class="suggestions-list">
+        <div class="suggestion-item">
+          <i class="fas fa-filter text-primary"></i>
+          <span>Tente usar filtros diferentes</span>
+        </div>
+        <div class="suggestion-item">
+          <i class="fas fa-search text-primary"></i>
+          <span>Verifique se digitou corretamente</span>
+        </div>
+        <div class="suggestion-item">
+          <i class="fas fa-undo text-primary"></i>
+          <span>Limpe os filtros aplicados</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

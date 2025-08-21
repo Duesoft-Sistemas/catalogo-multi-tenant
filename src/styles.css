@@ -1,15 +1,276 @@
-:root() {
-  --color-primary: #00d986 ;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #00d986;
   --color-primary-light: #08c04f;
-  --color-primary-light-shadow: #1a442b3a;
-  --color-link-active: rgb(194, 81, 81);
-  --font-color: 343a40;
-  --font-color-light: #fff;
+  --color-primary-dark: #00b377;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(194,81,81);
+  --color-font-color: #343a40;
+  --color-font-color-light: #ffffff;
+}
+
+.theme-mendes {
+  --color-primary: #d90000;
+  --color-primary-light: #c00812;
+  --color-primary-dark: #b30000;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(194,81,81);
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-canguru {
+  --color-primary: #f6821f;
+  --color-primary-light: #ef9b55;
+  --color-primary-dark: #e06a0f;
+  --color-primary-light-shadow: rgba(239,155,85,0.25);
+  --color-link-active: orange;
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-prudenseg {
+  --color-primary: #009f41;
+  --color-primary-light: #58cf8a;
+  --color-primary-dark: #007a32;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: green;
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-autocar {
+  --color-primary: #e02724;
+  --color-primary-light: #ff3b38;
+  --color-primary-dark: #c01e1b;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: #ff3b38;
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-mm {
+  --color-primary: #f60000;
+  --color-primary-light: #e00b15;
+  --color-primary-dark: #cc0000;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(217,88,88);
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-diskagua {
+  --color-primary: #448aff;
+  --color-primary-light: #7aa7f4;
+  --color-primary-dark: #2d6bcc;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(98,103,255);
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-microtec {
+  --color-primary: #f99d26;
+  --color-primary-light: #ffd038;
+  --color-primary-dark: #e08a1a;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: #ffc400;
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-prudentina {
+  --color-primary: #0000ff;
+  --color-primary-light: #3232ff;
+  --color-primary-dark: #0000cc;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(81,85,194);
+  --color-font-color: #fff;
+  --color-font-color-light: #fff;
+}
+
+.theme-barone {
+  --color-primary: #d90000;
+  --color-primary-light: #c00812;
+  --color-primary-dark: #b30000;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(194,81,81);
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-atacado {
+  --color-primary: #d90000;
+  --color-primary-light: #c00812;
+  --color-primary-dark: #b30000;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(194,81,81);
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-farmsrugs {
+  --color-primary: #afafaf;
+  --color-primary-light: #b1a9a9;
+  --color-primary-dark: #8a8a8a;
+  --color-primary-light-shadow: #e5e5e5;
+  --color-link-active: #afafaf;
+  --color-font-color: #3f3f3f;
+  --color-font-color-light: #000;
+}
+
+.theme-hvs {
+  --color-primary: #000000;
+  --color-primary-light: #484849;
+  --color-primary-dark: #000000;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(80,80,80);
+  --color-font-color: #fff;
+  --color-font-color-light: #fff;
+}
+
+.theme-southair {
+  --color-primary: #765f47;
+  --color-primary-light: #ba9f84;
+  --color-primary-dark: #5a4735;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: #765f47;
+  --color-font-color: #000;
+  --color-font-color-light: rgba(26,68,43,0.23);
+}
+
+.theme-clx {
+  --color-primary: #000;
+  --color-primary-light: #000;
+  --color-primary-dark: #000;
+  --color-primary-light-shadow: #000;
+  --color-link-active: #000;
+  --color-font-color: #000;
+  --color-font-color-light: #fff;
+}
+
+.theme-awsmetal {
+  --color-primary: #000000;
+  --color-primary-light: #484849;
+  --color-primary-dark: #000000;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(80,80,80);
+  --color-font-color: #fff;
+  --color-font-color-light: #fff;
+}
+
+.theme-teste {
+  --color-primary: #000;
+  --color-primary-light: #000;
+  --color-primary-dark: #000;
+  --color-primary-light-shadow: #000;
+  --color-link-active: #000;
+  --color-font-color: #000;
+  --color-font-color-light: #fff;
+}
+
+.theme-frigorichter {
+  --color-primary: #fa4949;
+  --color-primary-light: #e00b15;
+  --color-primary-dark: #e63939;
+  --color-primary-light-shadow: rgba(26,68,43,0.23);
+  --color-link-active: rgb(217,88,88);
+  --color-font-color: #343a40;
+  --color-font-color-light: #fff;
+}
+
+.theme-fase {
+  --color-primary: #5c15eb;
+  --color-primary-light: #c5aaff;
+  --color-primary-dark: #4a11bc;
+  --color-primary-light-shadow: #ffc71a;
+  --color-link-active: #191818;
+  --color-font-color: #343a40;
+  --color-font-color-light: #f1f1f1;
 }
 
 body {
   height: 100vh !important;
   background: #eee !important;
+}
+
+/* Layout principal da aplicação */
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Garantir que o header fique sempre visível */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Quando não há produtos na página iniciar, garantir que não haja scroll */
+body.no-scroll {
+  overflow: hidden !important;
+}
+
+/* Classe de teste para verificar se as variáveis CSS estão funcionando */
+.teste-tema {
+  background-color: var(--color-primary) !important;
+  color: var(--color-font-color-light) !important;
+}
+
+/* Garantir que as variáveis CSS tenham prioridade sobre Bootstrap/AdminLTE */
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-primary-light {
+  background-color: var(--color-primary-light) !important;
+}
+
+.bg-primary-dark {
+  background-color: var(--color-primary-dark) !important;
+}
+
+/* Sobrescrever qualquer cor azul do Bootstrap com especificidade máxima */
+html body * .bg-primary,
+html body * .btn-primary,
+html body * .bg-primary:focus,
+html body * .btn-primary:focus,
+html body * .bg-primary:active,
+html body * .btn-primary:active,
+html body * .bg-primary:visited,
+html body * .btn-primary:visited {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-font-color-light) !important;
+}
+
+/* Garantir que o hover use a cor correta com especificidade máxima */
+html body * .bg-primary:hover,
+html body * .btn-primary:hover {
+  background-color: var(--color-primary-dark) !important;
+  border-color: var(--color-primary-dark) !important;
+  color: var(--color-font-color-light) !important;
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.focus\:ring-primary:focus {
+  --tw-ring-color: var(--color-primary) !important;
+}
+
+.focus\:border-primary:focus {
+  border-color: var(--color-primary) !important;
 }
 
 .mat-card-title{
@@ -70,8 +331,8 @@ a.nav-link.cadastrar-se:hover {
 }
 
 .btn-pattern:hover {
-  background-color: var(--color-primary-light) !important;
-  border-color: var(--color-primary-light) !important;
+  background-color: var(--color-primary-dark) !important;
+  border-color: var(--color-primary-dark) !important;
 }
 
 .cursor-hand {
@@ -173,8 +434,16 @@ body {
   background-color:#838684 !important;
 }
 
+/* CORREÇÃO SIMPLES PARA POSICIONAMENTO DE MODAIS COM SCROLL */
 .cdk-overlay-pane {
   max-height: calc(100vh - 70px);
+  /* Garantir que o modal sempre apareça centralizado na viewport */
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  /* Evitar que o modal seja afetado pelo scroll da página */
+  margin: 0 !important;
 }
 
 .cdk-overlay-container,

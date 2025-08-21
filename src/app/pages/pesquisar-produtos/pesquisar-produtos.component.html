@@ -1,14 +1,65 @@
-<app-body-page [spinner]="spinner">3
+<!-- SEÇÃO PRINCIPAL: Container da página com spinner e schema -->
+<app-body-page [spinner]="spinner" [schema]="schema" [productCount]="listProdutos.length" [showProductCount]="false">
+  <!-- SEÇÃO DO CORPO: Lista de produtos (só aparece se houver produtos) -->
   <div body *ngIf="listProdutos.length > 0">
-    <app-lista-produtos [listProdutos]="listProdutos" [totalPaginas]="totalPaginas" (pageChanged)="goTo($event)"></app-lista-produtos>
+    <!-- COMPONENTE: Lista de produtos com paginação -->
+    <app-lista-produtos
+      [listProdutos]="listProdutos"
+      [totalPaginas]="totalPaginas"
+      [currentPageInput]="modelo.page"
+      [enableSearch]="true"
+      (pageChanged)="goTo($event)"
+      (searchChanged)="onSearchChanged($event)"
+      (productsUpdated)="onProductsUpdated($event)"
+      (noProductsFound)="onNoProductsFound($event)"
+      (reloadCatalog)="reloadCatalog()"
+    ></app-lista-produtos>
   </div>
 </app-body-page>
-<div class="btn-absolute">
-  <button mat-fab color="primary" class="btn btn-pattern" (click)="openModalFiltro()" matTooltip="Buscar" aria-label="Buscar">
-    <i class="fas fa-search"></i>
+
+<!-- SEÇÃO DOS BOTÕES FLUTUANTES: Botões de ação fixos na tela -->
+<div class="!fixed !bottom-10 !right-6 max-sm:!bottom-3 max-sm:!right-4">
+  
+  <!-- BOTÃO 1: Busca/Filtro básico -->
+  <!--
+  <button
+    mat-fab
+                class="!bg-primary/75 !border-primary hover:!bg-primary hover:!border-primary-light !text-white !shadow-lg !transition-colors !duration-200"
+    (click)="openModalFiltro()"
+    matTooltip="Buscar"
+    aria-label="Buscar"
+  >
+    <!-- ÍCONE: Lupa de busca -->
+   <!-- <i
+      class="fas fa-search"
+      [ngClass]="
+        (this.seletorPeculiaridadesCatalogos.clientes.cliente11 ||
+          this.seletorPeculiaridadesCatalogos.clientes.cliente15) &&
+        '!text-black'
+      "
+    ></i>
   </button>
-  <button mat-fab color="primary" class="btn btn-pattern ml-2" (click)="openModalPesquisaAvancada()" matTooltip="Pesquisa Avançada"
-    aria-label="Filtro Avançado">
-      <i class="fa fa-search-plus" aria-hidden="true"></i>
+  -->
+  
+  <!-- BOTÃO 2: Pesquisa avançada -->
+   <!--
+  <button
+    mat-fab
+                class="!bg-primary/75 !border-primary hover:!bg-primary hover:!border-primary-light !text-white !shadow-lg !transition-colors !duration-200 !ml-2"
+    (click)="openModalPesquisaAvancada()"
+    matTooltip="Pesquisa Avançada"
+    aria-label="Filtro Avançado"
+  >
+   ÍCONE: Lupa com plus (pesquisa avançada) 
+  <i
+      class="fa fa-search-plus"
+      aria-hidden="true"
+      [ngClass]="
+        (this.seletorPeculiaridadesCatalogos.clientes.cliente11 ||
+          this.seletorPeculiaridadesCatalogos.clientes.cliente15) &&
+        '!text-black'
+      "
+    ></i>
   </button>
 </div>
+-->

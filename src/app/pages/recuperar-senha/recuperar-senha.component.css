@@ -1,8 +1,82 @@
+/* ======================================== */
+/* ARQUIVO CSS - RECUPERAR SENHA */
+/* ======================================== */
+
+/* 
+  ESTE ARQUIVO FOI CONVERTIDO PARA TAILWIND CSS E MELHORADO
+  
+  MELHORIAS IMPLEMENTADAS:
+  
+  ✅ Design moderno com gradientes e sombras
+  ✅ Estados visuais diferentes para email encontrado/não encontrado
+  ✅ Ícones informativos e animações suaves
+  ✅ Layout responsivo e acessível
+  ✅ Feedback visual claro para o usuário
+  ✅ Cores coerentes com o tema da aplicação
+  
+  TODAS AS CLASSES CSS FORAM SUBSTITUÍDAS POR CLASSES UTILITÁRIAS DO TAILWIND:
+  
+  - Modal container → !bg-white !rounded-xl !shadow-2xl !max-w-md !w-full !overflow-hidden !border !border-gray-100
+  - Header gradiente → !bg-gradient-to-r !from-primary !to-primary-light !text-white !px-6 !py-4
+  - Botão fechar → !w-8 !h-8 !bg-white !bg-opacity-20 hover:!bg-opacity-30 !rounded-full !transition-all !duration-200
+  - Estados visuais → Ícones e cores específicas para cada situação
+  - Botões → Gradientes, sombras e animações hover
+  
+  BENEFÍCIOS DA MELHORIA:
+  - Experiência do usuário aprimorada
+  - Feedback visual claro e intuitivo
+  - Design consistente com o resto da aplicação
+  - Responsividade em todos os dispositivos
+  - Acessibilidade melhorada
+*/
+
+/* Responsividade do modal - mantido para compatibilidade */
 @media (max-width: 767px) {
   ::ng-deep .cdk-overlay-pane {
     max-width: 95vw !important;
   }
 }
-.character{
-  color: white;
+
+/* Animações personalizadas para melhor UX */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Aplicar animações aos elementos */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s infinite;
+}
+
+
+/* Melhorar contraste para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

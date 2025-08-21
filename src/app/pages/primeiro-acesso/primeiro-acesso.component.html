@@ -1,5 +1,5 @@
 <app-spinner [show]="spinner"></app-spinner>
-<div class="container-senha">
+<div class="container-senha m-4">
   <mat-card-header>
     <mat-card-title>Primeiro acesso:
       <button type="button" class="close" aria-label="Close" mat-dialog-close>
@@ -11,7 +11,7 @@
   <mat-divider></mat-divider>
 
   <mat-card-content>
-    <form [formGroup]="formulario" *ngIf="formulario">
+    <form [formGroup]="formulario" *ngIf="formulario" class="m-4">
       <div class="row">
         <app-input-model [label]="'Senha'" [type]="'password'" [form]="formulario" [controlName]="'password'" class="col-12">
         </app-input-model>

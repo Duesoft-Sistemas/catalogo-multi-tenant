@@ -1,0 +1,419 @@
+/* Removido: .text-color estava causando inputs pretos */
+
+/* Garantir que os inputs tenham a cor correta */
+::ng-deep .ng-select .ng-input,
+::ng-deep .ng-select .ng-input input,
+::ng-deep .ng-select .ng-value-container,
+::ng-deep .ng-select .ng-placeholder {
+  color: #111827 !important;
+}
+
+/* Remover barra branca sobre os valores selecionados */
+::ng-deep .ng-select .ng-value-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .ng-select .ng-input {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Garantir que os labels tenham a cor correta */
+::ng-deep label {
+  color: #374151 !important;
+}
+
+/* Sobrescrever regras globais que afetam inputs */
+::ng-deep .ng-select {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+}
+
+::ng-deep .ng-select * {
+  color: inherit !important;
+}
+
+::ng-deep .ng-select .ng-input input {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+}
+
+::ng-deep .ng-select .ng-value-container {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+}
+
+::ng-deep .ng-select .ng-placeholder {
+  color: #6b7280 !important;
+}
+
+/* Garantir que o container do select tenha fundo branco */
+::ng-deep .ng-select .ng-select-container {
+  background-color: #ffffff !important;
+}
+
+/* Forçar fundo branco em todos os elementos do select */
+::ng-deep .ng-select,
+::ng-deep .ng-select .ng-select-container {
+  background-color: #ffffff !important;
+  z-index: 1 !important;
+  position: relative;
+}
+
+/* Garantir que os elementos internos não tenham fundo branco sobreposto */
+::ng-deep .ng-select .ng-input,
+::ng-deep .ng-select .ng-value-container {
+  background-color: transparent !important;
+  z-index: 1 !important;
+  position: relative;
+}
+
+/* Garantir que o dropdown também tenha fundo branco */
+::ng-deep .ng-dropdown-panel {
+  background-color: #ffffff !important;
+  z-index: 5 !important;
+  position: absolute;
+}
+
+/* Garantir que os valores selecionados sejam visíveis */
+::ng-deep .ng-select .ng-value {
+  background: var(--color-primary) !important;
+  color: white !important;
+  border-radius: 9999px !important;
+  padding: 0.25rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  margin: 2px !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 2 !important;
+  position: relative !important;
+}
+
+::ng-deep .ng-select .ng-value .ng-value-label {
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+/* Garantir que o placeholder seja visível */
+::ng-deep .ng-select .ng-placeholder {
+  color: #6b7280 !important;
+  font-weight: 400 !important;
+  z-index: 1 !important;
+  position: relative !important;
+}
+
+/* Melhorias no layout dos inputs */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Container dos inputs para melhor espaçamento */
+.form-group app-select-model {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Responsividade para os inputs */
+@media (min-width: 768px) {
+  .form-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .form-group app-select-model {
+    margin-bottom: 0;
+  }
+}
+
+/* Modernização do container principal do modal */
+::ng-deep .modal-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1000;
+  position: relative;
+}
+
+/* Header moderno do modal */
+::ng-deep .modal-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  color: white;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+::ng-deep .modal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Container do formulário moderno */
+::ng-deep [card-body] {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  padding: 2rem;
+  border-radius: 0 0 16px 16px;
+  position: relative;
+}
+
+::ng-deep [card-body]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+}
+
+/* Container dos botões moderno */
+::ng-deep [card-buttons] {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  padding: 1.5rem 2rem;
+  border-radius: 0 0 16px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+}
+
+::ng-deep [card-buttons]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) translateY(-100%); }
+  100% { transform: translateX(100%) translateY(100%); }
+}
+
+/* Efeito de borda moderna */
+::ng-deep .modal-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light), var(--color-primary));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Responsividade para containers */
+@media (max-width: 768px) {
+  ::ng-deep [card-body] {
+    padding: 1rem;
+  }
+  
+  ::ng-deep [card-buttons] {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  ::ng-deep [card-buttons] button {
+    width: 100%;
+    margin: 0;
+  }
+  
+  /* Ajuste para o modal em mobile */
+  ::ng-deep .mat-dialog-container {
+    margin: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Ajuste para os inputs em mobile */
+  .form-group {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  
+  .form-group app-select-model {
+    margin-bottom: 1rem !important;
+    width: 100%;
+  }
+  
+  /* Remove margens laterais em mobile */
+  .form-group app-select-model.mx-4 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 480px) {
+  ::ng-deep .mat-dialog-container {
+    margin: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  ::ng-deep [card-body] {
+    padding: 0.75rem;
+  }
+  
+  ::ng-deep [card-buttons] {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  /* Garante que o modal não ultrapasse a altura da tela */
+  ::ng-deep .modal-content {
+    max-height: 85vh;
+  }
+}
+
+/* Z-index ajustado para dropdown não ficar acima dos filtros */
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
+}
+
+/* CORREÇÃO ESPECÍFICA PARA O SUBGRUPO */
+::ng-deep .ng-select[formcontrolname="idSubgrupo"] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+::ng-deep .ng-select[formcontrolname="idSubgrupo"] .ng-select-container {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+::ng-deep .ng-select[formcontrolname="idSubgrupo"] .ng-dropdown-panel {
+  z-index: 999999 !important;
+  position: fixed !important;
+  pointer-events: auto !important;
+}
+
+/* Garantir que o dropdown do subgrupo seja sempre visível quando aberto */
+::ng-deep .ng-select[formcontrolname="idSubgrupo"].ng-select-opened .ng-dropdown-panel {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 999999 !important;
+}
+
+/* Estilo para opções padrão (sem subgrupos disponíveis) */
+::ng-deep .ng-dropdown-panel .ng-option[data-value="0"] {
+  color: #6b7280 !important;
+  font-style: italic !important;
+  background-color: #f9fafb !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  opacity: 0.7 !important;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option[data-value="0"]:hover {
+  background-color: #f3f4f6 !important;
+  cursor: not-allowed !important;
+}
+
+/* Estilo para opções de erro */
+::ng-deep .ng-dropdown-panel .ng-option[data-value="0"]:has-text("Erro") {
+  color: #ef4444 !important;
+  font-weight: 500 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Estilo para opções de "nenhum subgrupo disponível" */
+::ng-deep .ng-dropdown-panel .ng-option[data-value="0"]:has-text("Nenhum subgrupo") {
+  color: #f59e0b !important;
+  font-weight: 500 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Estilo para opções de "selecione um grupo primeiro" */
+::ng-deep .ng-dropdown-panel .ng-option[data-value="0"]:has-text("Selecione um grupo") {
+  color: #3b82f6 !important;
+  font-weight: 500 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Garantir que as opções com id 0 não sejam selecionáveis */
+::ng-deep .ng-dropdown-panel .ng-option[data-value="0"].ng-option-selected {
+  background-color: #f9fafb !important;
+  color: #6b7280 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Adicionar ícone de "não disponível" para opções padrão */
+::ng-deep .ng-dropdown-panel .ng-option[data-value="0"]::before {
+  content: "⚠️ ";
+  margin-right: 5px;
+}
+
+/* Estilo para opções padrão de marca (sem marcas disponíveis) */
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Nenhuma marca disponível"),
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Erro ao carregar marcas") {
+  color: #6b7280 !important;
+  font-style: italic !important;
+  background-color: #f9fafb !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  opacity: 0.7 !important;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Nenhuma marca disponível"):hover,
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Erro ao carregar marcas"):hover {
+  background-color: #f3f4f6 !important;
+  cursor: not-allowed !important;
+}
+
+/* Estilo específico para opções de erro de marca */
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Erro ao carregar marcas") {
+  color: #ef4444 !important;
+  font-weight: 500 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Estilo específico para opções de "nenhuma marca disponível" */
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Nenhuma marca disponível") {
+  color: #f59e0b !important;
+  font-weight: 500 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Adicionar ícone de "não disponível" para opções padrão de marca */
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Nenhuma marca disponível")::before,
+::ng-deep .ng-dropdown-panel .ng-option:has-text("Erro ao carregar marcas")::before {
+  content: "⚠️ ";
+  margin-right: 5px;
+}
+

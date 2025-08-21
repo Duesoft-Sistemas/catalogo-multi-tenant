@@ -1,9 +1,19 @@
-<section *ngIf="show" class="content">
-  <div class="container-fluid p-0 m-0">
-      <div class="overlay">
-        <div class="loader-shadow-inner"></div>
-        <div class="loader"></div>
-        <div class="loader-shadow"></div>
-      </div>
+<div *ngIf="show" class="!fixed !inset-0 !bg-black/10 !backdrop-blur-sm !flex !items-center !justify-center !z-[9999] !transition-all !duration-300">
+  <div class="!relative !flex !flex-col !items-center !justify-center">
+    <!-- Container para círculo e sombra -->
+    <div class="!relative !w-12 !h-12">
+      <!-- Sombra pulsante real - centralizada -->
+      <div class="!absolute !inset-0 !w-12 !h-12 !rounded-full spinner-shadow" 
+           style="background: transparent !important;"></div>
+      
+      <!-- Círculo externo animado -->
+      <div class="!absolute !inset-0 !w-12 !h-12 !border-4 !border-gray-200 !rounded-full spinner-circle" 
+           style="border-top-color: var(--color-primary) !important;"></div>
+    </div>
+    
+    <!-- Texto de loading -->
+    <div class="!mt-6 !text-center">
+      <p class="!text-md !font-medium !text-primary-dark spinner-text-pulse">Carregando...</p>
+    </div>
   </div>
-</section>
+</div>

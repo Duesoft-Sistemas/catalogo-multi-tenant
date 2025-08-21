@@ -1,3 +1,191 @@
+/* Estilos customizados para o componente select-model com Tailwind CSS */
+
+/* Estilos básicos para os inputs select */
+::ng-deep .ng-select {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  background: #ffffff !important;
+}
+
+::ng-deep .ng-select:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .ng-select.ng-select-focused {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Container do select */
+::ng-deep .ng-select .ng-select-container {
+  border: none !important;
+  background: #ffffff !important;
+  border-radius: 0.5rem;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+/* Placeholder */
+::ng-deep .ng-select .ng-placeholder {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+/* Valores selecionados */
+::ng-deep .ng-select .ng-value {
+  background: #2563eb;
+  color: white;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 2px;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Garantir que o texto do valor selecionado seja visível */
+::ng-deep .ng-select .ng-value .ng-value-label {
+  color: white;
+  font-weight: 500;
+}
+
+/* Garantir que o texto do placeholder seja visível */
+::ng-deep .ng-select .ng-placeholder {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+/* Garantir que o texto do input seja visível */
+::ng-deep .ng-select .ng-input {
+  color: #111827 !important;
+}
+
+::ng-deep .ng-select .ng-input input {
+  color: #111827 !important;
+}
+
+/* Garantir que o texto do valor container seja visível */
+::ng-deep .ng-select .ng-value-container {
+  color: #111827 !important;
+}
+
+::ng-deep .ng-select .ng-value-container .ng-placeholder {
+  color: #6b7280;
+}
+
+/* Garantir que o texto do valor seja visível */
+::ng-deep .ng-select .ng-value-container .ng-value {
+  background: #2563eb;
+  color: white;
+}
+
+/* Dropdown panel */
+::ng-deep .ng-dropdown-panel {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 9999 !important;
+  position: absolute !important;
+}
+
+/* Garantir que o ng-select tenha posicionamento relativo */
+::ng-deep .ng-select {
+  position: relative;
+  z-index: 1;
+}
+
+/* Quando o dropdown está aberto, aumentar o z-index */
+::ng-deep .ng-select.ng-select-opened {
+  z-index: 9999 !important;
+}
+
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items {
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option:hover {
+  background-color: #eff6ff;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option.ng-option-selected {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option.ng-option-marked {
+  background-color: #eff6ff;
+}
+
+/* Loading spinner */
+::ng-deep .ng-select.ng-select-loading .ng-select-container {
+  opacity: 0.75;
+}
+
+/* Estados de erro */
+::ng-deep .ng-select.ng-invalid.ng-touched {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  ::ng-deep .ng-select .ng-select-container {
+    min-height: 44px;
+  }
+}
+
+/* Tooltip de erro */
 ::ng-deep .tooltip-red {
-  background: #b71c1c;
+  background: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Modo escuro (se aplicável) - Mantendo fundo branco para inputs */
+@media (prefers-color-scheme: dark) {
+  ::ng-deep .ng-select {
+    background: #ffffff !important;
+    border-color: #4b5563;
+  }
+  
+  ::ng-deep .ng-select .ng-select-container {
+    background: #ffffff !important;
+  }
+  
+  ::ng-deep .ng-select .ng-placeholder {
+    color: #6b7280;
+  }
+  
+  ::ng-deep .ng-select .ng-input {
+    color: #111827;
+  }
+  
+  ::ng-deep .ng-dropdown-panel {
+    background: #ffffff;
+    border-color: #4b5563;
+  }
+  
+  ::ng-deep .ng-dropdown-panel .ng-option {
+    color: #111827;
+  }
+  
+  ::ng-deep .ng-dropdown-panel .ng-option:hover {
+    background-color: #f3f4f6;
+  }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { take } from 'rxjs/operators';
 import { FiltroPesquisarProdutos } from 'src/app/shared/classes/filtro-pesquisar-produtos';
 import { FiltroProdutosComponent } from 'src/app/shared/components/filtro-produtos/filtro-produtos.component';
@@ -10,6 +9,9 @@ import { IProdutos } from 'src/app/shared/interface/IProdutos';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { FiltroPesquisaAvancada } from '../iniciar/modal-pesquisa-avancada/filtro-pesquisa-avancada';
 import { ModalPesquisaAvancadaComponent } from '../iniciar/modal-pesquisa-avancada/modal-pesquisa-avancada.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
 
 @Component({
   selector: 'app-pesquisar-produtos',
@@ -17,44 +19,65 @@ import { ModalPesquisaAvancadaComponent } from '../iniciar/modal-pesquisa-avanca
   styleUrls: ['./pesquisar-produtos.component.css'],
 })
 export class PesquisarProdutosComponent implements OnInit {
+  schema = '';
   spinner = false;
   totalPaginas: number;
   listProdutos: IProdutos[] = [];
   modelo = new FiltroPesquisarProdutos();
 
+  seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos;
+
   filtroPesquisaAvancada = FiltroPesquisaAvancada;
 
   constructor(
+    private serviceTenant: TenantService,
     private service: GlobalService,
     public dialog: MatDialog,
-    private storage: AuthStorageService
+    private storage: AuthStorageService,
+    private sanitizer: DomSanitizer
   ) {
+    this.schema = this.serviceTenant.getSchemaTenant();
+    this.schema = this.serviceTenant.getSchemaTenant();
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(
+      this.serviceTenant
+    );
     this.totalPaginas = 0;
     this.modelo.page = 1;
   }
 
   ngOnInit() {
+    this.seletorPeculiaridadesCatalogos.getTenant();
     this.storage.setTitlePage('Produtos');
-    this.buscarProdutosFiltro().then(x => this.openModalFiltro());
+    this.buscarProdutosFiltro();
   }
 
-  goTo(event: PageChangedEvent): void {
-    this.modelo.page = event.page;
+  goTo(event: any): void {
+    // Lidar com tanto o evento antigo quanto o novo
+    const page = event.page || event;
+    this.modelo.page = page;
     this.buscarProdutosFiltro();
   }
 
   openModalPesquisaAvancada(): void {
     const dialogRef = this.dialog.open(ModalPesquisaAvancadaComponent, {
-      width: '548px',
+      width: '90vw',
+      maxWidth: '548px',
       data: {
         filtro: this.filtroPesquisaAvancada,
-      }
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (result.produtos) {
           this.listProdutos = result.produtos;
+          this.listProdutos.forEach((produto) => {
+            if (produto.image != './static/img/imagem_nao_encontrada.jpg') {
+              produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(
+                produto.image
+              );
+            }
+          });
           this.totalPaginas = result.totalPaginas;
         }
         if (result.filtro.flag) {
@@ -92,8 +115,15 @@ export class PesquisarProdutosComponent implements OnInit {
             if (data) {
               resolve(data);
               this.listProdutos = data.produtos;
+              this.listProdutos.forEach((produto) => {
+                if (produto.image != './static/img/imagem_nao_encontrada.jpg') {
+                  produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(
+                    produto.image
+                  );
+                }
+              });
               this.totalPaginas = data.totalPaginas;
-              if (data.produtos.lenght <= 0) {
+              if (data.produtos.length <= 0) {
                 Toaster.Warning('Nenhum produto encontrado.');
               }
             } else {
@@ -115,5 +145,29 @@ export class PesquisarProdutosComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.dialog.closeAll();
+  }
+
+  // Método para lidar com mudanças na pesquisa
+  onSearchChanged(filtro: FiltroPesquisarProdutos): void {
+    this.modelo = filtro;
+    this.buscarProdutosFiltro();
+  }
+
+  // Método para lidar com atualizações dos produtos
+  onProductsUpdated(produtos: IProdutos[]): void {
+    this.listProdutos = produtos;
+  }
+
+  // Método para lidar quando não há produtos encontrados
+  onNoProductsFound(message: string): void {
+    Toaster.Warning(message);
+  }
+
+  // Método para recarregar o catálogo
+  reloadCatalog(): void {
+    // Recarregar o catálogo do início
+    this.modelo = new FiltroPesquisarProdutos();
+    this.modelo.page = 1;
+    this.buscarProdutosFiltro();
   }
 }

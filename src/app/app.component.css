@@ -1,0 +1,29 @@
+/* Garantir que o header e sidebar sejam exibidos quando autenticado */
+.wrapper app-header,
+.wrapper app-sidebar {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+}
+
+/* Garantir que o wrapper tenha o layout correto */
+.wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+  position: relative !important;
+}
+
+/* Garantir que os componentes sejam visíveis */
+app-header {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+app-sidebar {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}

@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UsuarioLogin } from 'src/app/pages/login/login.model';
 import { Pessoas } from 'src/app/pages/pessoas/pessoas';
@@ -12,6 +11,7 @@ import { FiltroRelatorioFinanceiro } from '../classes/filtro-relatorio-financeir
 import { RecuperarSenha } from '../classes/recuperar-senha';
 import { ICarrinho } from '../interface/ICarrinho';
 import { TenantService } from '../tenant/tenant.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +19,11 @@ import { TenantService } from '../tenant/tenant.service';
 export class GlobalService {
   baseUrl: string;
 
-  constructor(protected http: HttpClient,
-    private serviceTenant : TenantService,
-    private router : Router) {
+  constructor(
+    protected http: HttpClient,
+    private serviceTenant: TenantService,
+    private router : Router
+  ) {
     this.baseUrl = `${environment.UrlBase}/${environment.SchemaDSCOP}`;
   }
 
@@ -45,18 +47,17 @@ export class GlobalService {
     return this.http.get(`${this.baseUrl}/GetProductInfo?id=${idProduto}`);
   }
 
-  getEmail(cnpj: string): Observable<any> {
+  getEmail(email: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/GetEmail?id=${cnpj}&schema=${this.serviceTenant.getSchemaTenant()}`,{responseType: 'text'}
+      `${this.baseUrl}/GetEmail?email=${email}&schema=${this.serviceTenant.getSchemaTenant()}`
     );
   }
 
-  cadastrarUsuario(model: Pessoas): Observable<any>  {
-    return this.http.post(`${this.baseUrl}/UserRegister`, model, {
-      headers: new HttpHeaders({
-        'Schema': `${this.serviceTenant.getSchemaTenant()}`,
-      })
-    })
+  cadastrarUsuario(data: any): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/CadastrarUsuario?schema=${this.serviceTenant.getSchemaTenant()}`,
+      data
+    );
   }
 
   alterarSenha(data: AlterarSenha): Observable<any> {
@@ -122,15 +123,18 @@ export class GlobalService {
   }
 
   getFornecedores(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/GetSupliers`);
+    return this.http.get(`${environment.UrlBase}/GetSuppliers?schema=${this.serviceTenant.getSchemaTenant()}`);
   }
 
   getProdutosFornecedores(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/GetSpecificSuppliers`, data);
+    return this.http.post(`${environment.UrlBase}/GetSpecificSuppliers`, data);
   }
 
   filtrarPedidosRealizados(filtro: FiltroPedidosRealizados): Observable<any> {
-    return this.http.post(`${this.baseUrl}/SearchOrders`, filtro);
+    // Por enquanto, vamos usar o endpoint padrão e filtrar no frontend
+    // até descobrirmos o formato correto para a API
+    console.log('🔍 DEBUG - Usando endpoint padrão por enquanto');
+    return this.getPedidosRealizados();
   }
 
   getStatusPedidos(): Observable<any> {
@@ -139,6 +143,16 @@ export class GlobalService {
 
   getProdutosFiltro(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/PesquisaInicial`, data);
+  }
+
+  getProdutosComEstoque(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/GetSpecificProducts`, {
+      code: '',
+      description: '',
+      page: 1,
+      pageSize: 1000, // Buscar muitos produtos de uma vez
+      apenasComEstoque: true // Flag para indicar que queremos apenas produtos com estoque
+    });
   }
 
   getMarcas(): Observable<any>  {

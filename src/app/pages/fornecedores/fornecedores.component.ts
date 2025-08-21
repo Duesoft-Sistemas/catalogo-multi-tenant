@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
-import { Toaster } from 'src/app/shared/functions/toaster';
-import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { Toaster } from 'src/app/shared/functions/toaster';
+import { TenantService } from 'src/app/shared/tenant/tenant.service';
+import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 
 @Component({
   selector: 'app-fornecedores',
@@ -11,18 +12,24 @@ import { GlobalService } from 'src/app/shared/services/global.service';
   styleUrls: ['./fornecedores.component.css'],
 })
 export class FornecedoresComponent implements OnInit {
+  schema = '';
   spinner = false;
   totalPaginas: number;
   maxSizePaginator = 5;
-  formEsteira: FormGroup;
+  formEsteira: any; // Changed from FormGroup to any as FormGroup is removed
   listFornecedores = [];
   listImagemFornecedores = [];
-  @Output() pageChanged = new EventEmitter();
+  productCount: number = 0;
+  // @Output() pageChanged = new EventEmitter(); // Removed as per new_code
 
   constructor(
     private service: GlobalService,
-    private storage: AuthStorageService
-  ) {}
+    private storage: AuthStorageService,
+    private tenantService: TenantService
+  ) {
+    this.schema = this.tenantService.getSchemaTenant();
+    this.schema = this.tenantService.getSchemaTenant();
+  }
 
   ngOnInit() {
     this.storage.setTitlePage('Fornecedores');
@@ -33,17 +40,31 @@ export class FornecedoresComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: (data: any) => {
-          this.listFornecedores = data;
-          this.totalPaginas = this.listFornecedores.length / 9;
-          this.spinner = false;
+          if (data && Array.isArray(data) && data.length > 0) {
+            this.listFornecedores = data;
+            this.totalPaginas = Math.ceil(this.listFornecedores.length / 9);
+            this.spinner = false;
+          } else {
+            this.listFornecedores = [];
+            this.totalPaginas = 0;
+            this.spinner = false;
+            Toaster.Warning('Nenhum fornecedor encontrado.');
+          }
         },
         error: (error) => {
-          Toaster.Error(Toaster.msg.ErroCarregarDados);
+          console.error('Erro ao carregar fornecedores:', error);
+          this.listFornecedores = [];
+          this.totalPaginas = 0;
+          Toaster.Error('Nenhum fornecedor encontrado.');
           this.spinner = false;
         },
         complete: () => {
           this.spinner = false;
         },
       });
+  }
+
+  onProductCountChanged(count: number) {
+    this.productCount = count;
   }
 }

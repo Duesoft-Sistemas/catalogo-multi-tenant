@@ -1,27 +1,140 @@
 <app-spinner [show]="spinner"></app-spinner>
-<div class="container-senha">
-  <mat-card-header>
-    <mat-card-title>Enviar nova senha para:
-      <button type="button" class="close" aria-label="Close" mat-dialog-close>
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </mat-card-title>
-  </mat-card-header>
 
-  <mat-divider></mat-divider>
+<!-- Modal Container -->
+<div class="!shadow-2xl !max-w-md !w-full !overflow-hidden">
+  
+  <!-- Header com gradiente -->
+  <div class="!w-full !bg-gradient-to-r !from-primary !to-primary-light !text-white !px-6 !py-4 !relative">
+    <div class="!flex !items-center !justify-between">
+      <div class="!flex !items-center !space-x-3">
+        <div class="!w-10 !h-10 !bg-white !bg-opacity-20 !rounded-full !flex !items-center !justify-center">
+          <i class="fas fa-key !text-lg"></i>
+        </div>
 
-  <mat-card-content>
-    <form [formGroup]="formulario" *ngIf="formulario">
-      <div class="row">
-        <!-- <app-input-model [label]="'CNPJ'" [type]="'text'" [form]="formulario" [controlName]="'user'" class="col-12"
-          mask="00.000.000/0000-00" (keyup.enter)="buscarEmpresas()"></app-input-model> -->
-          <mat-card-subtitle><strong>{{this.mostrarEmail}}</strong></mat-card-subtitle>
+        <div>
+          <h2 class="!text-lg !font-semibold">
+            Recuperar Senha
+          </h2>
 
-        <mat-card-actions class="d-flex justify-content-end mb-0 mt-4">
-
-          <button *ngIf="cnpjValido" mat-raised-button class="btn btn-pattern mr-2 character" (click)="recuperar()">Enviar Email</button>
-        </mat-card-actions>
+          <p class="!text-sm !text-white !text-opacity-90">
+            Enviar nova senha por email
+          </p>
+        </div>
       </div>
-    </form>
-  </mat-card-content>
+      
+      <!-- Botão fechar moderno -->
+      <button 
+        type="button" 
+        class="!w-8 !h-8 !bg-white !bg-opacity-20 hover:!bg-opacity-30 !rounded-full !flex !items-center !justify-center !transition-all !duration-200 !text-white !border-none" 
+        aria-label="Close" 
+        mat-dialog-close
+      >
+        <i class="fas fa-times !text-sm"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="!p-6">
+    
+    <!-- Estado: Email encontrado -->
+    <div *ngIf="cnpjValido && mostrarEmail" class="!space-y-4">
+      
+      <!-- Ícone de sucesso -->
+      <div class="!flex !justify-center !mb-4">
+        <div class="!w-16 !h-16 !bg-green-100 !rounded-full !flex !items-center !justify-center">
+          <i class="fas fa-envelope !text-2xl !text-primary"></i>
+        </div>
+      </div>
+      
+      <!-- Mensagem de confirmação -->
+      <div class="!text-center !space-y-2">
+        <h3 class="!text-lg !font-semibold !text-gray-800">Email encontrado!</h3>
+        <p class="!text-gray-600 !text-sm">A nova senha será enviada para:</p>
+      </div>
+      
+      <!-- Email mascarado -->
+      <div class="!bg-gray-50 !border !border-gray-200 !rounded-lg !p-4 !text-center">
+        <div class="!flex !items-center !justify-center !space-x-2">
+          <i class="fas fa-user !text-gray-400 !text-sm"></i>
+          <span class="!font-mono !text-gray-800 !text-sm !font-medium">{{mostrarEmail}}</span>
+        </div>
+        <p class="!text-xs !text-gray-500 !mt-2">Email mascarado por segurança</p>
+      </div>
+      
+      <!-- Botão de ação -->
+      <div class="!pt-4">
+        <button 
+          mat-raised-button 
+          class="!w-full !bg-gradient-to-r !from-primary !to-primary-light hover:!from-primary-dark hover:!to-primary !text-white !shadow-lg hover:!shadow-xl !transition-all !duration-300 !py-3 !px-6 !rounded-lg !font-medium !transform hover:!scale-105" 
+          (click)="recuperar()"
+        >
+          <i class="fas fa-paper-plane !mr-2"></i>
+          Enviar Nova Senha
+        </button>
+      </div>
+      
+      <!-- Informações adicionais -->
+      <div class="!bg-blue-50 !border !border-blue-200 !rounded-lg !p-3 !mt-4">
+        <div class="!flex !items-start !space-x-2">
+          <i class="fas fa-info-circle !text-primary-dark !text-sm !mt-0.5"></i>
+          <div class="!text-xs !text-primary-dark">
+            <p class="!font-medium">Importante:</p>
+            <p>Verifique sua caixa de entrada e pasta de spam após o envio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Estado: Email não encontrado -->
+    <div *ngIf="!cnpjValido && !spinner" class="!space-y-4">
+      
+      <!-- Ícone de aviso -->
+      <div class="!flex !justify-center !mb-4">
+        <div class="!w-16 !h-16 !bg-yellow-100 !rounded-full !flex !items-center !justify-center">
+          <i class="fas fa-exclamation-triangle !text-2xl !text-primary"></i>
+        </div>
+      </div>
+      
+      <!-- Mensagem de erro -->
+      <div class="!text-center !space-y-2">
+        <h3 class="!text-lg !font-semibold !text-gray-800">Email não encontrado</h3>
+        <p class="!text-gray-600 !text-sm">Este CNPJ não possui um email cadastrado no sistema.</p>
+      </div>
+      
+      <!-- Card de informação -->
+      <div class="!bg-yellow-50 !border !border-yellow-200 !rounded-lg !p-4">
+        <div class="!flex !items-start !space-x-3">
+          <i class="fas fa-lightbulb !text-yellow-600 !text-lg !mt-0.5"></i>
+          <div class="!text-sm !text-yellow-800">
+            <p class="!font-medium !mb-1">O que fazer?</p>
+            <ul class="!space-y-1 !text-xs">
+              <li>• Entre em contato com o administrador</li>
+              <li>• Solicite o cadastro do email</li>
+              <li>• Verifique se o CNPJ está correto</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botão de fechar -->
+      <div class="!pt-4">
+        <button 
+          mat-raised-button 
+          class="!w-full !bg-gray-500 hover:!bg-gray-600 !text-white !shadow-lg hover:!shadow-xl !transition-all !duration-300 !py-3 !px-6 !rounded-lg !font-medium" 
+          mat-dialog-close
+        >
+          <i class="fas fa-times !mr-2"></i>
+          Fechar
+        </button>
+      </div>
+    </div>
+    
+    <!-- Estado: Carregando -->
+    <div *ngIf="spinner" class="!flex !flex-col !items-center !justify-center !py-8 !space-y-4">
+      <div class="!w-12 !h-12 !border-4 !border-primary !border-t-transparent !rounded-full !animate-spin"></div>
+      <p class="!text-gray-600 !text-sm">Verificando email...</p>
+    </div>
+    
+  </div>
 </div>

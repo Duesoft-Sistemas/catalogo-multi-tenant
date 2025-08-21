@@ -1,48 +1,72 @@
-.overlay {
-  background-color: rgba(255,255,255,0.5);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(3px);
-  z-index: 2000;
-}
-.loader {
-position: absolute;
-border: 10px solid rgb(0, 0, 0, 0.15);
-border-radius: 50%;
-border-top: 10px solid var(--color-primary);
-width: 60px;
-height: 60px;
--webkit-animation: spin 2s cubic-bezier(0.8, 0.3, 0.5, 0.8) infinite; /* Safari */
-animation: spin 2s cubic-bezier(0.8, 0.3, 0.5, 0.8) infinite;
-}
-.loader-shadow{
-border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  box-shadow: 0px 0px 3px 3px rgba(255,255,255,0.35);
-}
-.loader-shadow-inner{
-position: absolute;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  box-shadow: 0px 0px 3px 3px rgba(255,255,255,0.35) inset;
-}
-/* Safari */
-@-webkit-keyframes spin {
-0% { -webkit-transform: rotate(-60deg); }
-100% { -webkit-transform: rotate(1740deg); }
+/* Animações customizadas para o spinner */
+
+/* Círculo giratório */
+.spinner-circle {
+  animation: spin 1s linear infinite !important;
 }
 
+/* Sombra pulsante real */
+.spinner-shadow {
+  animation: shadowPulse 2s ease-in-out infinite !important;
+}
+
+/* Texto pulsante */
+.spinner-text-pulse {
+  animation: textPulse 2s ease-in-out infinite !important;
+}
+
+/* Keyframes para as animações */
 @keyframes spin {
-0% { transform: rotate(-60deg); }
-100% { transform: rotate(1740deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shadowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px 2px var(--color-primary);
+    opacity: 0.4;
+  }
+  50% {
+    box-shadow: 0 0 20px 6px var(--color-primary);
+    opacity: 0.8;
+  }
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .!w-12 {
+    width: 2.5rem !important;
+  }
+  .!h-12 {
+    height: 2.5rem !important;
+  }
+  .!w-10 {
+    width: 2rem !important;
+  }
+  .!h-10 {
+    height: 2rem !important;
+  }
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .!border-gray-200 {
+    border-color: #374151 !important;
+  }
+  .!text-gray-700 {
+    color: #e5e7eb !important;
+  }
 }

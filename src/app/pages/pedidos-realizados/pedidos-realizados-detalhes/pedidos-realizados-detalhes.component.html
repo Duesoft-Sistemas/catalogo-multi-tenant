@@ -1,29 +1,127 @@
 <app-spinner [show]="spinner"></app-spinner>
-<div class="container-detalhes">
-  <h3 class="w-100" class="text-bold"> Detalhes </h3>
-  <mat-tab-group>
-    <mat-tab label="Resumo">
-      <div class="row mt-2" style="max-width: 640px;">
-        <div class="bt-1 col-12 mb-2"> <span class="text-bold">Empresa:</span> {{dados?.company}}</div>
-        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Solicitação Nº:</span> {{dados?.solicitationNumber}}</div>
-        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Pedido Nº:</span> {{dados?.orderNumber}}</div>
-        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Situação:</span> {{dados?.status}}</div>
-        <div class="bt-1 col-md-6 mb-2"> <span class="text-bold">Data do Pedido:</span> {{dados?.orderDate? (getDate(dados?.orderDate) | date: 'dd/MM/yyyy'): '-'}}</div>
-        <div class="col-12 mt-2">
-          <p style="text-align: right;"> <strong> Valor do Pedido Solicitado: {{getPrice(dados?.appTotalPrice) | currency}} </strong></p>
-            <p style="text-align: right;"> <strong> Valor do Pedido Aprovado: {{getPrice(dados?.totalPrice) | currency}} </strong></p>
-        </div>
-      </div>
-    </mat-tab>
-    <mat-tab label="Itens do Pedido">
-      <div class="row mt-2 pl-3 pr-3" style="max-width: 640px;">
-        <app-table-model [dataSource]="dataSource" [columns]="columns"></app-table-model>
-      </div>
-    </mat-tab>
 
-  </mat-tab-group>
-  <div mat-dialog-actions class="d-flex justify-content-end">
-    <button mat-raised-button *ngIf="dados?.status === 'PENDENTE'" (click)="openModalConfirmarCancelarpedido()" class="btn btn-danger">Cancelar</button>
-    <button mat-raised-button mat-dialog-close>Fechar</button>
+<div class=" !bg-gray-50 !p-4 sm:!p-6">
+  <div class="!max-w-3xl !mx-auto !bg-white !rounded-lg !shadow-sm !overflow-hidden">
+    
+    <!-- Cabeçalho Simples -->
+    <div class="!bg-primary !px-4 !py-3 sm:!px-6 sm:!py-4">
+      <div class="!flex !items-center !justify-between">
+        <h2 class="!text-lg sm:!text-xl !font-semibold !text-white">Detalhes do Pedido</h2>
+        <span class="!text-sm !bg-white !bg-opacity-20 !px-2 !py-1 !rounded !text-white">
+          #{{ dados?.solicitationNumber }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="!p-4 sm:!p-6">
+      <mat-tab-group class="!w-full">
+        
+        <!-- Aba Resumo -->
+        <mat-tab label="Resumo">
+          <div class="!mt-4 sm:!mt-6 min-w-80">
+            
+            <!-- Informações Principais -->
+            <div class="!space-y-4 !mb-6">
+              
+              <!-- Empresa -->
+              <div class="!flex !flex-col sm:!flex-row sm:!items-center !gap-2 !pb-3 !border-b !border-gray-200">
+                <span class="!text-sm !font-medium !text-gray-600 !min-w-[120px]">Empresa:</span>
+                <span class="!text-gray-900 !font-medium">{{ dados?.company || '-' }}</span>
+              </div>
+
+              <!-- Número da Solicitação -->
+              <div class="!flex !flex-col sm:!flex-row sm:!items-center !gap-2 !pb-3 !border-b !border-gray-200">
+                <span class="!text-sm !font-medium !text-gray-600 !min-w-[120px]">Solicitação Nº:</span>
+                <span class="!text-gray-900 !font-medium">{{ dados?.solicitationNumber || '-' }}</span>
+              </div>
+
+              <!-- Número do Pedido -->
+              <div class="!flex !flex-col sm:!flex-row sm:!items-center !gap-2 !pb-3 !border-b !border-gray-200">
+                <span class="!text-sm !font-medium !text-gray-600 !min-w-[120px]">Pedido Nº:</span>
+                <span class="!text-gray-900 !font-medium">{{ dados?.orderNumber || '-' }}</span>
+              </div>
+
+              <!-- Situação -->
+              <div class="!flex !flex-col sm:!flex-row sm:!items-center !gap-2 !pb-3 !border-b !border-gray-200">
+                <span class="!text-sm !font-medium !text-gray-600 !min-w-[120px]">Situação:</span>
+                <span 
+                  class="!inline-flex !px-2 !py-1 !text-sm !font-medium !rounded !w-fit"
+                  [ngClass]="getStatusClass(dados?.status)"
+                >
+                  {{ formatStatus(dados?.status) }}
+                </span>
+              </div>
+
+              <!-- Data do Pedido -->
+              <div class="!flex !flex-col sm:!flex-row sm:!items-center !gap-2 !pb-3 !border-b !border-gray-200">
+                <span class="!text-sm !font-medium !text-gray-600 !min-w-[120px]">Data do Pedido:</span>
+                <span class="!text-gray-900 !font-medium">
+                  {{ dados?.orderDate ? (getDate(dados?.orderDate) | date : "dd/MM/yyyy") : '-' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Valores -->
+            <div class="!bg-gray-50 !rounded-lg !p-4">
+              <h3 class="!text-base !font-semibold !text-gray-800 !mb-3">Valores do Pedido</h3>
+              
+              <div class="!space-y-3">
+                <!-- Valor Solicitado -->
+                <div class="!flex !items-center !justify-between !py-2">
+                  <span class="!text-gray-700">Valor Solicitado:</span>
+                  <span class="!font-semibold !text-primary">
+                    {{ getPrice(dados?.appTotalPrice) | currency }}
+                  </span>
+                </div>
+
+                <!-- Valor Aprovado -->
+                <div class="!flex !items-center !justify-between !py-2 !border-t !border-gray-200">
+                  <span class="!text-gray-700">Valor Aprovado:</span>
+                  <span class="!font-semibold !text-primary">
+                    {{ getPrice(dados?.totalPrice) | currency }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Aba Itens do Pedido -->
+        <mat-tab label="Itens do Pedido">
+          <div class="!mt-4 sm:!mt-6 text-white">
+            <app-table-model
+              [dataSource]="dataSource"
+              [columns]="columns"
+            ></app-table-model>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="!bg-gray-50 !px-4 !py-3 sm:!px-6 sm:!py-4 !border-t !border-gray-200">
+      <div class="!flex !flex-col sm:!flex-row !sm:items-center !sm:justify-between !gap-3">
+        
+        <!-- Botão Cancelar (apenas se status for PENDENTE) -->
+        <button
+          *ngIf="dados?.status === 'PENDENTE'"
+          (click)="openModalConfirmarCancelarpedido()"
+          class="!w-full sm:!w-auto !inline-flex !items-center !justify-center !px-4 !py-2 !bg-red-600 !text-white !font-medium !rounded !hover:!bg-red-700 !focus:!outline-none !focus:!ring-2 !focus:!ring-red-500 !focus:!ring-offset-2 !transition-colors !duration-200"
+        >
+          <i class="fas fa-times !mr-2 !text-sm"></i>
+          Cancelar Pedido
+        </button>
+        
+        <!-- Botão Fechar -->
+        <button 
+          mat-dialog-close
+          class="!w-full sm:!w-auto !inline-flex !items-center !justify-center !px-4 !py-2 !bg-gray-600 !text-white !font-medium !rounded !hover:!bg-gray-700 !focus:!outline-none !focus:!ring-2 !focus:!ring-gray-500 !focus:!ring-offset-2 !transition-colors !duration-200"
+        >
+          <i class="fas fa-times !mr-2 !text-sm"></i>
+          Fechar
+        </button>
+      </div>
+    </div>
   </div>
 </div>

@@ -12,4 +12,6 @@ export interface IDataStorage {
   carrinho: ProdutoCarrinho[];
   titlePage: string;
   vinculoGrupoSubGrupo: boolean;
+  navigationList: string[];
+  desactiveGoBack: boolean;
 }

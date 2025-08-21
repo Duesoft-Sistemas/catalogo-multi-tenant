@@ -2,6 +2,19 @@
   min-height: 40vh;
   max-width: 100vh;
   height: 220px;
+  width: 400px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-top: 1.30rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.img-custom-background-image{
+  background-image: url(../../../assets/images/FundoPrudentina.png);
+  min-height: 40vh;
+  max-width: 100vh;
+  height: 220px;
   width: 580px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -9,19 +22,7 @@
   margin-bottom: 3rem;
 }
 
-.img-custom-background-image{
-  min-height: 40vh;
-  max-width: 100vh;
-  height: 420px;
-  width: 580px;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  margin-top: -6rem;
-}
-
-.centraliza-imagem-canguru{
-  justify-content: center;
-  display: flex;
+.logo-inicio{
 }
 
 .boxButton {
@@ -104,6 +105,24 @@ input::placeholder {
   background: var(--color-link-active);
 }
 
+/* Estilos específicos para mobile - garantir scroll */
+@media (max-width: 768px) {
+  main {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: calc(100vh - 80px) !important;
+  }
+  
+  .wrapper {
+    overflow-y: auto !important;
+  }
+  
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+}
+
 @media (max-width: 424px) {
   .img-custom {
     max-width: 297px;
@@ -152,7 +171,7 @@ input::placeholder {
     max-height: 30vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    bottom: 6rem;
+    //bottom: 6rem;
   }
   .divPading {
     padding-left: 1rem;
