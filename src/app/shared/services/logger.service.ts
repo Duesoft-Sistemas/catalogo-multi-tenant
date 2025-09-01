@@ -4,11 +4,11 @@ export enum LogLevel {
   DEBUG = 0,
   INFO = 1,
   WARN = 2,
-  ERROR = 3
+  ERROR = 3,
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoggerService {
   private logLevel: LogLevel = LogLevel.INFO;
@@ -16,8 +16,9 @@ export class LoggerService {
   constructor() {
     // Set log level based on environment
     if (typeof window !== 'undefined') {
-      const isDevMode = window.location.hostname === 'localhost' || 
-                        window.location.hostname === '127.0.0.1';
+      const isDevMode =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1';
       this.logLevel = isDevMode ? LogLevel.DEBUG : LogLevel.INFO;
     }
   }

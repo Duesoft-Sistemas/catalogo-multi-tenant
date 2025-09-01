@@ -52,7 +52,6 @@ export class FornecedoresComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.error('Erro ao carregar fornecedores:', error);
           this.listFornecedores = [];
           this.totalPaginas = 0;
           Toaster.Error('Nenhum fornecedor encontrado.');

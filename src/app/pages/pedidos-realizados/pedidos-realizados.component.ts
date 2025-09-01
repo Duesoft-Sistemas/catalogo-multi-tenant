@@ -27,7 +27,7 @@ export class PedidosRealizadosComponent implements OnInit {
   totalPaginas = 0;
   currentPage = 1;
   pageSize = 3; // Temporariamente 3 para testar
-  
+
   columns = [
     {
       columnDef: 'solicitacao',
@@ -53,7 +53,8 @@ export class PedidosRealizadosComponent implements OnInit {
     {
       columnDef: 'valor',
       header: 'Valor',
-      cell: (element: IPedidos) => this.formatTotalPriceSimple(element.totalPrice),
+      cell: (element: IPedidos) =>
+        this.formatTotalPriceSimple(element.totalPrice),
     },
   ];
 
@@ -91,7 +92,7 @@ export class PedidosRealizadosComponent implements OnInit {
         width: '400px',
         data: this.filtro,
         disableClose: false,
-        autoFocus: false
+        autoFocus: false,
       });
 
       dialogRef.afterClosed().subscribe((result) => {
@@ -101,13 +102,11 @@ export class PedidosRealizadosComponent implements OnInit {
             this.currentPage = 1; // Reset para primeira página ao aplicar filtro
             this.getDadosFiltros();
           } catch (error) {
-            console.error('Erro ao processar resultado do filtro:', error);
             Toaster.Error('Erro ao processar filtro. Tente novamente.');
           }
         }
       });
     } catch (error) {
-      console.error('Erro ao abrir modal de filtro:', error);
       Toaster.Error('Erro ao abrir filtro. Tente novamente.');
     }
   }
@@ -124,8 +123,12 @@ export class PedidosRealizadosComponent implements OnInit {
     const page = event.page || event;
     this.currentPage = page;
     this.filtro.page = page;
-    
-    if (this.filtro.initialDate || this.filtro.finalDate || (this.filtro.status && this.filtro.status.length > 0)) {
+
+    if (
+      this.filtro.initialDate ||
+      this.filtro.finalDate ||
+      (this.filtro.status && this.filtro.status.length > 0)
+    ) {
       this.getDadosFiltros();
     } else {
       this.getDados();
@@ -138,17 +141,17 @@ export class PedidosRealizadosComponent implements OnInit {
 
     const isMobile = window.innerWidth <= 640;
     const isSmallMobile = window.innerWidth <= 480;
-    
+
     let maxVisiblePages = 5; // Padrão para desktop
-    
+
     if (isSmallMobile) {
       maxVisiblePages = 3; // Apenas 3 páginas para telas muito pequenas
     } else if (isMobile) {
       maxVisiblePages = 4; // 4 páginas para mobile
     }
-    
+
     const pages: (number | string)[] = [];
-    
+
     if (this.totalPaginas <= maxVisiblePages) {
       // Se temos páginas suficientes ou menos, mostrar todas
       for (let i = 1; i <= this.totalPaginas; i++) {
@@ -156,30 +159,36 @@ export class PedidosRealizadosComponent implements OnInit {
       }
     } else {
       // Se temos mais páginas, mostrar uma janela responsiva
-      let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
-      let endPage = Math.min(this.totalPaginas, startPage + maxVisiblePages - 1);
-      
+      let startPage = Math.max(
+        1,
+        this.currentPage - Math.floor(maxVisiblePages / 2)
+      );
+      let endPage = Math.min(
+        this.totalPaginas,
+        startPage + maxVisiblePages - 1
+      );
+
       // Ajustar se chegamos ao final
       if (endPage - startPage + 1 < maxVisiblePages) {
         startPage = Math.max(1, endPage - maxVisiblePages + 1);
       }
-      
+
       // Adicionar elipsis inicial se necessário (apenas se não for mobile muito pequeno)
       if (startPage > 1 && !isSmallMobile) {
         pages.push('start-ellipsis');
       }
-      
+
       // Adicionar páginas numeradas
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
-      
+
       // Adicionar elipsis final se necessário (apenas se não for mobile muito pequeno)
       if (endPage < this.totalPaginas && !isSmallMobile) {
         pages.push('end-ellipsis');
       }
     }
-    
+
     return pages;
   }
 
@@ -190,13 +199,15 @@ export class PedidosRealizadosComponent implements OnInit {
 
   private calcularEstatisticas(data: IPedidos[]): void {
     this.totalPedidos = data.length;
-    this.pedidosPendentes = data.filter(pedido => 
-      pedido.status?.toLowerCase().includes('pendente') || 
-      pedido.status?.toLowerCase().includes('aguardando')
+    this.pedidosPendentes = data.filter(
+      (pedido) =>
+        pedido.status?.toLowerCase().includes('pendente') ||
+        pedido.status?.toLowerCase().includes('aguardando')
     ).length;
-    this.pedidosAprovados = data.filter(pedido => 
-      pedido.status?.toLowerCase().includes('aprovado') || 
-      pedido.status?.toLowerCase().includes('confirmado')
+    this.pedidosAprovados = data.filter(
+      (pedido) =>
+        pedido.status?.toLowerCase().includes('aprovado') ||
+        pedido.status?.toLowerCase().includes('confirmado')
     ).length;
   }
 
@@ -211,16 +222,18 @@ export class PedidosRealizadosComponent implements OnInit {
             data.sort((a, b) => {
               return b.solicitationNumber - a.solicitationNumber;
             });
-            
+
             // Calcular total de páginas
             this.totalPaginas = Math.ceil(data.length / this.pageSize);
-            
+
             // Aplicar paginação
             const startIndex = (this.currentPage - 1) * this.pageSize;
             const endIndex = startIndex + this.pageSize;
             const pedidosPaginados = data.slice(startIndex, endIndex);
-            
-            this.dataSource = new MatTableDataSource<IPedidos>(pedidosPaginados);
+
+            this.dataSource = new MatTableDataSource<IPedidos>(
+              pedidosPaginados
+            );
             this.hasData = data.length > 0;
             this.calcularEstatisticas(data);
 
@@ -245,16 +258,18 @@ export class PedidosRealizadosComponent implements OnInit {
       });
   }
 
-    private getDadosFiltros(): void {
+  private getDadosFiltros(): void {
     this.spinner = true;
-    
+
     // Validar se há filtros aplicados
     if (!this.temFiltrosAplicados()) {
-      Toaster.Warning('Nenhum filtro foi aplicado. Carregando todos os pedidos.');
+      Toaster.Warning(
+        'Nenhum filtro foi aplicado. Carregando todos os pedidos.'
+      );
       this.getDados();
       return;
     }
-    
+
     this.service
       .filtrarPedidosRealizados(this.filtro)
       .pipe(take(1))
@@ -263,27 +278,38 @@ export class PedidosRealizadosComponent implements OnInit {
           if (data && Array.isArray(data)) {
             // Aplicar filtros no frontend
             const resultadoFiltro = this.aplicarFiltrosFrontend(data);
-            
+
             if (resultadoFiltro.sucesso) {
               const dadosFiltrados = resultadoFiltro.dados;
-              
+
               // Calcular total de páginas
-              this.totalPaginas = Math.ceil(dadosFiltrados.length / this.pageSize);
-              
+              this.totalPaginas = Math.ceil(
+                dadosFiltrados.length / this.pageSize
+              );
+
               // Aplicar paginação
               const startIndex = (this.currentPage - 1) * this.pageSize;
               const endIndex = startIndex + this.pageSize;
-              const pedidosPaginados = dadosFiltrados.slice(startIndex, endIndex);
-              
-              this.dataSource = new MatTableDataSource<IPedidos>(pedidosPaginados);
+              const pedidosPaginados = dadosFiltrados.slice(
+                startIndex,
+                endIndex
+              );
+
+              this.dataSource = new MatTableDataSource<IPedidos>(
+                pedidosPaginados
+              );
               this.dataSource.filter = '';
               this.hasData = dadosFiltrados.length > 0;
               this.calcularEstatisticas(dadosFiltrados);
-              
+
               if (dadosFiltrados.length === 0) {
-                Toaster.Warning('Nenhum pedido encontrado com os filtros aplicados.');
+                Toaster.Warning(
+                  'Nenhum pedido encontrado com os filtros aplicados.'
+                );
               } else {
-                Toaster.Success(`Encontrados ${dadosFiltrados.length} pedido(s) com os filtros aplicados.`);
+                Toaster.Success(
+                  `Encontrados ${dadosFiltrados.length} pedido(s) com os filtros aplicados.`
+                );
               }
             } else {
               Toaster.Error(resultadoFiltro.mensagem);
@@ -297,7 +323,6 @@ export class PedidosRealizadosComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.error('Erro ao filtrar pedidos:', error);
           Toaster.Error('Erro ao aplicar filtros. Tente novamente.');
           this.getDados(); // Volta para dados sem filtro
         },
@@ -308,14 +333,23 @@ export class PedidosRealizadosComponent implements OnInit {
   }
 
   public temFiltrosAplicados(): boolean {
-    const temDataInicial = this.filtro.initialDate && this.filtro.initialDate.toString() !== '';
-    const temDataFinal = this.filtro.finalDate && this.filtro.finalDate.toString() !== '';
-    const temStatus = this.filtro.status && Array.isArray(this.filtro.status) && this.filtro.status.length > 0;
-    
+    const temDataInicial =
+      this.filtro.initialDate && this.filtro.initialDate.toString() !== '';
+    const temDataFinal =
+      this.filtro.finalDate && this.filtro.finalDate.toString() !== '';
+    const temStatus =
+      this.filtro.status &&
+      Array.isArray(this.filtro.status) &&
+      this.filtro.status.length > 0;
+
     return !!(temDataInicial || temDataFinal || temStatus);
   }
 
-  private aplicarFiltrosFrontend(data: IPedidos[]): { sucesso: boolean; dados: IPedidos[]; mensagem?: string } {
+  private aplicarFiltrosFrontend(data: IPedidos[]): {
+    sucesso: boolean;
+    dados: IPedidos[];
+    mensagem?: string;
+  } {
     try {
       let dadosFiltrados = [...data];
 
@@ -326,14 +360,22 @@ export class PedidosRealizadosComponent implements OnInit {
           return {
             sucesso: false,
             dados: [],
-            mensagem: 'Data inicial inválida. Use o formato DD/MM/AAAA.'
+            mensagem: 'Data inicial inválida. Use o formato DD/MM/AAAA.',
           };
         }
-        
-        dadosFiltrados = dadosFiltrados.filter(pedido => {
+
+        dadosFiltrados = dadosFiltrados.filter((pedido) => {
           const dataPedido = this.converterData(pedido.orderDate);
-          const dataPedidoOnly = new Date(dataPedido.getFullYear(), dataPedido.getMonth(), dataPedido.getDate());
-          const dataInicialOnly = new Date(dataInicial.getFullYear(), dataInicial.getMonth(), dataInicial.getDate());
+          const dataPedidoOnly = new Date(
+            dataPedido.getFullYear(),
+            dataPedido.getMonth(),
+            dataPedido.getDate()
+          );
+          const dataInicialOnly = new Date(
+            dataInicial.getFullYear(),
+            dataInicial.getMonth(),
+            dataInicial.getDate()
+          );
           return dataPedidoOnly >= dataInicialOnly;
         });
       }
@@ -345,49 +387,55 @@ export class PedidosRealizadosComponent implements OnInit {
           return {
             sucesso: false,
             dados: [],
-            mensagem: 'Data final inválida. Use o formato DD/MM/AAAA.'
+            mensagem: 'Data final inválida. Use o formato DD/MM/AAAA.',
           };
         }
-        
-        dadosFiltrados = dadosFiltrados.filter(pedido => {
+
+        dadosFiltrados = dadosFiltrados.filter((pedido) => {
           const dataPedido = this.converterData(pedido.orderDate);
-          const dataPedidoOnly = new Date(dataPedido.getFullYear(), dataPedido.getMonth(), dataPedido.getDate());
-          const dataFinalOnly = new Date(dataFinal.getFullYear(), dataFinal.getMonth(), dataFinal.getDate());
+          const dataPedidoOnly = new Date(
+            dataPedido.getFullYear(),
+            dataPedido.getMonth(),
+            dataPedido.getDate()
+          );
+          const dataFinalOnly = new Date(
+            dataFinal.getFullYear(),
+            dataFinal.getMonth(),
+            dataFinal.getDate()
+          );
           return dataPedidoOnly <= dataFinalOnly;
         });
       }
 
       // Filtrar por status - Corrigido para comparar descrições
       if (this.filtro.status && this.filtro.status.length > 0) {
-        
-        dadosFiltrados = dadosFiltrados.filter(pedido => {
+        dadosFiltrados = dadosFiltrados.filter((pedido) => {
           const pedidoStatus = pedido.status;
-          
+
           return this.filtro.status.some((statusDesc: string) => {
-            const match = pedidoStatus.toLowerCase() === statusDesc.toLowerCase();
+            const match =
+              pedidoStatus.toLowerCase() === statusDesc.toLowerCase();
             return match;
           });
         });
-        
       }
 
       return {
         sucesso: true,
-        dados: dadosFiltrados
+        dados: dadosFiltrados,
       };
     } catch (error) {
-      console.error('Erro ao aplicar filtros:', error);
       return {
         sucesso: false,
         dados: [],
-        mensagem: 'Erro ao aplicar filtros. Tente novamente.'
+        mensagem: 'Erro ao aplicar filtros. Tente novamente.',
       };
     }
   }
 
   private converterData(data: Date | string): Date {
     if (!data) return new Date(0);
-    
+
     try {
       if (typeof data === 'string') {
         // Se já está no formato brasileiro (dd/mm/yyyy)
@@ -423,14 +471,26 @@ export class PedidosRealizadosComponent implements OnInit {
   // Método para definir classes CSS do status
   getStatusClass(status: string): string {
     const statusLower = status?.toLowerCase() || '';
-    
-    if (statusLower.includes('aprovado') || statusLower.includes('confirmado')) {
+
+    if (
+      statusLower.includes('aprovado') ||
+      statusLower.includes('confirmado')
+    ) {
       return '!bg-green-100 !text-green-800 !border !border-green-200';
-    } else if (statusLower.includes('pendente') || statusLower.includes('aguardando')) {
+    } else if (
+      statusLower.includes('pendente') ||
+      statusLower.includes('aguardando')
+    ) {
       return '!bg-yellow-100 !text-yellow-800 !border !border-yellow-200';
-    } else if (statusLower.includes('cancelado') || statusLower.includes('rejeitado')) {
+    } else if (
+      statusLower.includes('cancelado') ||
+      statusLower.includes('rejeitado')
+    ) {
       return '!bg-red-100 !text-red-800 !border !border-red-200';
-    } else if (statusLower.includes('entregue') || statusLower.includes('finalizado')) {
+    } else if (
+      statusLower.includes('entregue') ||
+      statusLower.includes('finalizado')
+    ) {
       return '!bg-blue-100 !text-blue-800 !border !border-blue-200';
     } else {
       return '!bg-gray-100 !text-gray-800 !border !border-gray-200';
@@ -440,9 +500,9 @@ export class PedidosRealizadosComponent implements OnInit {
   // Método para formatar o valor total
   formatTotalPrice(totalPrice: string | number): string {
     if (!totalPrice) return 'R$ 0,00';
-    
+
     let numericValue: number;
-    
+
     if (typeof totalPrice === 'string') {
       // Remove caracteres não numéricos exceto vírgula e ponto
       const cleanValue = totalPrice.replace(/[^\d,.-]/g, '');
@@ -452,34 +512,35 @@ export class PedidosRealizadosComponent implements OnInit {
     } else {
       numericValue = totalPrice;
     }
-    
+
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(numericValue);
   }
 
   // Método alternativo para formatação simples
   formatTotalPriceSimple(totalPrice: string | number): string {
     if (!totalPrice) return 'R$ 0,00';
-    
-    const value = typeof totalPrice === 'string' ? parseFloat(totalPrice) || 0 : totalPrice;
+
+    const value =
+      typeof totalPrice === 'string' ? parseFloat(totalPrice) || 0 : totalPrice;
     return `R$ ${value.toFixed(2).replace('.', ',')}`;
   }
 
   // Método para formatar a data do pedido
   formatOrderDate(orderDate: Date | string): string {
     if (!orderDate) return 'Data não informada';
-    
+
     try {
       let date: Date;
-      
+
       if (typeof orderDate === 'string') {
         // Tenta diferentes formatos de data
         const dateStr = orderDate.trim();
-        
+
         // Se já está no formato brasileiro (dd/mm/yyyy)
         if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
           const [day, month, year] = dateStr.split('/');
@@ -501,17 +562,17 @@ export class PedidosRealizadosComponent implements OnInit {
       } else {
         date = orderDate;
       }
-      
+
       // Verifica se a data é válida
       if (isNaN(date.getTime())) {
         return 'Data não informada';
       }
-      
+
       // Formata como data brasileira
       return date.toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: '2-digit',
-        year: 'numeric'
+        year: 'numeric',
       });
     } catch (error) {
       return 'Data não informada';

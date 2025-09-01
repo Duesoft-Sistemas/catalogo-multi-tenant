@@ -13,7 +13,7 @@ import { Toaster } from 'src/app/shared/functions/toaster';
 @Component({
   selector: 'app-concluir-pedido',
   templateUrl: './concluir-pedido.component.html',
-  styleUrls: ['./concluir-pedido.component.css']
+  styleUrls: ['./concluir-pedido.component.css'],
 })
 export class ConcluirPedidoComponent implements OnInit {
   schema: string = '';
@@ -36,7 +36,7 @@ export class ConcluirPedidoComponent implements OnInit {
   ) {
     this.schema = this.serviceTenant.getSchemaTenant();
     this.form = this.fb.group({
-      observacao: ['']
+      observacao: [''],
     });
   }
 
@@ -55,7 +55,7 @@ export class ConcluirPedidoComponent implements OnInit {
   calculateTotal() {
     this.total = this.carrinho.reduce((sum, item) => {
       const price = this.convertToNumber(item.produto.price);
-      return sum + (price * item.quantidade);
+      return sum + price * item.quantidade;
     }, 0);
   }
 
@@ -73,18 +73,18 @@ export class ConcluirPedidoComponent implements OnInit {
     if (produto?.stock === null || produto?.stock === undefined) {
       return 0;
     }
-    
+
     // Se for string, converter para número
     if (typeof produto.stock === 'string') {
       const parsed = parseFloat(produto.stock);
       return isNaN(parsed) ? 0 : parsed;
     }
-    
+
     // Se for número, retornar diretamente
     if (typeof produto.stock === 'number') {
       return produto.stock;
     }
-    
+
     // Para outros tipos, tentar converter
     const converted = Number(produto.stock);
     return isNaN(converted) ? 0 : converted;
@@ -93,7 +93,7 @@ export class ConcluirPedidoComponent implements OnInit {
   // Função para obter a quantidade máxima disponível considerando a unidade escolhida
   public getMaxAvailableQuantity(item: ProdutoCarrinho): number {
     const stockNumber = this.getStockNumber(item.produto);
-    
+
     // Se não há estoque, retornar 0
     if (stockNumber <= 0) {
       return 0;
@@ -119,18 +119,20 @@ export class ConcluirPedidoComponent implements OnInit {
 
   aumentaQuantidade(item: ProdutoCarrinho) {
     const maxAvailable = this.getMaxAvailableQuantity(item);
-    
+
     // Verificar se não há estoque disponível
     if (maxAvailable <= 0) {
       Toaster.Warning('Produto sem estoque disponível!');
       return;
     }
-    
+
     // Verificar se já atingiu o limite de estoque
     if (item.quantidade >= maxAvailable) {
       // Tentar buscar informações atualizadas de estoque
       this.atualizarEstoqueProduto(item);
-      Toaster.Warning(`Quantidade máxima de estoque atingida! Máximo disponível: ${maxAvailable}`);
+      Toaster.Warning(
+        `Quantidade máxima de estoque atingida! Máximo disponível: ${maxAvailable}`
+      );
       return;
     }
 
@@ -147,16 +149,14 @@ export class ConcluirPedidoComponent implements OnInit {
           // Atualizar o estoque do produto
           item.produto.stock = data.stock;
           item.produto.stockStatus = data.stockStatus;
-          
+
           // Recarregar o carrinho para refletir as mudanças
           this.loadCarrinho();
-          
-          console.log(`Estoque atualizado para produto ${item.produto.code}: ${data.stock}`);
         }
       },
       error: (error) => {
-        console.error('Erro ao atualizar estoque:', error);
-      }
+        // Tratar erro silenciosamente
+      },
     });
   }
 
@@ -166,12 +166,12 @@ export class ConcluirPedidoComponent implements OnInit {
 
   habilitaDesabilitaAumenta(item: ProdutoCarrinho): boolean {
     const maxAvailable = this.getMaxAvailableQuantity(item);
-    
+
     // Desabilitar se não há estoque disponível
     if (maxAvailable <= 0) {
       return true;
     }
-    
+
     // Desabilitar se já atingiu o limite
     return item.quantidade >= maxAvailable;
   }
@@ -191,6 +191,5 @@ export class ConcluirPedidoComponent implements OnInit {
 
   openModalConfirmConcluir() {
     // Implementar modal de confirmação
-    console.log('Abrir modal de confirmação');
   }
 }

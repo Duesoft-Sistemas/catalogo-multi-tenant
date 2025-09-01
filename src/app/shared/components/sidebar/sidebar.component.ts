@@ -14,7 +14,7 @@ import { Toaster } from '../../functions/toaster';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-  seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos;
+  seletorPeculiaridadesCatalogos: SeletorPeculiaridadesCatalogos;
   nomeEmpresa = '';
   sidebarAberto = false;
   isMobile = false;
@@ -27,13 +27,21 @@ export class SidebarComponent implements OnInit {
     { label: 'Fornecedores', link: 'fornecedores', icon: 'fas fa-dolly' },
     { label: 'Promoções', link: 'promocoes', icon: 'fas fa-percent' },
     { label: 'Lançamentos', link: 'lancamentos', icon: 'far fa-star' },
-    { label: 'Pedidos Realizados', link: 'pedidos-realizados', icon: 'fas fa-clipboard-list' },
-    { label: 'Concluir Pedido', link: 'concluir-pedido', icon: 'fas fa-cart-arrow-down' },
+    {
+      label: 'Pedidos Realizados',
+      link: 'pedidos-realizados',
+      icon: 'fas fa-clipboard-list',
+    },
+    {
+      label: 'Concluir Pedido',
+      link: 'concluir-pedido',
+      icon: 'fas fa-cart-arrow-down',
+    },
   ];
 
   constructor(
     private authStorageService: AuthStorageService,
-    private serviceTenant : TenantService,
+    private serviceTenant: TenantService,
     private elementRef: ElementRef,
     public dialog: MatDialog,
     private service: GlobalService,
@@ -41,18 +49,20 @@ export class SidebarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
+    this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(
+      this.serviceTenant
+    );
     this.habilitaIcone();
-    
+
     // Verificar se é mobile
     this.checkIfMobile();
-    
+
     // Buscar nome da empresa automaticamente quando a página carregar
     this.buscarNomeEmpresaAutomaticamente();
-    
+
     // Iniciar monitoramento simples do sidebar
     this.iniciarMonitoramentoSimples();
-    
+
     // Interceptar o comportamento do botão do menu no mobile
     this.interceptarBotaoMenu();
   }
@@ -65,7 +75,7 @@ export class SidebarComponent implements OnInit {
   checkIfMobile(): void {
     // Incluir tablets no comportamento mobile (até 1024px)
     this.isMobile = window.innerWidth < 1024;
-    
+
     // Se for mobile ou tablet, garantir que o sidebar não fique colapsado por padrão
     if (this.isMobile) {
       this.sidebarColapsada = false;
@@ -83,12 +93,12 @@ export class SidebarComponent implements OnInit {
       if (element.classList.contains('sidebar-open')) {
         element.classList.remove('sidebar-open');
         element.classList.add('sidebar-closed');
-        
+
         // No mobile, não adicionar sidebar-collapse para manter o sidebar expandido
         if (!this.isMobile) {
           element.classList.add('sidebar-collapse');
         }
-        
+
         this.sidebarAberto = false;
       }
     }
@@ -97,7 +107,7 @@ export class SidebarComponent implements OnInit {
   openModalAlterarSenha() {
     this.escondeMenu();
     this.dialog.open(AlterarSenhaComponent, {
-      width: '350px'
+      width: '350px',
     });
   }
 
@@ -107,42 +117,38 @@ export class SidebarComponent implements OnInit {
 
   habilitaIcone() {
     this.seletorPeculiaridadesCatalogos.getTenant();
-    if(this.seletorPeculiaridadesCatalogos.clientes.cliente2){
-      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
+    if (this.seletorPeculiaridadesCatalogos.clientes.cliente2) {
+      var centralizarLogoSideBar =
+        this.elementRef.nativeElement.querySelector('#brandLogo');
       centralizarLogoSideBar.classList.add('logoCanguru');
-    }else
-    if(this.seletorPeculiaridadesCatalogos.clientes.cliente4){
-      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
+    } else if (this.seletorPeculiaridadesCatalogos.clientes.cliente4) {
+      var centralizarLogoSideBar =
+        this.elementRef.nativeElement.querySelector('#brandLogo');
       centralizarLogoSideBar.classList.add('logoCanguru');
-    }
-    else
-    if(this.seletorPeculiaridadesCatalogos.clientes.cliente7){
-      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#brandLogo");
+    } else if (this.seletorPeculiaridadesCatalogos.clientes.cliente7) {
+      var centralizarLogoSideBar =
+        this.elementRef.nativeElement.querySelector('#brandLogo');
       centralizarLogoSideBar.classList.add('logoCanguru');
-    }
-    else
-    if(this.seletorPeculiaridadesCatalogos.clientes.cliente3){
-      var centralizarLogoSideBar = this.elementRef.nativeElement.querySelector("#imgLogo");
+    } else if (this.seletorPeculiaridadesCatalogos.clientes.cliente3) {
+      var centralizarLogoSideBar =
+        this.elementRef.nativeElement.querySelector('#imgLogo');
       centralizarLogoSideBar.classList.add('logoAutocar');
     }
   }
 
-  getColor():string{
+  getColor(): string {
     var cor;
-    if(this.seletorPeculiaridadesCatalogos.clientes.cliente5)
-     cor = '#ffffff';
-    else
-     cor = '';
+    if (this.seletorPeculiaridadesCatalogos.clientes.cliente5) cor = '#ffffff';
+    else cor = '';
 
     return cor;
   }
 
-  getOpacidade():string{
+  getOpacidade(): string {
     var opacidade;
-    if(this.seletorPeculiaridadesCatalogos.clientes.cliente5)
-     opacidade = '0.9';
-    else
-     opacidade = '0.8';
+    if (this.seletorPeculiaridadesCatalogos.clientes.cliente5)
+      opacidade = '0.9';
+    else opacidade = '0.8';
 
     return opacidade;
   }
@@ -159,9 +165,9 @@ export class SidebarComponent implements OnInit {
   verificarSidebarSimples(): void {
     const navBody = document.getElementById('nav-body');
     const sidebar = this.elementRef.nativeElement;
-    
+
     let estaAberto = false;
-    
+
     // Verificar nav-body primeiro
     if (navBody && navBody.classList.contains('sidebar-open')) {
       estaAberto = true;
@@ -169,18 +175,19 @@ export class SidebarComponent implements OnInit {
     // Verificar o próprio sidebar
     else if (sidebar) {
       const sidebarClasses = sidebar.className;
-      if (sidebarClasses.includes('sidebar-open') || 
-          sidebarClasses.includes('sidebar-expanded') ||
-          sidebarClasses.includes('sidebar-hover') ||
-          sidebarClasses.includes('open')) {
+      if (
+        sidebarClasses.includes('sidebar-open') ||
+        sidebarClasses.includes('sidebar-expanded') ||
+        sidebarClasses.includes('sidebar-hover') ||
+        sidebarClasses.includes('open')
+      ) {
         estaAberto = true;
       }
     }
-    
+
     // Atualizar apenas se mudou
     if (estaAberto !== this.sidebarAberto) {
       this.sidebarAberto = estaAberto;
-      console.log('Estado do sidebar mudou para:', estaAberto);
     }
   }
 
@@ -193,10 +200,6 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-
-
-
-
   interceptarBotaoMenu(): void {
     // Aguardar um pouco para garantir que o DOM esteja carregado
     setTimeout(() => {
@@ -206,7 +209,7 @@ export class SidebarComponent implements OnInit {
           if (this.isMobile) {
             event.preventDefault();
             event.stopPropagation();
-            
+
             const navBody = document.getElementById('nav-body');
             if (navBody) {
               // No mobile, sempre abrir o sidebar completamente

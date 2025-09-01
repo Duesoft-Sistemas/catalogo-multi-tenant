@@ -22,7 +22,7 @@ export class GlobalService {
   constructor(
     protected http: HttpClient,
     private serviceTenant: TenantService,
-    private router : Router
+    private router: Router
   ) {
     this.baseUrl = `${environment.UrlBase}/${environment.SchemaDSCOP}`;
   }
@@ -33,13 +33,17 @@ export class GlobalService {
 
   getCompanies(cnpj: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/GetCompanies?id=${cnpj}&schema=${this.serviceTenant.getSchemaTenant()}`
+      `${
+        this.baseUrl
+      }/GetCompanies?id=${cnpj}&schema=${this.serviceTenant.getSchemaTenant()}`
     );
   }
 
   getAllCompanies(): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/GetAllCompanies?schema=${this.serviceTenant.getSchemaTenant()}`
+      `${
+        this.baseUrl
+      }/GetAllCompanies?schema=${this.serviceTenant.getSchemaTenant()}`
     );
   }
 
@@ -49,13 +53,17 @@ export class GlobalService {
 
   getEmail(email: string): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/GetEmail?email=${email}&schema=${this.serviceTenant.getSchemaTenant()}`
+      `${
+        this.baseUrl
+      }/GetEmail?email=${email}&schema=${this.serviceTenant.getSchemaTenant()}`
     );
   }
 
   cadastrarUsuario(data: any): Observable<any> {
     return this.http.post(
-      `${this.baseUrl}/CadastrarUsuario?schema=${this.serviceTenant.getSchemaTenant()}`,
+      `${
+        this.baseUrl
+      }/CadastrarUsuario?schema=${this.serviceTenant.getSchemaTenant()}`,
       data
     );
   }
@@ -65,7 +73,9 @@ export class GlobalService {
   }
 
   recuperarSenha(data: RecuperarSenha): Observable<any> {
-    return this.http.post(`${this.baseUrl}/RecoverPassword`, data ,{responseType: 'text'});
+    return this.http.post(`${this.baseUrl}/RecoverPassword`, data, {
+      responseType: 'text',
+    });
   }
 
   getProdutosPorDescricaoCode(data: any): Observable<any> {
@@ -123,7 +133,11 @@ export class GlobalService {
   }
 
   getFornecedores(): Observable<any> {
-    return this.http.get(`${environment.UrlBase}/GetSuppliers?schema=${this.serviceTenant.getSchemaTenant()}`);
+    return this.http.get(
+      `${
+        environment.UrlBase
+      }/GetSuppliers?schema=${this.serviceTenant.getSchemaTenant()}`
+    );
   }
 
   getProdutosFornecedores(data: any): Observable<any> {
@@ -133,7 +147,6 @@ export class GlobalService {
   filtrarPedidosRealizados(filtro: FiltroPedidosRealizados): Observable<any> {
     // Por enquanto, vamos usar o endpoint padrão e filtrar no frontend
     // até descobrirmos o formato correto para a API
-    console.log('🔍 DEBUG - Usando endpoint padrão por enquanto');
     return this.getPedidosRealizados();
   }
 
@@ -151,23 +164,25 @@ export class GlobalService {
       description: '',
       page: 1,
       pageSize: 1000, // Buscar muitos produtos de uma vez
-      apenasComEstoque: true // Flag para indicar que queremos apenas produtos com estoque
+      apenasComEstoque: true, // Flag para indicar que queremos apenas produtos com estoque
     });
   }
 
-  getMarcas(): Observable<any>  {
+  getMarcas(): Observable<any> {
     return this.http.get(`${this.baseUrl}/ObterMarcasProdutos`);
   }
 
-  getGrupos(): Observable<any>  {
+  getGrupos(): Observable<any> {
     return this.http.get(`${this.baseUrl}/ObterDepartamentos`);
   }
 
-  getSubgrupos(): Observable<any>  {
+  getSubgrupos(): Observable<any> {
     return this.http.get(`${this.baseUrl}/ObterSubDepartamentos`);
   }
 
-  getSubgruposPorId(id: number): Observable<any>  {
-    return this.http.get(`${this.baseUrl}/ObterSubDepartamentosPorIdGrupo/${id}`);
+  getSubgruposPorId(id: number): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/ObterSubDepartamentosPorIdGrupo/${id}`
+    );
   }
 }

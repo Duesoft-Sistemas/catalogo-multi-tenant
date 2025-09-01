@@ -1,6 +1,10 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { take } from 'rxjs';
 import { Formularios } from 'src/app/shared/functions/formularios';
 import { Toaster } from 'src/app/shared/functions/toaster';
@@ -51,7 +55,10 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
 
   private inicializarVinculo(): void {
     // Se o vinculo for null ou undefined, inicializar como false
-    if (this.storage.getVinculoGrupoSubGrupo() === null || this.storage.getVinculoGrupoSubGrupo() === undefined) {
+    if (
+      this.storage.getVinculoGrupoSubGrupo() === null ||
+      this.storage.getVinculoGrupoSubGrupo() === undefined
+    ) {
       const currentData = this.storage.getDataStorage();
       if (currentData) {
         currentData.vinculoGrupoSubGrupo = false;
@@ -63,7 +70,7 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
   obterListas(): void {
     this.obterMarcas();
     this.obterGrupos();
-    
+
     // SEMPRE carregar subgrupos inicialmente, independente do vínculo
     this.obterSubgrupos();
   }
@@ -72,7 +79,9 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
     if (this.data?.filtro?.flag) {
       this.formulario.controls['marca'].setValue(this.data.filtro.marca);
       this.formulario.controls['idGrupo'].setValue(this.data.filtro.idGrupo);
-      this.formulario.controls['idSubgrupo'].setValue(this.data.filtro.idSubgrupo);
+      this.formulario.controls['idSubgrupo'].setValue(
+        this.data.filtro.idSubgrupo
+      );
     }
   }
 
@@ -80,22 +89,29 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
     let idSubgrupo = this.formulario.value.idSubgrupo ?? 0;
     let marca = this.formulario.value.marca ?? '';
     let idGrupo = this.formulario.value.idGrupo ?? 0;
-    
+
     // Se o subgrupo selecionado for 0 (opção padrão), usar 0 para indicar "todos"
     if (idSubgrupo === 0 || idSubgrupo === '0') {
       idSubgrupo = 0;
     }
-    
+
     // Se a marca selecionada for uma opção padrão, usar string vazia
-    if (marca === 'Nenhuma marca disponível' || marca === 'Erro ao carregar marcas') {
+    if (
+      marca === 'Nenhuma marca disponível' ||
+      marca === 'Erro ao carregar marcas'
+    ) {
       marca = '';
     }
-    
+
     // Verificar se há algum filtro ativo
-    const temFiltrosAtivos = (idGrupo && idGrupo !== 0 && idGrupo !== null && idGrupo !== undefined) || 
-                            (idSubgrupo && idSubgrupo !== 0 && idSubgrupo !== null && idSubgrupo !== undefined) || 
-                            (marca && marca.trim() !== '' && marca !== null && marca !== undefined);
-    
+    const temFiltrosAtivos =
+      (idGrupo && idGrupo !== 0 && idGrupo !== null && idGrupo !== undefined) ||
+      (idSubgrupo &&
+        idSubgrupo !== 0 &&
+        idSubgrupo !== null &&
+        idSubgrupo !== undefined) ||
+      (marca && marca.trim() !== '' && marca !== null && marca !== undefined);
+
     this.filtroPesquisaAvancada.idGrupo = idGrupo;
     this.filtroPesquisaAvancada.idSubgrupo = idSubgrupo;
     this.filtroPesquisaAvancada.marca = marca;
@@ -107,7 +123,7 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
         code: '',
         description: '',
         page: 1,
-        promocaoSomenteCatalogo: false
+        promocaoSomenteCatalogo: false,
       });
     }
 
@@ -123,35 +139,33 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
   buscarProdutosFiltro(): void {
     this.spinner = true;
     const filtros = this.setFiltros();
-    
+
     // Determinar qual endpoint usar baseado no tipo de filtro
-    const observable = this.filtroPesquisaAvancada.flag 
+    const observable = this.filtroPesquisaAvancada.flag
       ? this.service.getProdutosFiltro(filtros)
       : this.service.getProdutosPesquisa(filtros);
-    
-    observable
-      .pipe(take(1))
-      .subscribe({
-        next: (data: any) => {
-          if (data) {
-            if (data.produtos.length <= 0) {
-              Toaster.Warning('Nenhum produto encontrado.');
-            } else {
-              data.filtro = this.filtroPesquisaAvancada;
-              this.dialogRef.close(data);
-            }
-          } else {
+
+    observable.pipe(take(1)).subscribe({
+      next: (data: any) => {
+        if (data) {
+          if (data.produtos.length <= 0) {
             Toaster.Warning('Nenhum produto encontrado.');
+          } else {
+            data.filtro = this.filtroPesquisaAvancada;
+            this.dialogRef.close(data);
           }
-        },
-        error: (error) => {
-          Toaster.Error('Erro ao buscar os produtos.');
-          this.spinner = false;
-        },
-        complete: () => {
-          this.spinner = false;
-        },
-      });
+        } else {
+          Toaster.Warning('Nenhum produto encontrado.');
+        }
+      },
+      error: (error) => {
+        Toaster.Error('Erro ao buscar os produtos.');
+        this.spinner = false;
+      },
+      complete: () => {
+        this.spinner = false;
+      },
+    });
   }
 
   cancelar(): void {
@@ -178,7 +192,10 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
 
   private limparMarcaSeNecessario(): void {
     const valorAtual = this.formulario.get('marca')?.value;
-    if (valorAtual === 'Nenhuma marca disponível' || valorAtual === 'Erro ao carregar marcas') {
+    if (
+      valorAtual === 'Nenhuma marca disponível' ||
+      valorAtual === 'Erro ao carregar marcas'
+    ) {
       this.formulario.controls['marca'].setValue(null);
     }
   }
@@ -194,17 +211,13 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
             this.listaMarcas = data;
           } else {
             // Adicionar opção padrão quando não há marcas
-            this.listaMarcas = [
-              { description: 'Nenhuma marca disponível' }
-            ];
+            this.listaMarcas = [{ description: 'Nenhuma marca disponível' }];
           }
         },
         error: (error) => {
           // Em caso de erro, também adicionar opção padrão
-          this.listaMarcas = [
-            { description: 'Erro ao carregar marcas' }
-          ];
-          
+          this.listaMarcas = [{ description: 'Erro ao carregar marcas' }];
+
           Toaster.Error('Erro ao carregar lista de marcas');
           this.loadListaMarcas = false;
         },
@@ -249,7 +262,10 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
           } else {
             // Adicionar opção padrão quando não há subgrupos para este grupo
             this.listaSubgrupos = [
-              { id: 0, description: 'Nenhum subgrupo disponível para este grupo' }
+              {
+                id: 0,
+                description: 'Nenhum subgrupo disponível para este grupo',
+              },
             ];
           }
           this.validaSubgrupos();
@@ -257,9 +273,9 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
         error: (error) => {
           // Em caso de erro, também adicionar opção padrão
           this.listaSubgrupos = [
-            { id: 0, description: 'Erro ao carregar subgrupos' }
+            { id: 0, description: 'Erro ao carregar subgrupos' },
           ];
-          
+
           Toaster.Error('Erro ao carregar lista de subgrupos');
           this.loadListaSubgrupos = false;
           this.validaSubgrupos();
@@ -282,7 +298,7 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
           } else {
             // Adicionar opção padrão quando não há subgrupos
             this.listaSubgrupos = [
-              { id: 0, description: 'Nenhum subgrupo disponível' }
+              { id: 0, description: 'Nenhum subgrupo disponível' },
             ];
           }
           this.validaSubgrupos();
@@ -290,9 +306,9 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
         error: (error) => {
           // Em caso de erro, também adicionar opção padrão
           this.listaSubgrupos = [
-            { id: 0, description: 'Erro ao carregar subgrupos' }
+            { id: 0, description: 'Erro ao carregar subgrupos' },
           ];
-          
+
           Toaster.Error('Erro ao carregar lista de subgrupos');
           this.loadListaSubgrupos = false;
           this.validaSubgrupos();
@@ -306,7 +322,7 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
   private valuesChanges(): void {
     this.formulario?.controls['idGrupo'].valueChanges.subscribe((x: any) => {
       const vinculo = this.storage.getVinculoGrupoSubGrupo();
-      
+
       if (vinculo === true) {
         if (x) {
           this.obterSubgruposPorId(x);
@@ -315,7 +331,7 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
           this.formulario.controls['idSubgrupo'].setValue(null);
           // Adicionar opção padrão quando grupo é desmarcado
           this.listaSubgrupos = [
-            { id: 0, description: 'Selecione um grupo primeiro' }
+            { id: 0, description: 'Selecione um grupo primeiro' },
           ];
           this.validaSubgrupos();
         }
@@ -327,7 +343,6 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
     this.formulario?.controls['idSubgrupo'].valueChanges.subscribe((x: any) => {
       // Se o valor selecionado for 0 (opção padrão), limpar a seleção
       if (x === 0 || x === '0') {
-        console.log('🚫 Tentativa de selecionar opção padrão de subgrupo bloqueada');
         this.formulario.controls['idSubgrupo'].setValue(null);
       }
     });
@@ -337,7 +352,6 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
     this.formulario?.controls['marca'].valueChanges.subscribe((x: any) => {
       // Se o valor selecionado for uma opção padrão, limpar a seleção
       if (x === 'Nenhuma marca disponível' || x === 'Erro ao carregar marcas') {
-        console.log('🚫 Tentativa de selecionar opção padrão de marca bloqueada');
         this.formulario.controls['marca'].setValue(null);
       }
     });
@@ -350,10 +364,10 @@ export class ModalPesquisaAvancadaComponent implements OnInit, AfterViewInit {
     } else {
       this.formulario.get('idSubgrupo')?.disable();
     }
-    
+
     // Limpar subgrupo se for uma opção padrão
     this.limparSubgrupoSeNecessario();
-    
+
     // Limpar marca se for uma opção padrão
     this.limparMarcaSeNecessario();
   }

@@ -9,7 +9,7 @@ import { ThemeService } from './core/services/theme.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   title = 'catalogo-multi-tenant-continuando-refatoracao';
@@ -21,33 +21,27 @@ export class AppComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     public authStorageService: AuthStorageService,
     private themeService: ThemeService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    console.log('🚀 AppComponent ngOnInit iniciado');
     this.verificarAutenticacao();
-    
+
     // Aplicar tema com delay para garantir que o DOM esteja pronto
     setTimeout(() => {
       this.aplicarTemaLocal();
     }, 100);
-    
+
     // Configurar controle de scroll para modais
     this.configurarControleScrollModais();
-    
+
     // Verificar se os componentes estão sendo carregados
     setTimeout(() => {
-      console.log('🔍 Verificando componentes após 2 segundos...');
       const header = document.querySelector('app-header');
       const sidebar = document.querySelector('app-sidebar');
-      console.log('Header encontrado:', !!header);
-      console.log('Sidebar encontrado:', !!sidebar);
-      console.log('Estado autenticado:', this.autenticado);
     }, 2000);
 
     // Tornar métodos acessíveis globalmente para debug
     (window as any).appComponent = this;
-    console.log('🔧 Para testar temas, use: appComponent.testarTema("fase") ou appComponent.testarTema("mendes")');
   }
 
   private configurarControleScrollModais() {
@@ -55,7 +49,9 @@ export class AppComponent implements OnInit {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
-          const overlayContainer = document.querySelector('.cdk-overlay-container');
+          const overlayContainer = document.querySelector(
+            '.cdk-overlay-container'
+          );
           if (overlayContainer) {
             const hasModals = overlayContainer.children.length > 0;
             if (hasModals) {
@@ -83,7 +79,7 @@ export class AppComponent implements OnInit {
     // Observar mudanças no body
     observer.observe(document.body, {
       childList: true,
-      subtree: true
+      subtree: true,
     });
 
     // Também verificar periodicamente para garantir que funcione
@@ -113,123 +109,126 @@ export class AppComponent implements OnInit {
   }
 
   private aplicarTemaLocal() {
-    const tenant = this.serviceTenant.getTenant();
-    console.log('🔍 Tenant detectado no aplicarTemaLocal:', tenant);
-    console.log('🔍 URL atual:', window.location.href);
-    console.log('🔍 Hostname:', window.location.hostname);
-    let schema = '';
-    let titulo = '';
-    let favicon = '';
+    try {
+      const tenant = this.serviceTenant.getTenant();
+      if (!tenant) {
+        return;
+      }
 
-    switch (tenant) {
-      case 'catalogomendes':
-        schema = 'mendes';
-        titulo = "Catálogo Mendes";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogocanguru':
-        schema = 'canguru';
-        titulo = "Catálogo Canguru";
-        favicon = 'favicon.ico';
-        console.log('🦘 Aplicando tema Canguru');
-        break;
-      case 'catalogomicrotec':
-        schema = 'microtec';
-        titulo = "Catálogo Microtec";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogomm':
-        schema = 'mm';
-        titulo = "Catálogo MM";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogoprudenseg':
-        schema = 'prudenseg';
-        titulo = "Catálogo Prudenseg";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogolm':
-        schema = 'diskagua';
-        titulo = "Catálogo Disk água";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogoprudentina':
-        schema = 'prudentina';
-        titulo = "Prudentina";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogobarone':
-        schema = 'barone';
-        titulo = "Barone";
-        favicon = 'faviconBarone.png';
-        break;
-      case 'catalogoatacado':
-        schema = 'atacado';
-        titulo = "Atacado";
-        favicon = 'Atacado.ico';
-        break;
-      case 'catalogofarmsrugs':
-        schema = 'farmsrugs';
-        titulo = "Farms Rugs";
-        favicon = 'farms_rugs2.ico';
-        break;
-      case 'catalogohvs':
-        schema = 'hvs';
-        titulo = "Hvs";
-        favicon = 'hvs.ico';
-        break;
-      case 'catalogofarms':
-        schema = 'southair';
-        titulo = "Farms Catalog";
-        favicon = 'farms2.ico';
-        break;
-      case 'catalogoclx':
-        schema = 'clx';
-        titulo = "CLX";
-        favicon = 'clx.ico';
-        break;
-      case 'catalogoawsmetal':
-        schema = 'awsmetal';
-        titulo = "Aws Metal & Mecânica";
-        favicon = 'aws_metal.ico';
-        break;
-      case 'catalogoteste':
-        schema = 'teste';
-        titulo = "Catalogo Teste";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogofrigorichter':
-        schema = 'frigorichter';
-        titulo = "Catalogo Frigorichter";
-        favicon = 'duesoft.ico';
-        break;
-      case 'catalogofase':
-        schema = 'fase';
-        titulo = "Catalogo Fase";
-        favicon = 'fase.ico';
-        console.log('🎨 Mapeamento correto: catalogofase -> fase');
-        break;
-      default:
-        schema = 'fase';
-        titulo = "Catalogo Fase";
-        favicon = 'fase.ico';
-        console.log('🎨 Mapeamento padrão: fase');
-        break;
-    }
+      let schema = '';
+      let titulo = '';
+      let favicon = '';
 
-    // Aplicar título e favicon
-    document.title = titulo;
-    this.setFavicon(favicon);
-    
-    // Aplicar o tema usando o ThemeService
-    if (schema) {
-      this.themeService.applyTheme(schema);
-      console.log('🎨 Tema aplicado com sucesso:', schema);
+      switch (tenant) {
+        case 'catalogomendes':
+          schema = 'mendes';
+          titulo = 'Catálogo Mendes';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogocanguru':
+          schema = 'canguru';
+          titulo = 'Catálogo Canguru';
+          favicon = 'favicon.ico';
+          break;
+        case 'catalogomicrotec':
+          schema = 'microtec';
+          titulo = 'Catálogo Microtec';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogomm':
+          schema = 'mm';
+          titulo = 'Catálogo MM';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogoprudenseg':
+          schema = 'prudenseg';
+          titulo = 'Catálogo Prudenseg';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogolm':
+          schema = 'diskagua';
+          titulo = 'Catálogo Disk água';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogoprudentina':
+          schema = 'prudentina';
+          titulo = 'Prudentina';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogobarone':
+          schema = 'barone';
+          titulo = 'Barone';
+          favicon = 'faviconBarone.png';
+          break;
+        case 'catalogoatacado':
+          schema = 'atacado';
+          titulo = 'Atacado';
+          favicon = 'Atacado.ico';
+          break;
+        case 'catalogofarmsrugs':
+          schema = 'farmsrugs';
+          titulo = 'Farms Rugs';
+          favicon = 'farms_rugs2.ico';
+          break;
+        case 'catalogohvs':
+          schema = 'hvs';
+          titulo = 'Hvs';
+          favicon = 'hvs.ico';
+          break;
+        case 'catalogofarms':
+          schema = 'southair';
+          titulo = 'Farms Catalog';
+          favicon = 'farms2.ico';
+          break;
+        case 'catalogoclx':
+          schema = 'clx';
+          titulo = 'CLX';
+          favicon = 'clx.ico';
+          break;
+        case 'catalogoawsmetal':
+          schema = 'awsmetal';
+          titulo = 'Aws Metal & Mecânica';
+          favicon = 'aws_metal.ico';
+          break;
+        case 'catalogoteste':
+          schema = 'teste';
+          titulo = 'Catalogo Teste';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogofrigorichter':
+          schema = 'frigorichter';
+          titulo = 'Catalogo Frigorichter';
+          favicon = 'duesoft.ico';
+          break;
+        case 'catalogofase':
+          schema = 'fase';
+          titulo = 'Catalogo Fase';
+          favicon = 'fase.ico';
+          break;
+        default:
+          schema = 'fase';
+          titulo = 'Catalogo Fase';
+          favicon = 'fase.ico';
+          break;
+      }
+
+      // Aplicar título e favicon
+      document.title = titulo;
+      this.setFavicon(favicon);
+
+      // Aplicar o tema usando o ThemeService
+      if (schema) {
+        this.themeService.applyTheme(schema);
+      }
+    } catch (error) {
+      // Tratar erro silenciosamente
     }
   }
 
   private setFavicon(faviconName: string) {
-    const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement || document.createElement('link');
+    const link =
+      (document.querySelector("link[rel*='icon']") as HTMLLinkElement) ||
+      document.createElement('link');
     link.type = 'image/x-icon';
     link.rel = 'shortcut icon';
     link.href = `assets/${faviconName}`;
@@ -237,25 +236,21 @@ export class AppComponent implements OnInit {
   }
 
   private verificarAutenticacao() {
-    // Verificar se há token no localStorage usando o AuthStorageService
     this.autenticado = this.authStorageService.isLoggedIn();
-    console.log('🔐 Estado de autenticação inicial:', this.autenticado);
-    
-    // Adicionar listener para mudanças no localStorage
+
+    // Observar mudanças no localStorage
     window.addEventListener('storage', (event) => {
       if (event.key === environment.idLocalStorage) {
         this.autenticado = this.authStorageService.isLoggedIn();
-        console.log('🔄 Mudança detectada no localStorage:', this.autenticado);
         this.cdr.detectChanges();
       }
     });
-    
-    // Verificar periodicamente para mudanças locais
+
+    // Verificação periódica para garantir sincronização
     setInterval(() => {
       const currentAuth = this.authStorageService.isLoggedIn();
       if (this.autenticado !== currentAuth) {
         this.autenticado = currentAuth;
-        console.log('🔄 Mudança detectada na verificação periódica:', this.autenticado);
         this.cdr.detectChanges();
       }
     }, 1000);
@@ -264,28 +259,23 @@ export class AppComponent implements OnInit {
   // Método público para forçar verificação de autenticação
   public verificarAutenticacaoForcada() {
     this.autenticado = this.authStorageService.isLoggedIn();
-    console.log('🔍 Verificação forçada de autenticação:', this.autenticado);
     this.cdr.detectChanges();
   }
 
   // Método público para forçar aplicação do tema
   public aplicarTemaForcado() {
-    console.log('🎨 Forçando aplicação do tema...');
     this.aplicarTemaLocal();
   }
 
   // Método para testar tema específico (pode ser chamado via console)
   public testarTema(schema: string) {
-    console.log(`🎨 Testando tema: ${schema}`);
     this.themeService.applyTheme(schema);
-    
-    // Verificar se foi aplicado
+
     setTimeout(() => {
       const bodyClasses = document.body.classList.toString();
-      const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary');
-      console.log('📋 Classes do body:', bodyClasses);
-      console.log('🎨 Cor primária:', primaryColor);
-      console.log('✅ Tema aplicado:', bodyClasses.includes(`theme-${schema}`));
-    }, 200);
+      const primaryColor = getComputedStyle(
+        document.documentElement
+      ).getPropertyValue('--color-primary');
+    }, 100);
   }
 }

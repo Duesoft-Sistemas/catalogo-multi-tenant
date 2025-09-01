@@ -7,7 +7,7 @@ import { Toaster } from '../../functions/toaster';
 @Component({
   selector: 'app-add-remove-carrinho',
   templateUrl: './add-remove-carrinho.component.html',
-  styleUrls: ['./add-remove-carrinho.component.css']
+  styleUrls: ['./add-remove-carrinho.component.css'],
 })
 export class AddRemoveCarrinhoComponent implements OnInit {
   @Input() form?: FormGroup;
@@ -19,19 +19,22 @@ export class AddRemoveCarrinhoComponent implements OnInit {
   habilitaDesabilita = false;
   listUnidade = [];
 
-  pattern =  new RegExp('/^\d+$/;');
+  pattern = new RegExp('/^d+$/;');
 
-  constructor(private storage: AuthStorageService) { }
+  constructor(private storage: AuthStorageService) {}
 
   ngOnInit() {
     this.listUnidade = [
-      { value: this.item.produto.unity, label: this.item.produto.unity }
+      { value: this.item.produto.unity, label: this.item.produto.unity },
     ];
-    
+
     if (this.item.produto.unity2) {
-      this.listUnidade.push({ value: this.item.produto.unity2, label: this.item.produto.unity2 });
+      this.listUnidade.push({
+        value: this.item.produto.unity2,
+        label: this.item.produto.unity2,
+      });
     }
-    
+
     this.item.produto.unidadeEscolhida = this.item.produto.unity;
     this.habilitarForm(this.item.produto.unity);
     this.habilitar(this.item.produto.unity);
@@ -39,28 +42,31 @@ export class AddRemoveCarrinhoComponent implements OnInit {
 
   // Função para converter stock para número de forma segura
   private getStockNumber(): number {
-    if (this.item?.produto?.stock === null || this.item?.produto?.stock === undefined) {
+    if (
+      this.item?.produto?.stock === null ||
+      this.item?.produto?.stock === undefined
+    ) {
       return 0;
     }
-    
+
     // Se for string, converter para número
     if (typeof this.item.produto.stock === 'string') {
       const parsed = parseFloat(this.item.produto.stock);
       return isNaN(parsed) ? 0 : parsed;
     }
-    
+
     // Se for número, retornar diretamente
     if (typeof this.item.produto.stock === 'number') {
       return this.item.produto.stock;
     }
-    
+
     // Para outros tipos, tentar converter
     const converted = Number(this.item.produto.stock);
     return isNaN(converted) ? 0 : converted;
   }
 
-  habilitarForm(unidade:any):void{
-    if(unidade == this.item.produto.unity2){
+  habilitarForm(unidade: any): void {
+    if (unidade == this.item.produto.unity2) {
       this.utilizaUnidade2 = true;
       this.habilitaDesabilita = false;
     } else {
@@ -69,8 +75,8 @@ export class AddRemoveCarrinhoComponent implements OnInit {
     }
   }
 
-  habilitar(unidade:any):void{
-    if(unidade == this.item.produto.unity2){
+  habilitar(unidade: any): void {
+    if (unidade == this.item.produto.unity2) {
       this.utilizaUnidade2 = true;
       this.habilitaDesabilita = false;
     } else {
@@ -79,45 +85,68 @@ export class AddRemoveCarrinhoComponent implements OnInit {
     }
   }
 
-  habilitaDesabilitaDiminuiForm(controlName:any): any{
+  habilitaDesabilitaDiminuiForm(controlName: any): any {
     if (!this.form || !controlName) return true;
     const value = this.form.get(controlName).value;
-    return value <= this.item.produto.unitiesOnPackage || this.habilitaDesabilita;
+    return (
+      value <= this.item.produto.unitiesOnPackage || this.habilitaDesabilita
+    );
   }
 
-  habilitaDesabilitaAumentaForm(controlName:any): any{
+  habilitaDesabilitaAumentaForm(controlName: any): any {
     if (!this.form || !controlName) return true;
     const value = this.form.get(controlName).value;
     return value === this.getStockNumber() || this.habilitaDesabilita;
   }
 
-  habilitaDesabilitaDiminui(): any{
+  habilitaDesabilitaDiminui(): any {
     return this.item.quantidade <= this.item.produto.unitiesOnPackage;
   }
 
-  habilitaDesabilitaAumenta(): any{
+  habilitaDesabilitaAumenta(): any {
     return this.item.quantidade === this.getStockNumber();
   }
 
   verificaQuantidade(): void {
-    let quantidade = this.form ? this.form.get(this.controlName).value : this.item.quantidade;
-    if(this.item.produto.unidadeEscolhida == this.item.produto.unity2){
-      if (Number(quantidade) > (Math.floor(this.getStockNumber()/this.item.produto.unitiesOnPackage2))) {
+    let quantidade = this.form
+      ? this.form.get(this.controlName).value
+      : this.item.quantidade;
+    if (this.item.produto.unidadeEscolhida == this.item.produto.unity2) {
+      if (
+        Number(quantidade) >
+        Math.floor(this.getStockNumber() / this.item.produto.unitiesOnPackage2)
+      ) {
         Toaster.Error('Quantidade acima da quantidade de estoque disponível!');
-        this.form ? this.form.get(this.controlName).setValue(1) : this.item.quantidade = 1;
-      } else if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+        this.form
+          ? this.form.get(this.controlName).setValue(1)
+          : (this.item.quantidade = 1);
+      } else if (
+        Number(quantidade) % 1 != 0 ||
+        Number(quantidade) < 0 ||
+        isNaN(quantidade)
+      ) {
         Toaster.Error('Quantidade inválida!');
-        this.form ? this.form.get(this.controlName).setValue(1) : this.item.quantidade = 1;
+        this.form
+          ? this.form.get(this.controlName).setValue(1)
+          : (this.item.quantidade = 1);
       } else {
         this.atualizaQuantidade(this.item);
       }
     } else {
       if (Number(quantidade) > this.getStockNumber()) {
         Toaster.Error('Quantidade acima da quantidade de estoque disponível!');
-        this.form ? this.form.get(this.controlName).setValue(1) : this.item.quantidade = 1;
-      } else if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+        this.form
+          ? this.form.get(this.controlName).setValue(1)
+          : (this.item.quantidade = 1);
+      } else if (
+        Number(quantidade) % 1 != 0 ||
+        Number(quantidade) < 0 ||
+        isNaN(quantidade)
+      ) {
         Toaster.Error('Quantidade inválida!');
-        this.form ? this.form.get(this.controlName).setValue(1) : this.item.quantidade = 1;
+        this.form
+          ? this.form.get(this.controlName).setValue(1)
+          : (this.item.quantidade = 1);
       } else {
         this.atualizaQuantidade(this.item);
       }
@@ -125,22 +154,37 @@ export class AddRemoveCarrinhoComponent implements OnInit {
   }
 
   aumentaQuantidade(): void {
-    let quantidade = this.form ? this.form.get(this.controlName).value : this.item.quantidade;
-    if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+    let quantidade = this.form
+      ? this.form.get(this.controlName).value
+      : this.item.quantidade;
+    if (
+      Number(quantidade) % 1 != 0 ||
+      Number(quantidade) < 0 ||
+      isNaN(quantidade)
+    ) {
       Toaster.Error('Quantidade inválida!');
-      this.form ? this.form.get(this.controlName).setValue(1) : this.item.quantidade = 1;
+      this.form
+        ? this.form.get(this.controlName).setValue(1)
+        : (this.item.quantidade = 1);
     } else {
       let item = new ProdutoCarrinho(this.item);
-      if(this.item.produto.unidadeEscolhida == this.item.produto.unity2){
-        if (Number(quantidade) < (Math.floor(this.getStockNumber()/this.item.produto.unitiesOnPackage2))) {
-          item.quantidade = Number(quantidade) + this.item.produto.unitiesOnPackage;
+      if (this.item.produto.unidadeEscolhida == this.item.produto.unity2) {
+        if (
+          Number(quantidade) <
+          Math.floor(
+            this.getStockNumber() / this.item.produto.unitiesOnPackage2
+          )
+        ) {
+          item.quantidade =
+            Number(quantidade) + this.item.produto.unitiesOnPackage;
           this.atualizaQuantidade(item);
         } else {
           Toaster.Warning('Quantidade maxima de estoque!');
         }
       } else {
         if (Number(quantidade) < this.getStockNumber()) {
-          item.quantidade = Number(quantidade) + this.item.produto.unitiesOnPackage;
+          item.quantidade =
+            Number(quantidade) + this.item.produto.unitiesOnPackage;
           this.atualizaQuantidade(item);
         } else {
           Toaster.Warning('Quantidade maxima de estoque!');
@@ -150,14 +194,23 @@ export class AddRemoveCarrinhoComponent implements OnInit {
   }
 
   diminuiQuantidade(): void {
-    let quantidade = this.form ? this.form.get(this.controlName).value : this.item.quantidade;
-    if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+    let quantidade = this.form
+      ? this.form.get(this.controlName).value
+      : this.item.quantidade;
+    if (
+      Number(quantidade) % 1 != 0 ||
+      Number(quantidade) < 0 ||
+      isNaN(quantidade)
+    ) {
       Toaster.Error('Quantidade inválida!');
-      this.form ? this.form.get(this.controlName).setValue(1) : this.item.quantidade = 1;
+      this.form
+        ? this.form.get(this.controlName).setValue(1)
+        : (this.item.quantidade = 1);
     } else {
       let item = new ProdutoCarrinho(this.item);
       if (Number(quantidade) > 1) {
-        item.quantidade = Number(quantidade) - this.item.produto.unitiesOnPackage;
+        item.quantidade =
+          Number(quantidade) - this.item.produto.unitiesOnPackage;
         this.atualizaQuantidade(item);
       } else {
         Toaster.Warning('Quantidade mínima para adicionar ao carrinho!');

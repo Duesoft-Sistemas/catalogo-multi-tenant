@@ -1,40 +1,88 @@
 <form [formGroup]="form" *ngIf="form; else elseTemplate">
   <div>
-    <div class="espacamentoSelect" *ngIf="this.item.produto.unity2!=null && this.item.produto.unity2!=''">
-      <ng-select [items]="this.listUnidade" (change)="habilitarForm($event)"></ng-select>
+    <div
+      class="espacamentoSelect"
+      *ngIf="this.item.produto.unity2 != null && this.item.produto.unity2 != ''"
+    >
+      <ng-select
+        [items]="this.listUnidade"
+        (change)="habilitarForm($event)"
+      ></ng-select>
     </div>
     <div class="input-group">
       <div class="input-group-prepend">
-        <button class="btn btn-pattern" type="button" [disabled]="habilitaDesabilitaDiminuiForm(controlName)"
-          (click)="diminuiQuantidade()"><i class="fas fa-minus"></i></button>
+        <button
+          class="btn btn-pattern"
+          type="button"
+          [disabled]="habilitaDesabilitaDiminuiForm(controlName)"
+          (click)="diminuiQuantidade()"
+        >
+          <i class="fas fa-minus"></i>
+        </button>
       </div>
-      <input type="text" class="form-control car-quantidade" (blur)="verificaQuantidade()"  [formControlName]="controlName">
+      <input
+        type="text"
+        class="form-control car-quantidade"
+        (blur)="verificaQuantidade()"
+        [formControlName]="controlName"
+      />
       <div class="input-group-append">
-        <button class="btn btn-pattern" type="button" [disabled]="habilitaDesabilitaAumentaForm(controlName)"
-          (click)="aumentaQuantidade()"><i class="fas fa-plus"></i></button>
+        <button
+          class="btn btn-pattern"
+          type="button"
+          [disabled]="habilitaDesabilitaAumentaForm(controlName)"
+          (click)="aumentaQuantidade()"
+        >
+          <i class="fas fa-plus"></i>
+        </button>
       </div>
     </div>
     <div class="d-flex justify-content-center">
-      <label for="">Disponível {{this.item.produto.stock}}</label>
+      <label for="">Disponível {{ this.item.produto.stock }}</label>
     </div>
   </div>
 </form>
 <ng-template #elseTemplate>
-  <div class="espacamentoSelect" *ngIf="this.item.produto.unity2!=null && this.item.produto.unity2!=''">
-    <ng-select [items]="this.listUnidade" (change)="habilitar($event)" [(ngModel)]="this.item.produto.unidadeEscolhida"></ng-select>
+  <div
+    class="espacamentoSelect"
+    *ngIf="this.item.produto.unity2 != null && this.item.produto.unity2 != ''"
+  >
+    <ng-select
+      [items]="this.listUnidade"
+      (change)="habilitar($event)"
+      [(ngModel)]="this.item.produto.unidadeEscolhida"
+    ></ng-select>
   </div>
   <div class="input-group">
     <div class="input-group-prepend">
-      <button class="btn btn-pattern" type="button" [disabled]="habilitaDesabilitaDiminui()"
-        (click)="diminuiQuantidade()"><i class="fas fa-minus"></i></button>
+      <button
+        class="btn btn-pattern"
+        type="button"
+        [disabled]="habilitaDesabilitaDiminui()"
+        (click)="diminuiQuantidade()"
+      >
+        <i class="fas fa-minus"></i>
+      </button>
     </div>
-    <input type="text" class="form-control car-quantidade" (blur)="verificaQuantidade()" [(ngModel)]="item.quantidade" [disabled]="true">
+    <input
+      type="text"
+      class="form-control car-quantidade"
+      (blur)="verificaQuantidade()"
+      [(ngModel)]="item.quantidade"
+      [disabled]="true"
+    />
     <div class="input-group-append">
-      <button class="btn btn-pattern" type="button" [disabled]="habilitaDesabilitaAumenta()"
-        (click)="aumentaQuantidade()"><i class="fas fa-plus"></i></button>
+      <button
+        class="btn btn-pattern"
+        type="button"
+        [disabled]="habilitaDesabilitaAumenta()"
+        (click)="aumentaQuantidade()"
+      >
+        <i class="fas fa-plus"></i>
+      </button>
     </div>
   </div>
   <div class="d-flex justify-content-center">
-    <label for="">Disponível {{this.item.produto.stock}}</label>
+    <label for="">Disponível {{ this.item.produto.stock }}</label>
   </div>
 </ng-template>

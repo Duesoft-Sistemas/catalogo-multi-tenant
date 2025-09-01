@@ -26,13 +26,16 @@ export class AdicionarCarrinhoComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {
     this.produto = data;
-    if(this.produto.image!= "./static/img/imagem_nao_encontrada.jpg"){
-      this.produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(this.produto.image)
+    if (this.produto.image != './static/img/imagem_nao_encontrada.jpg') {
+      this.produto.imageSafe = this.sanitizer.bypassSecurityTrustUrl(
+        this.produto.image
+      );
     }
     this.formulario = Formularios.geraFormulario(new ProdutoCarrinho());
     this.formulario.get('produto').setValue(this.produto);
-    this.formulario.get('quantidade').setValue(this.produto.unitiesOnPackage || 1);
-
+    this.formulario
+      .get('quantidade')
+      .setValue(this.produto.unitiesOnPackage || 1);
   }
 
   ngOnInit() {
@@ -48,24 +51,24 @@ export class AdicionarCarrinhoComponent implements OnInit {
     if (this.produto?.stock === null || this.produto?.stock === undefined) {
       return 0;
     }
-    
+
     // Se for string, converter para número
     if (typeof this.produto.stock === 'string') {
       const parsed = parseFloat(this.produto.stock);
       return isNaN(parsed) ? 0 : parsed;
     }
-    
+
     // Se for número, retornar diretamente
     if (typeof this.produto.stock === 'number') {
       return this.produto.stock;
     }
-    
+
     // Para outros tipos, tentar converter
     const converted = Number(this.produto.stock);
     return isNaN(converted) ? 0 : converted;
   }
 
-  habilitaDesabilitaDiminui(): boolean {
+c  habilitaDesabilitaDiminui(): boolean {
     const quantidade = this.formulario.get('quantidade').value;
     return quantidade <= (this.produto.unitiesOnPackage || 1);
   }
@@ -77,12 +80,19 @@ export class AdicionarCarrinhoComponent implements OnInit {
 
   verificaQuantidade(): void {
     let quantidade = this.formulario.get('quantidade').value;
-    
-    if(this.produto.unidadeEscolhida == this.produto.unity2){
-      if (Number(quantidade) > (Math.floor(this.getStockNumber()/this.produto.unitiesOnPackage2))) {
+
+    if (this.produto.unidadeEscolhida == this.produto.unity2) {
+      if (
+        Number(quantidade) >
+        Math.floor(this.getStockNumber() / this.produto.unitiesOnPackage2)
+      ) {
         Toaster.Error('Quantidade acima da quantidade de estoque disponível!');
         this.formulario.get('quantidade').setValue(1);
-      } else if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+      } else if (
+        Number(quantidade) % 1 != 0 ||
+        Number(quantidade) < 0 ||
+        isNaN(quantidade)
+      ) {
         Toaster.Error('Quantidade inválida!');
         this.formulario.get('quantidade').setValue(1);
       }
@@ -90,7 +100,11 @@ export class AdicionarCarrinhoComponent implements OnInit {
       if (Number(quantidade) > this.getStockNumber()) {
         Toaster.Error('Quantidade acima da quantidade de estoque disponível!');
         this.formulario.get('quantidade').setValue(1);
-      } else if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+      } else if (
+        Number(quantidade) % 1 != 0 ||
+        Number(quantidade) < 0 ||
+        isNaN(quantidade)
+      ) {
         Toaster.Error('Quantidade inválida!');
         this.formulario.get('quantidade').setValue(1);
       }
@@ -99,19 +113,34 @@ export class AdicionarCarrinhoComponent implements OnInit {
 
   aumentaQuantidade(): void {
     let quantidade = this.formulario.get('quantidade').value;
-    if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+    if (
+      Number(quantidade) % 1 != 0 ||
+      Number(quantidade) < 0 ||
+      isNaN(quantidade)
+    ) {
       Toaster.Error('Quantidade inválida!');
       this.formulario.get('quantidade').setValue(1);
     } else {
-      if(this.produto.unidadeEscolhida == this.produto.unity2){
-        if (Number(quantidade) < (Math.floor(this.getStockNumber()/this.produto.unitiesOnPackage2))) {
-          this.formulario.get('quantidade').setValue(Number(quantidade) + (this.produto.unitiesOnPackage || 1));
+      if (this.produto.unidadeEscolhida == this.produto.unity2) {
+        if (
+          Number(quantidade) <
+          Math.floor(this.getStockNumber() / this.produto.unitiesOnPackage2)
+        ) {
+          this.formulario
+            .get('quantidade')
+            .setValue(
+              Number(quantidade) + (this.produto.unitiesOnPackage || 1)
+            );
         } else {
           Toaster.Warning('Quantidade maxima de estoque!');
         }
       } else {
         if (Number(quantidade) < this.getStockNumber()) {
-          this.formulario.get('quantidade').setValue(Number(quantidade) + (this.produto.unitiesOnPackage || 1));
+          this.formulario
+            .get('quantidade')
+            .setValue(
+              Number(quantidade) + (this.produto.unitiesOnPackage || 1)
+            );
         } else {
           Toaster.Warning('Quantidade maxima de estoque!');
         }
@@ -121,12 +150,18 @@ export class AdicionarCarrinhoComponent implements OnInit {
 
   diminuiQuantidade(): void {
     let quantidade = this.formulario.get('quantidade').value;
-    if (Number(quantidade)%1 !=0 || Number(quantidade) < 0 || isNaN(quantidade)) {
+    if (
+      Number(quantidade) % 1 != 0 ||
+      Number(quantidade) < 0 ||
+      isNaN(quantidade)
+    ) {
       Toaster.Error('Quantidade inválida!');
       this.formulario.get('quantidade').setValue(1);
     } else {
       if (Number(quantidade) > 1) {
-        this.formulario.get('quantidade').setValue(Number(quantidade) - (this.produto.unitiesOnPackage || 1));
+        this.formulario
+          .get('quantidade')
+          .setValue(Number(quantidade) - (this.produto.unitiesOnPackage || 1));
       } else {
         Toaster.Warning('Quantidade mínima para adicionar ao carrinho!');
       }

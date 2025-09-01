@@ -26,10 +26,13 @@ export class TenantService {
 
   getTenant(): Tenant {
     // Para desenvolvimento local, usar um tenant padrão
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      return 'catalogofase' as Tenant;
+    if (
+      location.hostname === 'localhost' ||
+      location.hostname === '127.0.0.1'
+    ) {
+      return 'catalogofrigorichter' as Tenant;
     }
-    
+
     return this.getTenantForHostname(location.hostname);
   }
 
