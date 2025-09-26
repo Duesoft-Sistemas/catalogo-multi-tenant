@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/core/services/global.service';
 import { AuthStorageService } from 'src/app/core/guards/auth-storage.service';
 import { SeletorPeculiaridadesCatalogos } from 'src/app/shared/classes/seletor-peculiaridades-catalogos';
@@ -9,6 +10,7 @@ import { Pessoas } from 'src/app/pages/pessoas/pessoas';
 import { TenantService } from 'src/app/shared/tenant/tenant.service';
 import { ProdutoCarrinho } from 'src/app/shared/classes/produto-carrinho';
 import { Toaster } from 'src/app/shared/functions/toaster';
+import { ModalConfirmComponent } from 'src/app/shared/components/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-concluir-pedido',
@@ -32,7 +34,8 @@ export class ConcluirPedidoComponent implements OnInit {
     private globalService: GlobalService,
     private authStorageService: AuthStorageService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog
   ) {
     this.schema = this.serviceTenant.getSchemaTenant();
     this.form = this.fb.group({
@@ -190,6 +193,69 @@ export class ConcluirPedidoComponent implements OnInit {
   }
 
   openModalConfirmConcluir() {
-    // Implementar modal de confirmação
+    if (this.allItems.length === 0) {
+      Toaster.Warning('Não há itens no carrinho para finalizar o pedido.');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ModalConfirmComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirmar Pedido?',
+        subTitle: 'Deseja realmente finalizar o pedido?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.finalizarPedido();
+      }
+    });
+  }
+
+  finalizarPedido() {
+    this.spinner = true;
+    const observacao = this.form.get('observacao')?.value || '';
+
+    // Converter para o formato esperado pela API
+    const itensCarrinho = this.allItems.map((item) => {
+      return {
+        id: item.produto.id,
+        image: item.produto.image,
+        code: item.produto.code,
+        productGroup: item.produto.productGroup,
+        description: item.produto.description,
+        qtd: 0.0,
+        appQtd: item.quantidade,
+        unity: item.produto.unidadeEscolhida,
+        price: 0.0,
+        appPrice:
+          item.produto.unidadeEscolhida === item.produto.unity2
+            ? +Number(item.produto.price2.toString().replace(',', '.'))
+            : +item.produto.price.toString().replace(',', '.'),
+        totalPrice: 0.0,
+        appTotalPrice:
+          item.produto.unidadeEscolhida === item.produto.unity2
+            ? item.quantidade *
+              +item.produto.price2.toString().replace(',', '.')
+            : item.quantidade *
+              +item.produto.price.toString().replace(',', '.'),
+        observacao: observacao,
+      };
+    });
+
+    this.globalService.concluirPedido(itensCarrinho, observacao).subscribe({
+      next: (response) => {
+        Toaster.Success('Pedido finalizado com sucesso!');
+        this.authStorageService.limpaCarrinho();
+        this.router.navigate(['/pedidos-realizados']);
+        this.spinner = false;
+      },
+      error: (error) => {
+        console.error('Erro ao finalizar pedido:', error);
+        Toaster.Error('Erro ao finalizar pedido. Por favor, tente novamente.');
+        this.spinner = false;
+      },
+    });
   }
 }

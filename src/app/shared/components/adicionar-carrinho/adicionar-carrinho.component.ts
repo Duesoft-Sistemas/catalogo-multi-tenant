@@ -68,7 +68,7 @@ export class AdicionarCarrinhoComponent implements OnInit {
     return isNaN(converted) ? 0 : converted;
   }
 
-c  habilitaDesabilitaDiminui(): boolean {
+  habilitaDesabilitaDiminui(): boolean {
     const quantidade = this.formulario.get('quantidade').value;
     return quantidade <= (this.produto.unitiesOnPackage || 1);
   }
