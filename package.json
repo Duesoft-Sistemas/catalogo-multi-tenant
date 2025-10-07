@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start:catalogo": "ng serve --host catalogofase.com.br"
+    "start:catalogo": "ng serve --host catalogofrigorichter.com.br"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +31,8 @@
     "cpf-cnpj-validator": "^1.0.3",
     "jquery": "^3.6.1",
     "js-brasil": "^2.5.3",
+    "jspdf": "^3.0.3", 
+    "jspdf-autotable": "^5.0.2",
     "jwt-decode": "^3.1.2",
     "ngx-bootstrap": "^10.2.0",
     "ngx-currency": "^2.5.3",
@@ -45,6 +47,7 @@
     "@angular/cli": "~15.2.8",
     "@angular/compiler-cli": "^15.2.9",
     "@types/jasmine": "~4.0.0",
+    "@types/jspdf": "^2.0.0",
     "autoprefixer": "^10.4.21",
     "husky": "^9.1.7",
     "jasmine-core": "~4.3.0",

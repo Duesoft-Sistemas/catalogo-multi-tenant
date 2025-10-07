@@ -1,0 +1,78 @@
+<div class="!bg-white !rounded-lg !shadow-xl !overflow-hidden !max-w-md !w-full">
+  
+  <!-- Cabeçalho -->
+  <div class="!bg-gradient-to-r !from-blue-600 !to-blue-700 !px-6 !py-4 !text-white">
+    <div class="!flex !items-center !gap-3">
+      <div class="!w-10 !h-10 !bg-white !bg-opacity-20 !rounded-full !flex !items-center !justify-center">
+        <i class="fas fa-file-pdf !text-lg"></i>
+      </div>
+      <div>
+        <h2 class="!text-lg !font-semibold !mb-0">{{ data.title }}</h2>
+        <p *ngIf="data.message" class="!text-blue-100 !text-sm !mb-0 !mt-1">{{ data.message }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="!p-6">
+    <div class="!text-center !mb-6">
+      <div class="!w-16 !h-16 !bg-blue-50 !rounded-full !flex !items-center !justify-center !mx-auto !mb-4">
+        <i class="fas fa-download !text-blue-600 !text-2xl"></i>
+      </div>
+      
+      <h3 class="!text-lg !font-medium !text-gray-800 !mb-2">
+        Escolha uma opção
+      </h3>
+      
+      <p class="!text-gray-600 !text-sm">
+        Como você gostaria de processar 
+        <span *ngIf="data.isSingleOrder" class="!font-medium">o pedido #{{ data.orderNumber }}</span>
+        <span *ngIf="!data.isSingleOrder" class="!font-medium">os pedidos selecionados</span>?
+      </p>
+    </div>
+
+    <!-- Opções -->
+    <div class="!space-y-3 !mb-6">
+      
+      <!-- Opção Imprimir -->
+      <button
+        (click)="onPrint()"
+        class="!w-full !flex !items-center !gap-4 !p-4 !border-2 !border-gray-200 !rounded-xl !hover:!border-blue-300 !hover:!bg-blue-50 !transition-all !duration-200 !text-left !group"
+      >
+        <div class="!w-12 !h-12 !bg-green-100 !rounded-full !flex !items-center !justify-center !flex-shrink-0 !group-hover:!bg-green-200 !transition-colors">
+          <i class="fas fa-print !text-green-600 !text-lg"></i>
+        </div>
+        <div class="!flex-1">
+          <h4 class="!font-medium !text-gray-800 !mb-1">Imprimir</h4>
+          <p class="!text-sm !text-gray-600">Abrir janela de impressão do navegador</p>
+        </div>
+        <i class="fas fa-chevron-right !text-gray-400 !group-hover:!text-blue-600 !transition-colors"></i>
+      </button>
+
+      <!-- Opção Salvar PDF -->
+      <button
+        (click)="onSave()"
+        class="!w-full !flex !items-center !gap-4 !p-4 !border-2 !border-gray-200 !rounded-xl !hover:!border-blue-300 !hover:!bg-blue-50 !transition-all !duration-200 !text-left !group"
+      >
+        <div class="!w-12 !h-12 !bg-blue-100 !rounded-full !flex !items-center !justify-center !flex-shrink-0 !group-hover:!bg-blue-200 !transition-colors">
+          <i class="fas fa-download !text-blue-600 !text-lg"></i>
+        </div>
+        <div class="!flex-1">
+          <h4 class="!font-medium !text-gray-800 !mb-1">Salvar PDF</h4>
+          <p class="!text-sm !text-gray-600">Baixar arquivo PDF para seu dispositivo</p>
+        </div>
+        <i class="fas fa-chevron-right !text-gray-400 !group-hover:!text-blue-600 !transition-colors"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <div class="!bg-gray-50 !px-6 !py-4 !flex !justify-end">
+    <button
+      (click)="onCancel()"
+      class="!px-4 !py-2 !text-gray-600 !hover:!text-gray-800 !font-medium !rounded !hover:!bg-gray-200 !transition-colors !duration-200"
+    >
+      Cancelar
+    </button>
+  </div>
+</div>

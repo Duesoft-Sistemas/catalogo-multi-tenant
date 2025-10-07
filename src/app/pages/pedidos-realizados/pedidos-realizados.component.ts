@@ -8,10 +8,11 @@ import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IPedidos } from 'src/app/shared/interface/IPedidos';
 import { IPedidosRealizados } from 'src/app/shared/interface/IPedidosRealizados';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { PdfService } from 'src/app/shared/services/pdf.service';
+import { ModalPdfChoiceComponent, ModalPdfChoiceData, ModalPdfChoiceResult } from 'src/app/shared/components/modal-pdf-choice/modal-pdf-choice.component';
 import { PedidosRealizadosDetalhesComponent } from './pedidos-realizados-detalhes/pedidos-realizados-detalhes.component';
 import { PedidosRealizadosFiltroComponent } from './pedidos-realizados-filtro/pedidos-realizados-filtro.component';
 import { TenantService } from 'src/app/shared/tenant/tenant.service';
-
 @Component({
   selector: 'app-pedidos-realizados',
   templateUrl: './pedidos-realizados.component.html',
@@ -56,6 +57,13 @@ export class PedidosRealizadosComponent implements OnInit {
       cell: (element: IPedidos) =>
         this.formatTotalPriceSimple(element.totalPrice),
     },
+    {
+      columnDef: 'acoes',
+      header: 'Ações',
+      cell: (element: IPedidos) => '',
+      isAction: true
+    },
+    
   ];
 
   dataSource: MatTableDataSource<IPedidos> = new MatTableDataSource<IPedidos>();
@@ -63,6 +71,7 @@ export class PedidosRealizadosComponent implements OnInit {
 
   constructor(
     private service: GlobalService,
+    private pdfService: PdfService,
     private storage: AuthStorageService,
     public dialog: MatDialog,
     private tenantService: TenantService
@@ -84,6 +93,15 @@ export class PedidosRealizadosComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) this.getDados();
     });
+  }
+
+  /**
+   * Trata ações da tabela (como botão PDF)
+   */
+  onTableAction(event: any): void {
+    if (event.action === 'exportPdf') {
+      this.exportarPedidoIndividual(event.row);
+    }
   }
 
   openModalFiltro(): void {
@@ -528,6 +546,129 @@ export class PedidosRealizadosComponent implements OnInit {
     const value =
       typeof totalPrice === 'string' ? parseFloat(totalPrice) || 0 : totalPrice;
     return `R$ ${value.toFixed(2).replace('.', ',')}`;
+  }
+
+  /**
+   * Abre modal para exportar PDF de um pedido individual
+   */
+  exportarPedidoIndividual(pedido: IPedidos): void {
+    const dialogData: ModalPdfChoiceData = {
+      title: 'Exportar Pedido',
+      message: 'Escolha como deseja processar o pedido',
+      isSingleOrder: true,
+      orderNumber: pedido.solicitationNumber
+    };
+
+    const dialogRef = this.dialog.open(ModalPdfChoiceComponent, {
+      width: '450px',
+      data: dialogData,
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe((result: ModalPdfChoiceResult) => {
+      if (result && result.action !== 'cancel') {
+        this.processarExportacaoIndividual(pedido, result.action);
+      }
+    });
+  }
+
+  /**
+   * Abre modal para exportar PDF de todos os pedidos
+   */
+  exportarTodosPedidos(): void {
+    if (!this.dataSource.data || this.dataSource.data.length === 0) {
+      Toaster.Warning('Nenhum pedido disponível para exportação.');
+      return;
+    }
+
+    const dialogData: ModalPdfChoiceData = {
+      title: 'Exportar Todos os Pedidos',
+      message: `Processar ${this.totalPedidos} pedido(s)`,
+      isSingleOrder: false
+    };
+
+    const dialogRef = this.dialog.open(ModalPdfChoiceComponent, {
+      width: '450px', 
+      data: dialogData,
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe((result: ModalPdfChoiceResult) => {
+      if (result && result.action !== 'cancel') {
+        this.processarExportacaoTodos(result.action);
+      }
+    });
+  }
+
+  /**
+   * Processa a exportação de um pedido individual
+   */
+  private processarExportacaoIndividual(pedido: IPedidos, action: 'print' | 'save'): void {
+    this.spinner = true;
+    
+    // Buscar detalhes completos do pedido
+    this.service.detalhesPedidosRealizados(pedido.solicitationNumber)
+      .pipe(take(1))
+      .subscribe({
+        next: (detalhes) => {
+          try {
+            this.pdfService.generatePedidoPDF(detalhes, action);
+            const actionText = action === 'print' ? 'impressão' : 'download';
+            Toaster.Success(`PDF preparado para ${actionText}!`);
+          } catch (error) {
+            console.error('Erro ao gerar PDF:', error);
+            Toaster.Error('Erro ao gerar PDF. Tente novamente.');
+          }
+        },
+        error: (error) => {
+          console.error('Erro ao buscar detalhes:', error);
+          Toaster.Error('Erro ao buscar detalhes do pedido.');
+        },
+        complete: () => {
+          this.spinner = false;
+        }
+      });
+  }
+
+  /**
+   * Processa a exportação de todos os pedidos (versão resumida)
+   */
+  private processarExportacaoTodos(action: 'print' | 'save'): void {
+    try {
+      // Para todos os pedidos, vamos usar os dados resumidos que já temos
+      // Buscar todos os pedidos da fonte original (não paginados)
+      this.spinner = true;
+      
+      this.service.getPedidosRealizados()
+        .pipe(take(1))
+        .subscribe({
+          next: (data) => {
+            if (data && data.length > 0) {
+              try {
+                this.pdfService.generateMultiplePedidosPDF(data, action);
+                const actionText = action === 'print' ? 'impressão' : 'download';
+                Toaster.Success(`Relatório de ${data.length} pedidos preparado para ${actionText}!`);
+              } catch (error) {
+                console.error('Erro ao gerar relatório:', error);
+                Toaster.Error('Erro ao gerar relatório. Tente novamente.');
+              }
+            } else {
+              Toaster.Warning('Nenhum pedido encontrado para exportação.');
+            }
+          },
+          error: (error) => {
+            console.error('Erro ao buscar pedidos:', error);
+            Toaster.Error('Erro ao buscar pedidos para exportação.');
+          },
+          complete: () => {
+            this.spinner = false;
+          }
+        });
+    } catch (error) {
+      console.error('Erro na exportação:', error);
+      Toaster.Error('Erro ao processar exportação.');
+      this.spinner = false;
+    }
   }
 
   // Método para formatar a data do pedido
