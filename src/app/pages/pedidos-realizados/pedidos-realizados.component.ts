@@ -543,7 +543,7 @@ export class PedidosRealizadosComponent implements OnInit {
     // correcao de arredondar os valores. Ver se totalPrice vem como string, mas ver se pode vir como numero tambem , se vier como numero, há a conversao das 2 casas decimais e nao salva as 2 casas decimais que veio como price //tratativa de caso: arredodamento aritmetico. O arredondamento so deve existir em casos onde eu tenho mais que //duas casas decimais. Exemplo: R$ 11,5025 - pela regra deveria arredondar para 11,50 e se for 11,5065 - arredondar para 11,51.
     
     if (!totalPrice) return 'R$ 0,00';
-
+    //commit
     let numericValue: number;
 
     //se totalPrice vem como string ou número
