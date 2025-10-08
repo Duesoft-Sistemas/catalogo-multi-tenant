@@ -7,25 +7,18 @@ Esta func### 🎨 Características do Desi### 📱 Interface do Usuário
 ### Botões de Exportação
 - **Individuais**: Vermelho (bg-red-600) com ícone PDF
 - **Geral**: Azul (bg-blue-600) com texto "Exportar Todos"
-- **Detalhes**: Azul no modal com texto "Salvar Pedido em PDF"
 - **Posições**: 
   - Desktop: Coluna "Ações" da tabela
   - Mobile: Card do pedido (ao lado do status)
   - Cabeçalho: Botão geral "Exportar Todos"
-  - Modal: Rodapé dos detalhes
 
-### Modal de Escolha
-- **Design**: Interface elegante com ícones
-- **Opções**: "Imprimir" (verde) e "Salvar PDF" (azul)
-- **Responsive**: Adapta-se a diferentes telas
-- **Feedback**: Botões com hover e transições
-
-### Experiência do Usuário
-1. **Clique único** para abrir opções
-2. **Escolha visual** entre imprimir ou salvar
-3. **Feedback imediato** com notificações
-4. **Processamento automático** da escolha
-5. **Nomes inteligentes** dos arquivos geradosut profissional** com cores do sistema
+### Experiência Simplificada
+1. **Clique único** para processar
+2. **Salvamento automático** do PDF
+3. **Abertura automática** para impressão
+4. **Sem modal de escolha** - processo direto
+5. **Feedback com notificações** de sucesso/erro
+6. **Nomes inteligentes** dos arquivos geradosut profissional** com cores do sistema
 - **Cabeçalho destacado** com cor primária
 - **Tabela zebrada** para melhor legibilidade
 - **Formatação monetária** em reais (R$)
@@ -71,18 +64,18 @@ npm install jspdf jspdf-autotable
 
 ## 🚀 Como Usar
 
-### **Opção 1: Exportar Pedido Individual**
-1. **Acesse** a lista de pedidos realizados
-2. **Desktop**: Clique no botão PDF (vermelho) na coluna "Ações" da tabela
-3. **Mobile**: Clique no botão PDF no card do pedido (ao lado do status)
-4. **Detalhes**: No modal de detalhes, clique em "Salvar Pedido em PDF"
-5. **Escolha** entre "Imprimir" ou "Salvar PDF" no modal que aparecer
+### **Exportação Simplificada:**
+1. **Pedido Individual**: 
+   - **Desktop**: Clique no botão PDF (vermelho) na coluna "Ações" da tabela
+   - **Mobile**: Clique no botão PDF no card do pedido (ao lado do status)
+   
+2. **Todos os Pedidos**: 
+   - **Clique** no botão "Exportar Todos" no cabeçalho da página
 
-### **Opção 2: Exportar Todos os Pedidos**
-1. **Acesse** a lista de pedidos realizados
-2. **Clique** no botão "Exportar Todos" no cabeçalho da página
-3. **Escolha** entre "Imprimir" ou "Salvar PDF" no modal que aparecer
-4. Um **relatório resumido** com todos os pedidos será gerado
+### **Processo Automatizado:**
+- ✅ **Salva automaticamente** o PDF no dispositivo
+- ✅ **Abre janela de impressão** do navegador logo após
+- ✅ **Sem modal de escolha** - processo direto e rápido
 
 ## 📊 Conteúdo do PDF Gerado
 
@@ -218,5 +211,11 @@ Exemplo: `Pedido_12345_20231007_1430.pdf`
 ---
 
 **Implementado em**: Outubro 2025  
-**Versão**: 2.0 - **Múltiplas Opções de Exportação**  
-**Status**: ✅ **Concluído com Melhorias**
+**Versão**: 2.1 - **Exportação Simplificada**  
+**Status**: ✅ **Concluído - Processo Automatizado**
+
+### 🎯 **Última Atualização (v2.1):**
+- ✅ **Removido modal de escolha** - processo direto
+- ✅ **Salvamento automático** + impressão em sequência  
+- ✅ **Botão removido** do modal de detalhes
+- ✅ **Experiência otimizada** - clique único faz tudo

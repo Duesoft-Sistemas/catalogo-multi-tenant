@@ -5,9 +5,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
 import { IItensPedidosRealizadosDetalhes, IPedidosRealizadosDetalhes} from 'src/app/shared/interface/IPedidosRealizadosDetalhes';
 import { GlobalService } from 'src/app/shared/services/global.service';
-import {PdfService} from 'src/app/shared/services/pdf.service';
 import { ModalConfirmComponent } from 'src/app/shared/components/modal-confirm/modal-confirm.component';
-import { ModalPdfChoiceComponent, ModalPdfChoiceData, ModalPdfChoiceResult } from 'src/app/shared/components/modal-pdf-choice/modal-pdf-choice.component';
 import { take } from 'rxjs';
 import { Toaster } from 'src/app/shared/functions/toaster';
 
@@ -55,7 +53,6 @@ export class PedidosRealizadosDetalhesComponent implements OnInit {
     public dialogRef: MatDialogRef<PedidosRealizadosDetalhesComponent>,
     @Inject(MAT_DIALOG_DATA) public solicitationNumber: number,
     private service: GlobalService,
-    private pdfService: PdfService,
     private dialog: MatDialog,
     private localeService: BsLocaleService
   ) {
@@ -182,41 +179,5 @@ export class PedidosRealizadosDetalhesComponent implements OnInit {
       default:
         return status || '-';
     }
-  }
-
-  /**
-   * Exporta o pedido atual em formato PDF
-   */
-  exportarPedidoPDF(): void {
-    if (!this.dados) {
-      Toaster.Warning('Nenhum dado do pedido disponível para exportação.');
-      return;
-    }
-
-    const dialogData: ModalPdfChoiceData = {
-      title: 'Exportar Pedido',
-      message: 'Escolha como deseja processar o pedido',
-      isSingleOrder: true,
-      orderNumber: this.dados.solicitationNumber
-    };
-
-    const dialogRef = this.dialog.open(ModalPdfChoiceComponent, {
-      width: '450px',
-      data: dialogData,
-      disableClose: false
-    });
-
-    dialogRef.afterClosed().subscribe((result: ModalPdfChoiceResult) => {
-      if (result && result.action !== 'cancel') {
-        try {
-          this.pdfService.generatePedidoPDF(this.dados, result.action);
-          const actionText = result.action === 'print' ? 'impressão' : 'download';
-          Toaster.Success(`PDF preparado para ${actionText}!`);
-        } catch (error) {
-          console.error('Erro ao gerar PDF:', error);
-          Toaster.Error('Erro ao gerar o PDF. Tente novamente.');
-        }
-      }
-    });
   }
 }

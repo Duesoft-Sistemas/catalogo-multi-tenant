@@ -19,11 +19,10 @@ export class PdfService {
   constructor(private tenantService: TenantService) {}
 
   /**
-   * Gera um PDF com os dados do pedido
+   * Gera um PDF com os dados do pedido (salva automaticamente e abre para impressão)
    * @param pedido Dados do pedido a ser exportado
-   * @param action Ação a ser executada: 'save' para salvar, 'print' para imprimir
    */
-  generatePedidoPDF(pedido: IPedidosRealizadosDetalhes, action: 'save' | 'print' = 'save'): void {
+  generatePedidoPDF(pedido: IPedidosRealizadosDetalhes): void {
     const doc = new jsPDF();
     const companyName = this.tenantService.getCompanyNameBySchema();
     
@@ -47,22 +46,21 @@ export class PdfService {
     // Rodapé
     this.addFooter(doc, secondaryColor);
     
-    // Executar ação
-    if (action === 'print') {
+    // Salvar o arquivo primeiro
+    const fileName = `Pedido_${pedido.solicitationNumber}_${this.formatDateForFileName(new Date())}.pdf`;
+    doc.save(fileName);
+    
+    // Em seguida, abrir para impressão
+    setTimeout(() => {
       this.printPDF(doc);
-    } else {
-      // Salvar o arquivo
-      const fileName = `Pedido_${pedido.solicitationNumber}_${this.formatDateForFileName(new Date())}.pdf`;
-      doc.save(fileName);
-    }
+    }, 500); // Aguarda 500ms para garantir que o download iniciou
   }
 
   /**
-   * Gera PDF com múltiplos pedidos (resumido)
+   * Gera PDF com múltiplos pedidos (resumido) - salva automaticamente e abre para impressão
    * @param pedidos Array de pedidos a serem exportados
-   * @param action Ação a ser executada: 'save' para salvar, 'print' para imprimir
    */
-  generateMultiplePedidosPDF(pedidos: IPedidos[], action: 'save' | 'print' = 'save'): void {
+  generateMultiplePedidosPDF(pedidos: IPedidos[]): void {
     if (!pedidos || pedidos.length === 0) {
       throw new Error('Nenhum pedido fornecido para geração do PDF');
     }
@@ -87,14 +85,14 @@ export class PdfService {
     // Rodapé
     this.addFooter(doc, secondaryColor);
 
-    // Executar ação
-    if (action === 'print') {
+    // Salvar o arquivo primeiro
+    const fileName = `Relatorio_Pedidos_${this.formatDateForFileName(new Date())}.pdf`;
+    doc.save(fileName);
+    
+    // Em seguida, abrir para impressão
+    setTimeout(() => {
       this.printPDF(doc);
-    } else {
-      // Salvar o arquivo
-      const fileName = `Relatorio_Pedidos_${this.formatDateForFileName(new Date())}.pdf`;
-      doc.save(fileName);
-    }
+    }, 500); // Aguarda 500ms para garantir que o download iniciou
   }
 
   /**

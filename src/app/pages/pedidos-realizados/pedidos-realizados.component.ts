@@ -9,7 +9,6 @@ import { IPedidos } from 'src/app/shared/interface/IPedidos';
 import { IPedidosRealizados } from 'src/app/shared/interface/IPedidosRealizados';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { PdfService } from 'src/app/shared/services/pdf.service';
-import { ModalPdfChoiceComponent, ModalPdfChoiceData, ModalPdfChoiceResult } from 'src/app/shared/components/modal-pdf-choice/modal-pdf-choice.component';
 import { PedidosRealizadosDetalhesComponent } from './pedidos-realizados-detalhes/pedidos-realizados-detalhes.component';
 import { PedidosRealizadosFiltroComponent } from './pedidos-realizados-filtro/pedidos-realizados-filtro.component';
 import { TenantService } from 'src/app/shared/tenant/tenant.service';
@@ -534,76 +533,57 @@ export class PedidosRealizadosComponent implements OnInit {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 3,
       maximumFractionDigits: 2,
     }).format(numericValue);
   }
 
   // Método alternativo para formatação simples
   formatTotalPriceSimple(totalPrice: string | number): string {
+    // correcao de arredondar os valores. Ver se totalPrice vem como string, mas ver se pode vir como numero tambem , se vier como numero, há a conversao das 2 casas decimais e nao salva as 2 casas decimais que veio como price //tratativa de caso: arredodamento aritmetico. O arredondamento so deve existir em casos onde eu tenho mais que //duas casas decimais. Exemplo: R$ 11,5025 - pela regra deveria arredondar para 11,50 e se for 11,5065 - arredondar para 11,51.
+    
     if (!totalPrice) return 'R$ 0,00';
 
-    const value =
-      typeof totalPrice === 'string' ? parseFloat(totalPrice) || 0 : totalPrice;
-    return `R$ ${value.toFixed(2).replace('.', ',')}`;
-  }
+    let numericValue: number;
 
-  /**
-   * Abre modal para exportar PDF de um pedido individual
-   */
-  exportarPedidoIndividual(pedido: IPedidos): void {
-    const dialogData: ModalPdfChoiceData = {
-      title: 'Exportar Pedido',
-      message: 'Escolha como deseja processar o pedido',
-      isSingleOrder: true,
-      orderNumber: pedido.solicitationNumber
-    };
-
-    const dialogRef = this.dialog.open(ModalPdfChoiceComponent, {
-      width: '450px',
-      data: dialogData,
-      disableClose: false
-    });
-
-    dialogRef.afterClosed().subscribe((result: ModalPdfChoiceResult) => {
-      if (result && result.action !== 'cancel') {
-        this.processarExportacaoIndividual(pedido, result.action);
-      }
-    });
-  }
-
-  /**
-   * Abre modal para exportar PDF de todos os pedidos
-   */
-  exportarTodosPedidos(): void {
-    if (!this.dataSource.data || this.dataSource.data.length === 0) {
-      Toaster.Warning('Nenhum pedido disponível para exportação.');
-      return;
+    //se totalPrice vem como string ou número
+    if (typeof totalPrice === 'string') {
+     
+      const cleanValue = totalPrice.replace(/[^\d,.-]/g, '');
+      
+      const normalizedValue = cleanValue.replace(',', '.');
+      numericValue = parseFloat(normalizedValue) || 0;
+    } else {
+      numericValue = totalPrice;
     }
 
-    const dialogData: ModalPdfChoiceData = {
-      title: 'Exportar Todos os Pedidos',
-      message: `Processar ${this.totalPedidos} pedido(s)`,
-      isSingleOrder: false
-    };
+    const valueStr = numericValue.toString();
+    const decimalPart = valueStr.includes('.') ? valueStr.split('.')[1] : '';
+    
+    
+    if (decimalPart.length > 2) {
+   
+      const thirdDecimal = parseInt(decimalPart.charAt(2)) || 0;
 
-    const dialogRef = this.dialog.open(ModalPdfChoiceComponent, {
-      width: '450px', 
-      data: dialogData,
-      disableClose: false
-    });
-
-    dialogRef.afterClosed().subscribe((result: ModalPdfChoiceResult) => {
-      if (result && result.action !== 'cancel') {
-        this.processarExportacaoTodos(result.action);
+      let valueInCents = Math.floor(numericValue * 100);
+      
+      if (thirdDecimal >= 5) {
+        valueInCents += 1; 
       }
-    });
+      
+      numericValue = valueInCents / 100;
+    }
+
+    //traz para decimal e formata com exatamente 2 casas decimais
+    const finalValue = numericValue.toFixed(2);
+    
+    return `R$ ${finalValue.replace('.', ',')}`;
   }
 
   /**
-   * Processa a exportação de um pedido individual
+   * Exporta PDF de um pedido individual (salva automaticamente e abre para impressão)
    */
-  private processarExportacaoIndividual(pedido: IPedidos, action: 'print' | 'save'): void {
+  exportarPedidoIndividual(pedido: IPedidos): void {
     this.spinner = true;
     
     // Buscar detalhes completos do pedido
@@ -612,9 +592,8 @@ export class PedidosRealizadosComponent implements OnInit {
       .subscribe({
         next: (detalhes) => {
           try {
-            this.pdfService.generatePedidoPDF(detalhes, action);
-            const actionText = action === 'print' ? 'impressão' : 'download';
-            Toaster.Success(`PDF preparado para ${actionText}!`);
+            this.pdfService.generatePedidoPDF(detalhes);
+            Toaster.Success('PDF do pedido salvo e aberto para impressão!');
           } catch (error) {
             console.error('Erro ao gerar PDF:', error);
             Toaster.Error('Erro ao gerar PDF. Tente novamente.');
@@ -631,44 +610,40 @@ export class PedidosRealizadosComponent implements OnInit {
   }
 
   /**
-   * Processa a exportação de todos os pedidos (versão resumida)
+   * Exporta PDF de todos os pedidos (salva automaticamente e abre para impressão)
    */
-  private processarExportacaoTodos(action: 'print' | 'save'): void {
-    try {
-      // Para todos os pedidos, vamos usar os dados resumidos que já temos
-      // Buscar todos os pedidos da fonte original (não paginados)
-      this.spinner = true;
-      
-      this.service.getPedidosRealizados()
-        .pipe(take(1))
-        .subscribe({
-          next: (data) => {
-            if (data && data.length > 0) {
-              try {
-                this.pdfService.generateMultiplePedidosPDF(data, action);
-                const actionText = action === 'print' ? 'impressão' : 'download';
-                Toaster.Success(`Relatório de ${data.length} pedidos preparado para ${actionText}!`);
-              } catch (error) {
-                console.error('Erro ao gerar relatório:', error);
-                Toaster.Error('Erro ao gerar relatório. Tente novamente.');
-              }
-            } else {
-              Toaster.Warning('Nenhum pedido encontrado para exportação.');
-            }
-          },
-          error: (error) => {
-            console.error('Erro ao buscar pedidos:', error);
-            Toaster.Error('Erro ao buscar pedidos para exportação.');
-          },
-          complete: () => {
-            this.spinner = false;
-          }
-        });
-    } catch (error) {
-      console.error('Erro na exportação:', error);
-      Toaster.Error('Erro ao processar exportação.');
-      this.spinner = false;
+  exportarTodosPedidos(): void {
+    if (!this.dataSource.data || this.dataSource.data.length === 0) {
+      Toaster.Warning('Nenhum pedido disponível para exportação.');
+      return;
     }
+
+    this.spinner = true;
+    
+    this.service.getPedidosRealizados()
+      .pipe(take(1))
+      .subscribe({
+        next: (data) => {
+          if (data && data.length > 0) {
+            try {
+              this.pdfService.generateMultiplePedidosPDF(data);
+              Toaster.Success(`Relatório de ${data.length} pedidos salvo e aberto para impressão!`);
+            } catch (error) {
+              console.error('Erro ao gerar relatório:', error);
+              Toaster.Error('Erro ao gerar relatório. Tente novamente.');
+            }
+          } else {
+            Toaster.Warning('Nenhum pedido encontrado para exportação.');
+          }
+        },
+        error: (error) => {
+          console.error('Erro ao buscar pedidos:', error);
+          Toaster.Error('Erro ao buscar pedidos para exportação.');
+        },
+        complete: () => {
+          this.spinner = false;
+        }
+      });
   }
 
   // Método para formatar a data do pedido
