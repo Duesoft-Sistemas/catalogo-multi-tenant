@@ -51,11 +51,12 @@ export class GlobalService {
     return this.http.get(`${this.baseUrl}/GetProductInfo?id=${idProduto}`);
   }
 
-  getEmail(email: string): Observable<any> {
+  getEmail(cnpj: string): Observable<any> {
+    const cleanCnpj = this.sanitizeDocument(cnpj);
     return this.http.get(
       `${
         this.baseUrl
-      }/GetEmail?email=${email}&schema=${this.serviceTenant.getSchemaTenant()}`
+      }/GetEmail?id=${cleanCnpj}&schema=${this.serviceTenant.getSchemaTenant()}`
     );
   }
 
@@ -184,5 +185,15 @@ export class GlobalService {
     return this.http.get(
       `${this.baseUrl}/ObterSubDepartamentosPorIdGrupo/${id}`
     );
+  }
+
+  /**
+   * Sanitiza documentos removendo caracteres especiais
+   * @param doc Documento a ser sanitizado (CNPJ, CPF, etc.)
+   * @returns Documento limpo apenas com números
+   */
+  private sanitizeDocument(doc: string | null | undefined): string {
+    if (!doc) return '';
+    return doc.replace(/[.\-\/]/g, '').trim();
   }
 }

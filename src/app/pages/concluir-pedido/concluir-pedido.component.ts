@@ -63,37 +63,12 @@ export class ConcluirPedidoComponent implements OnInit {
   }
 
   convertToNumber(value: any): number {
-    if (value === null || value === undefined) return 0;
-
-    let numericValue: number;
-
-    if (typeof value === 'number') {
-      numericValue = value;
-    } else if (typeof value === 'string') {
-      const clean = value.replace(/[^\d,.-]/g, '');
-      const normalized = clean.replace(',', '.');
-      numericValue = parseFloat(normalized) || 0;
-    } else {
-      numericValue = Number(value) || 0;
-    }
-
-    const valueStr = numericValue.toString();
-    const decimalPart = valueStr.includes('.') ? valueStr.split('.')[1] : '';
-
-    if (decimalPart.length > 2) {
-      const thirdDecimal = parseInt(decimalPart.charAt(2)) || 0;
-      let valueInCents = Math.floor(numericValue * 100);
-      if (thirdDecimal >= 5) valueInCents += 1;
-      numericValue = valueInCents / 100;
-    }
-
-    // 🔹 Retorna número, não string!
-    return parseFloat(numericValue.toFixed(2));
+    return parseFloat(value) || 0;
   }
 
-  getPrice(produto: any, quantidade: number): number { //valor total
+  getPrice(produto: any, quantidade: number): number {
     const price = this.convertToNumber(produto.price);
-    return parseFloat((price * quantidade).toFixed(2));
+    return price * quantidade;
   }
 
   // Função para converter stock para número de forma segura
@@ -258,7 +233,6 @@ export class ConcluirPedidoComponent implements OnInit {
           item.produto.unidadeEscolhida === item.produto.unity2
             ? +Number(item.produto.price2.toString().replace(',', '.'))
             : +item.produto.price.toString().replace(',', '.'),
-            
         totalPrice: 0.0,
         appTotalPrice:
           item.produto.unidadeEscolhida === item.produto.unity2

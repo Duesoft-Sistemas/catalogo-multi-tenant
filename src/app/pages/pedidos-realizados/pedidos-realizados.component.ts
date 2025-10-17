@@ -8,10 +8,10 @@ import { AuthStorageService } from 'src/app/shared/guards/auth-storage.service';
 import { IPedidos } from 'src/app/shared/interface/IPedidos';
 import { IPedidosRealizados } from 'src/app/shared/interface/IPedidosRealizados';
 import { GlobalService } from 'src/app/shared/services/global.service';
-import { PdfService } from 'src/app/shared/services/pdf.service';
 import { PedidosRealizadosDetalhesComponent } from './pedidos-realizados-detalhes/pedidos-realizados-detalhes.component';
 import { PedidosRealizadosFiltroComponent } from './pedidos-realizados-filtro/pedidos-realizados-filtro.component';
 import { TenantService } from 'src/app/shared/tenant/tenant.service';
+
 @Component({
   selector: 'app-pedidos-realizados',
   templateUrl: './pedidos-realizados.component.html',
@@ -56,13 +56,6 @@ export class PedidosRealizadosComponent implements OnInit {
       cell: (element: IPedidos) =>
         this.formatTotalPriceSimple(element.totalPrice),
     },
-    {
-      columnDef: 'acoes',
-      header: 'Ações',
-      cell: (element: IPedidos) => '',
-      isAction: true
-    },
-    
   ];
 
   dataSource: MatTableDataSource<IPedidos> = new MatTableDataSource<IPedidos>();
@@ -70,7 +63,6 @@ export class PedidosRealizadosComponent implements OnInit {
 
   constructor(
     private service: GlobalService,
-    private pdfService: PdfService,
     private storage: AuthStorageService,
     public dialog: MatDialog,
     private tenantService: TenantService
@@ -92,15 +84,6 @@ export class PedidosRealizadosComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) this.getDados();
     });
-  }
-
-  /**
-   * Trata ações da tabela (como botão PDF)
-   */
-  onTableAction(event: any): void {
-    if (event.action === 'exportPdf') {
-      this.exportarPedidoIndividual(event.row);
-    }
   }
 
   openModalFiltro(): void {
@@ -533,117 +516,18 @@ export class PedidosRealizadosComponent implements OnInit {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-      minimumFractionDigits: 3,
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(numericValue);
   }
 
   // Método alternativo para formatação simples
   formatTotalPriceSimple(totalPrice: string | number): string {
-    // correcao de arredondar os valores. Ver se totalPrice vem como string, mas ver se pode vir como numero tambem , se vier como numero, há a conversao das 2 casas decimais e nao salva as 2 casas decimais que veio como price //tratativa de caso: arredodamento aritmetico. O arredondamento so deve existir em casos onde eu tenho mais que //duas casas decimais. Exemplo: R$ 11,5025 - pela regra deveria arredondar para 11,50 e se for 11,5065 - arredondar para 11,51.
-    
     if (!totalPrice) return 'R$ 0,00';
-    //commit
-    let numericValue: number;
 
-    //se totalPrice vem como string ou número
-    if (typeof totalPrice === 'string') {
-     
-      const cleanValue = totalPrice.replace(/[^\d,.-]/g, '');
-      
-      const normalizedValue = cleanValue.replace(',', '.');
-      numericValue = parseFloat(normalizedValue) || 0;
-    } else {
-      numericValue = totalPrice;
-    }
-
-    const valueStr = numericValue.toString();
-    const decimalPart = valueStr.includes('.') ? valueStr.split('.')[1] : '';
-    
-    
-    if (decimalPart.length > 2) {
-   
-      const thirdDecimal = parseInt(decimalPart.charAt(2)) || 0;
-
-      let valueInCents = Math.floor(numericValue * 100);
-      
-      if (thirdDecimal >= 5) {
-        valueInCents += 1; 
-      }
-      
-      numericValue = valueInCents / 100;
-    }
-
-    //traz para decimal e formata com exatamente 2 casas decimais
-    const finalValue = numericValue.toFixed(2);
-    
-    return `R$ ${finalValue.replace('.', ',')}`;
-  }
-
-  /**
-   * Exporta PDF de um pedido individual (salva automaticamente e abre para impressão)
-   */
-  exportarPedidoIndividual(pedido: IPedidos): void {
-    this.spinner = true;
-    
-    // Buscar detalhes completos do pedido
-    this.service.detalhesPedidosRealizados(pedido.solicitationNumber)
-      .pipe(take(1))
-      .subscribe({
-        next: (detalhes) => {
-          try {
-            this.pdfService.generatePedidoPDF(detalhes);
-            Toaster.Success('PDF do pedido salvo e aberto para impressão!');
-          } catch (error) {
-            console.error('Erro ao gerar PDF:', error);
-            Toaster.Error('Erro ao gerar PDF. Tente novamente.');
-          }
-        },
-        error: (error) => {
-          console.error('Erro ao buscar detalhes:', error);
-          Toaster.Error('Erro ao buscar detalhes do pedido.');
-        },
-        complete: () => {
-          this.spinner = false;
-        }
-      });
-  }
-
-  /**
-   * Exporta PDF de todos os pedidos (salva automaticamente e abre para impressão)
-   */
-  exportarTodosPedidos(): void {
-    if (!this.dataSource.data || this.dataSource.data.length === 0) {
-      Toaster.Warning('Nenhum pedido disponível para exportação.');
-      return;
-    }
-
-    this.spinner = true;
-    
-    this.service.getPedidosRealizados()
-      .pipe(take(1))
-      .subscribe({
-        next: (data) => {
-          if (data && data.length > 0) {
-            try {
-              this.pdfService.generateMultiplePedidosPDF(data);
-              Toaster.Success(`Relatório de ${data.length} pedidos salvo e aberto para impressão!`);
-            } catch (error) {
-              console.error('Erro ao gerar relatório:', error);
-              Toaster.Error('Erro ao gerar relatório. Tente novamente.');
-            }
-          } else {
-            Toaster.Warning('Nenhum pedido encontrado para exportação.');
-          }
-        },
-        error: (error) => {
-          console.error('Erro ao buscar pedidos:', error);
-          Toaster.Error('Erro ao buscar pedidos para exportação.');
-        },
-        complete: () => {
-          this.spinner = false;
-        }
-      });
+    const value =
+      typeof totalPrice === 'string' ? parseFloat(totalPrice) || 0 : totalPrice;
+    return `R$ ${value.toFixed(2).replace('.', ',')}`;
   }
 
   // Método para formatar a data do pedido

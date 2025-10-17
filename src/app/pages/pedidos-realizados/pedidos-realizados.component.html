@@ -13,23 +13,9 @@
           <h2 class="!text-xl !font-semibold !text-gray-800 max-sm:!text-lg">Meus Pedidos</h2>
         </div>
         
-        <!-- Ações e contador -->
-        <div class="!flex !items-center !gap-3">
-          <!-- Botão Exportar Todos -->
-          <button
-            *ngIf="dataSource && dataSource.data && dataSource.data.length > 0"
-            (click)="exportarTodosPedidos()"
-            class="!inline-flex !items-center !justify-center !px-3 !py-2 !bg-blue-600 !text-white !font-medium !rounded-lg !hover:!bg-blue-700 !focus:!outline-none !focus:!ring-2 !focus:!ring-blue-500 !focus:!ring-offset-2 !transition-colors !duration-200 !text-sm max-sm:!text-xs max-sm:!px-2"
-          >
-            <i class="fas fa-file-pdf !mr-2 !text-sm max-sm:!text-xs"></i>
-            <span class="max-sm:!hidden">Exportar Todos</span>
-            <span class="!sm:hidden">PDF</span>
-          </button>
-          
-          <!-- Contador simples -->
-          <div class="!text-sm !text-gray-600 !bg-gray-50 !px-3 !py-1 !rounded-full max-sm:!text-xs max-sm:!px-2">
-            {{ totalPedidos }} pedido{{ totalPedidos !== 1 ? 's' : '' }}
-          </div>
+        <!-- Contador simples -->
+        <div class="!text-sm !text-gray-600 !bg-gray-50 !px-3 !py-1 !rounded-full max-sm:!text-xs max-sm:!px-2">
+          {{ totalPedidos }} pedido{{ totalPedidos !== 1 ? 's' : '' }}
         </div>
       </div>
     </div>
@@ -41,7 +27,6 @@
         [columns]="columns"
         [schema]="schema"
         (clickedRow)="openModalDetalhes($event)"
-        (action)="onTableAction($event)"
       ></app-table-model>
     </div>
     
@@ -75,23 +60,14 @@
             </div>
           </div>
           
-          <!-- Status badge e botão PDF -->
-          <div class="!flex !flex-col !items-end !gap-2">
+          <!-- Status badge -->
+          <div class="!flex !flex-col !items-end !gap-1">
             <span 
               class="!px-2 !py-1 !text-xs !font-medium !rounded-full"
               [ngClass]="getStatusClass(pedido.status)"
             >
               {{ pedido.status }}
             </span>
-            
-            <!-- Botão PDF individual -->
-            <button
-              (click)="exportarPedidoIndividual(pedido); $event.stopPropagation()"
-              class="!inline-flex !items-center !justify-center !px-2 !py-1 !bg-red-600 !text-white !font-medium !rounded !hover:!bg-red-700 !focus:!outline-none !focus:!ring-1 !focus:!ring-red-500 !transition-colors !duration-200 !text-xs"
-              title="Exportar PDF"
-            >
-              <i class="fas fa-file-pdf !text-xs"></i>
-            </button>
           </div>
         </div>
         

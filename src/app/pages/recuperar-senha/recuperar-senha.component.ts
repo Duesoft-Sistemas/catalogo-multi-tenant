@@ -33,10 +33,22 @@ export class RecuperarSenhaComponent implements OnInit {
       .getEmail(data.modelo.cnpj)
       .pipe(take(1))
       .subscribe({
-        next: (email: any) => {
-          if (email) {
-            this.cnpjValido = data.cnpjValido;
+        next: (response: any) => {
+          // Verificar se a resposta contém um email válido
+          let email: string = '';
+          
+          if (typeof response === 'string') {
+            email = response;
+          } else if (response && typeof response === 'object') {
+            // Tentar diferentes propriedades que podem conter o email
+            email = response.email || response.Email || response.data || response.value || '';
+          }
+          
+          if (email && typeof email === 'string' && email.trim() !== '') {
+            this.cnpjValido = true; // Email encontrado, marcar como válido
             data.modelo.email = email;
+            
+            // Mascarar o email para exibição
             var divide = email.split('');
             divide.forEach((letra, index) => {
               if (index === 0 || index > 3) {
@@ -45,15 +57,16 @@ export class RecuperarSenhaComponent implements OnInit {
                 this.mostrarEmail += '*';
               }
             });
+            
             this.formulario = Formularios.geraFormulario(
               new RecuperarSenha(data.modelo)
             );
             this.formulario.get('schema').setValue(this.serviceTenant.getSchemaTenant());
-      this.formulario.get('schema').setValue(this.serviceTenant.getSchemaTenant());
             this.spinner = false;
           } else {
+            this.cnpjValido = false;
             this.spinner = false;
-            Toaster.Warning('Este CNPJ não possui um e-mail');
+            Toaster.Warning('Este CNPJ não possui um e-mail cadastrado no sistema');
           }
         },
         error: (x: any) => {

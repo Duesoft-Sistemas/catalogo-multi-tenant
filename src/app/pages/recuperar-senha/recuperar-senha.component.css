@@ -80,3 +80,33 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* Garantir que os botões sejam sempre visíveis */
+button[type="button"] {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Garantir que os ícones do Font Awesome sejam visíveis */
+button i.fas {
+  display: inline-block !important;
+  font-size: 1rem;
+}
+
+/* Garantir visibilidade dos elementos do modal */
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* Garantir que os botões do Material Design sejam visíveis */
+::ng-deep .mat-raised-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}

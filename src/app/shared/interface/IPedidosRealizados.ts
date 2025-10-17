@@ -3,5 +3,5 @@ export interface IPedidosRealizados {
   orderNumber: number;
   solicitationNumber: number;
   status: string;
-  totalPrice: number | any;
+  totalPrice: string | any;
 }
