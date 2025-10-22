@@ -204,22 +204,31 @@
     </mat-tab>
 
     <mat-tab label="Imagens" [disabled]="!hasImages()">
-      <div
-        class="mt-3 p-3 bg-gray-50 rounded max-w-3xl max-h-[calc(100vh-300px)] overflow-auto"
-      >
-        <div class="w-full">
-          <carousel class="rounded overflow-hidden shadow">
-            <slide *ngFor="let item of this.produto?.images">
-              <img
-                [src]="item.caminhoSafe"
-                alt="Imagem ilustrativa"
-                class="w-full h-80 object-contain bg-white transition-opacity duration-300 ease-in-out"
-                [class.opacity-70]="
-                  item.caminho?.includes('imagem_nao_encontrada.jpg')
-                "
-                (error)="onCarouselImageError($event, item)"
-                loading="lazy"
-              />
+      <div class="mt-3 p-3 bg-gray-50 rounded max-w-3xl">
+        <div class="w-full carousel-wrapper">
+          <carousel 
+            class="rounded shadow"
+            [interval]="0"
+            [noPause]="true"
+            [showIndicators]="produto?.images?.length > 1"
+            [isAnimated]="true">
+            <slide *ngFor="let item of this.produto?.images; let i = index; trackBy: trackByImage">
+              <div class="carousel-item-container">
+                <img
+                  [src]="item.caminho"
+                  alt="Imagem ilustrativa"
+                  class="w-full h-80 object-contain bg-white transition-opacity duration-300 ease-in-out"
+                  [class.opacity-70]="
+                    item.caminho?.includes('imagem_nao_encontrada.jpg')
+                  "
+                  (error)="onCarouselImageError($event, item)"
+                  (load)="onImageLoad(item)"
+                  loading="eager"
+                />
+                <div class="carousel-caption d-none d-md-block" *ngIf="produto?.images?.length > 1">
+                  <small class="text-muted">{{i + 1}} de {{produto?.images?.length}}</small>
+                </div>
+              </div>
             </slide>
           </carousel>
         </div>

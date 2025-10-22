@@ -1,4 +1,4 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthStorageService } from '../../guards/auth-storage.service';
 import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component';
@@ -10,22 +10,25 @@ import { TenantService } from '../../tenant/tenant.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements DoCheck {
+export class HeaderComponent implements DoCheck, OnInit {
   userNameCatalogo: string | null = null;
   autenticado = false;
   urlImg = 'assets/images/users-icon.png';
   seletorPeculiaridadesCatalogos : SeletorPeculiaridadesCatalogos;
+  currentTitle: string = '';
 
   constructor(
     private storage: AuthStorageService, 
     private serviceTenant: TenantService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {
     this.seletorPeculiaridadesCatalogos = new SeletorPeculiaridadesCatalogos(this.serviceTenant);
   }
 
   ngOnInit(): void {
-    this.habilitaIcone()
+    this.habilitaIcone();
+    this.updateTitle();
   }
 
   private habilitaIcone() {
@@ -37,6 +40,13 @@ export class HeaderComponent implements DoCheck {
       this.userNameCatalogo = localStorage.getItem('userNameCatalogo');
       const img = localStorage.getItem('logoCatalogo');
       this.urlImg = img && img !== 'null' ? `data:image/jpeg;base64,${img}` : this.urlImg;
+    }
+    
+    // Atualizar título se necessário
+    const newTitle = this.storage.getTitlePage();
+    if (newTitle && newTitle !== this.currentTitle) {
+      this.currentTitle = newTitle;
+      this.cdr.detectChanges();
     }
   }
 
@@ -58,7 +68,11 @@ export class HeaderComponent implements DoCheck {
   }
 
   getTitlePage(): string {
-    return this.storage.getTitlePage();
+    return this.currentTitle;
+  }
+
+  private updateTitle(): void {
+    this.currentTitle = this.storage.getTitlePage() || '';
   }
 
   ngOnDestroy(): void {

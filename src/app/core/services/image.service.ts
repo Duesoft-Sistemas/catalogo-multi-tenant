@@ -15,9 +15,15 @@ export class ImageService {
    * Sanitiza uma URL de imagem e retorna um SafeUrl
    */
   sanitizeImageUrl(imageUrl: string): SafeUrl {
-    if (!imageUrl || this.isInvalidImage(imageUrl)) {
+    console.log('Sanitizando URL:', imageUrl);
+    
+    // Temporariamente desabilitar validação para testar
+    if (!imageUrl) {
+      console.log('URL vazia, retornando imagem padrão');
       return this.sanitizer.bypassSecurityTrustUrl(this.IMAGE_NOT_FOUND);
     }
+    
+    console.log('Retornando URL original sanitizada (sem validação)');
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
   }
 

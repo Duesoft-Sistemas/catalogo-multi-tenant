@@ -47,17 +47,83 @@ export class DetalhesProdutosComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Prevenir conflitos com scroll
+    this.prevenirConflitosScroll();
+  }
+
+  private prevenirConflitosScroll() {
+    // Adicionar listener para detectar mudanças no carousel
+    setTimeout(() => {
+      const carousel = document.querySelector('carousel');
+      if (carousel) {
+        carousel.addEventListener('slide.bs.carousel', (event: any) => {
+          console.log('Carousel slide mudou:', event);
+        });
+      }
+    }, 100);
+  }
 
   onMarcaImageError(event: any) {
     this.imageService.handleImageError(event, this.imgPadraoMarca);
   }
 
   onCarouselImageError(event: any, item: any) {
-    this.imageService.handleImageError(event, this.imgPadraoProduto);
-    item.caminhoSafe = this.imageService.sanitizeImageUrl(
-      this.imgPadraoProduto
-    );
+    console.log('Erro ao carregar imagem no carousel:', item.caminho);
+    console.log('Evento de erro:', event);
+    
+    // Verificar se a imagem já carregou com sucesso antes
+    if (item.carregadaComSucesso) {
+      console.log('Imagem já carregou com sucesso, ignorando erro');
+      return;
+    }
+    
+    // Verificar se já tentamos carregar esta imagem antes
+    if (item.tentativaCarregamento) {
+      console.log('Já tentamos carregar esta imagem, aplicando fallback');
+      this.imageService.handleImageError(event, this.imgPadraoProduto);
+      item.caminhoSafe = this.imageService.sanitizeImageUrl(
+        this.imgPadraoProduto
+      );
+      return;
+    }
+    
+    // Marcar que já tentamos carregar
+    item.tentativaCarregamento = true;
+    
+    // Tentar carregar a imagem diretamente para testar
+    this.testarImagemDiretamente(item);
+  }
+
+  testarImagemDiretamente(item: any) {
+    console.log('Testando imagem diretamente:', item.caminho);
+    
+    const img = new Image();
+    img.onload = () => {
+      console.log('Imagem carregou no teste direto:', item.caminho);
+      // Marcar como carregada com sucesso
+      item.carregadaComSucesso = true;
+      // Não modificar o caminhoSafe aqui, deixar o template usar item.caminho
+    };
+    
+    img.onerror = () => {
+      console.log('Imagem falhou no teste direto, aplicando fallback:', item.caminho);
+      // Aplicar fallback apenas se realmente falhou
+      item.caminho = this.imgPadraoProduto;
+      item.carregadaComSucesso = false;
+    };
+    
+    img.src = item.caminho;
+  }
+
+  onImageLoad(item: any) {
+    console.log('Imagem carregada com sucesso:', item.caminho);
+    // Marcar que a imagem carregou com sucesso
+    item.carregadaComSucesso = true;
+  }
+
+  trackByImage(index: number, item: any): any {
+    return item.caminho || index;
   }
 
   getPrice(price: any): number {
