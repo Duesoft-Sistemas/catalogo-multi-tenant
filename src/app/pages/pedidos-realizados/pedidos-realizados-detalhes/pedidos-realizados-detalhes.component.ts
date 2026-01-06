@@ -8,7 +8,6 @@ import { GlobalService } from 'src/app/shared/services/global.service';
 import { ModalConfirmComponent } from 'src/app/shared/components/modal-confirm/modal-confirm.component';
 import { take } from 'rxjs';
 import { Toaster } from 'src/app/shared/functions/toaster';
-import { PedidoPdfService } from 'src/app/shared/services/pdf.service';
 
 @Component({
   selector: 'app-pedidos-realizados-detalhes',
@@ -55,8 +54,7 @@ export class PedidosRealizadosDetalhesComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public solicitationNumber: number,
     private service: GlobalService,
     private dialog: MatDialog,
-    private localeService: BsLocaleService,
-    private pedidoPdfService: PedidoPdfService,
+    private localeService: BsLocaleService
   ) {
     ptBrLocale.invalidDate = 'Insira uma data válida';
     defineLocale('pt-br', ptBrLocale);
@@ -92,7 +90,7 @@ export class PedidosRealizadosDetalhesComponent implements OnInit {
         },
       });
   }
-  
+
   openModalConfirmarCancelarpedido(): void {
     let dialog = this.dialog.open(ModalConfirmComponent, {
       width: '350px',
@@ -181,9 +179,5 @@ export class PedidosRealizadosDetalhesComponent implements OnInit {
       default:
         return status || '-';
     }
-  }
-
-  gerarPedidoPDF() {
-    this.pedidoPdfService.gerarPedidoPDF(this.dados);
   }
 }

@@ -7,11 +7,6 @@ export class IPedidosRealizadosDetalhes {
   totalPrice: number | string;
   appTotalPrice: number | string;
   itens: IItensPedidosRealizadosDetalhes[];
-  nameCli: string;
-  logoEmpresa: string;
-  codCli: number;
-  erpCodCli: number;
-  emailCli: string;
 }
 
 export interface IItensPedidosRealizadosDetalhes {
