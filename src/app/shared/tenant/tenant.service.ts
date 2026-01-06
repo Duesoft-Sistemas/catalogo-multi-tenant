@@ -30,7 +30,7 @@ export class TenantService {
       location.hostname === 'localhost' ||
       location.hostname === '127.0.0.1'
     ) {
-      return 'catalogofase' as Tenant;
+      return 'catalogofrigorichter' as Tenant;
     }
 
     return this.getTenantForHostname(location.hostname);
