@@ -3,7 +3,6 @@
 
   <!-- SEÇÃO DO CORPO: Cards de pedidos (só aparece se houver pedidos) -->
   <div body *ngIf="dataSource && dataSource.data && dataSource.data.length > 0" class="!space-y-4">
-    
     <!-- CABEÇALHO SIMPLES: Título e contador -->
     <div class="!bg-white !border !border-gray-200 !rounded-lg !p-4 !shadow-sm">
       <div class="!flex !flex-col !sm:flex-row !sm:items-center !sm:justify-between !gap-3">
@@ -230,13 +229,14 @@
   </button>
   
   <!-- Botão Filtrar -->
-  <button
-    mat-fab
-            class="!bg-primary !text-white !shadow-lg hover:!shadow-xl !transition-all !duration-200 !flex !items-center !justify-center !w-14 !h-14 !rounded-full !outline-none !focus:!ring-2 !focus:!ring-primary/50 !focus:!ring-offset-2"
-    (click)="openModalFiltro()"
-    matTooltip="Filtrar Pedidos"
-    aria-label="Filtrar Pedidos"
-  >
-    <i class="fas fa-search !text-lg"></i>
-  </button>
+  
+    <button
+      mat-fab
+      class="!bg-primary !text-white !shadow-lg hover:!shadow-xl !transition-all !duration-200 !flex !items-center !justify-center !w-14 !h-14 !rounded-full !outline-none !focus:!ring-2 !focus:!ring-primary/50 !focus:!ring-offset-2"
+      (click)="openModalFiltro()"
+      matTooltip="Filtrar Pedidos"
+      aria-label="Filtrar Pedidos"
+    >
+      <i class="fas fa-search !text-lg"></i>
+    </button>
 </div>
